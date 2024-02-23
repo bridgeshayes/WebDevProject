@@ -4,13 +4,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Smart Coop</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="bg-dark">
+    <div class="d-flex col-12 justify-content-center align-items-center vh-100">
+        <div id="divLogin" class="card col-12 col-md-5 col-lg-4">
+            <div class="card-header">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group mt-4">
+                        <label for="txtLoginEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control mb-2" id="txtLoginEmail">
+                        <label for="txtLoginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control mb-3" id="txtLoginPassword">
+                    </div>
+                    <button class="btn btn-success col-12" id="btnLogin" type="button">Login</button>
+                    <div class="col-12 justify-content-center d-flex">
+                        <a class="col-12 text-center btnToggle" data-type="login">Need an account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div id="divRegister" class="card col-12 col-md-5 col-lg-4" style="display:none">
+            <div class="card-header">
+                <h3> Register</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="txtFirstName" class="form-label"> First Name</label>
+                        <input id="txtFirstName" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtLastName" class="form-label"> Last Name</label>
+                        <input id="txtLastName" class="form-control">
+                    </div>
+                    <hr>
+                   
+                    <div class="form-group mt-3">
+                        <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
+                        <input id="txtStreetAddress1" class="form-control">
+                    </div>
+                        
+                    <div class="form-group">
+                        <label for="txtStreetAddress2" class="form-label"> Street Address 2 </label>
+                        <input id="txtStreetAddress2" class="form-control">
+                    </div>
+                    <hr class="">
+
+                    <div class="form-group">
+                        <label for="txtCity" class="form-label"> City </label>
+                        <input id="txtCity" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtState" class="form-label"> State </label>
+                        <input id="txtState" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtZipCode" class="form-label"> Zip Code </label>
+                        <input id="txtZipCode" class="form-control">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="txtEmail" class="form-label"> Email </label>
+                        <input id="txtEmail" class="form-control" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtPassword" class="form-label"> Password</label>
+                        <input id="txtPassword" class="form-control" type="password">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID</label>
+                        <input id="txtCoopRegisterID" class="form-control">
+                    </div>
+                    <button class="col-12 btn btn-success mt-3" id="btnRegister" type="button"> Register
+                    </button>
+
+                        <div class="col12 d-flex justify-content-center">
+                            <a class="col-12 text-center btnToggle" data-card="Register">Return to Login</a>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -18,6 +107,94 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('.btnToggle').on('click', function () {
+            let page = $(this).attr('data-type');
+            if (page == 'login') {
+                $('#divLogin').slideToggle(function () {
+                    $('#divRegister').slideToggle();
+                })
+            }
+            else {
+                $('#divRegister').slideToggle(function () {
+                    $('#divLogin').slideToggle();
+                })
+            }
+        })
+        $('#btnLogin').on('click', function () {
+            let strEmail = $('#txtLoginEmail').val();
+            let strPassword = $('#txtLoginPassword').val();
+
+            if (strEmail.length < 1 || strPassword.length < 1) {
+                Swal.fire({
+                    title: 'Oops!',
+                    html: '<p>Email and Password cannot be blank!</p>',
+                    icon: 'error'
+                })
+            }
+            else {
+                $.post('https://www.thesimplehomestead.com/simpletime/sessions.php', { Email: strEmail, Password: strPassword }, function (results) {
+                    results = JSON.parse(results);
+                    console.log(results);
+                    sessionStorage.setItem('SimpleSession', results.SessionID);
+                })
+            }
+        })
+
+        $('#btnRegister').on('click', function () {
+            let blnError = false;
+            let strError = '';
+
+            let strFirstName = $('#txtFirstName').val();
+            let strLastName = $('#txtLastName').val();
+            let strEmail = $('#txtEmail').val();
+            let strPassword = $('#txtPassword').val();
+            let strOrgID = $('#txtOrgID').val();
+
+            if (strFirstName.length < 1) {
+                blnError = true;
+                strError += '<p>First Name cannot be blank</p>';
+            }
+            if (strLastName.length < 1) {
+                blnError = true;
+                strError += '<p>Last Name cannot be blank</p>';
+            }
+            if (strEmail.length < 7 || !strEmail.includes('@') || !strEmail.includes('.')) {
+                blnError = true;
+                strError += '<p>Invalid Email</p>';
+            }
+            if (strPassword.length < 6) {
+                blnError = true;
+                strError += '<p>Invalid  Password (must be at least 6 characters)</p>';
+            }
+            if (strOrgID.length != 4) {
+                blnError = true;
+                strError += '<p>Invalid OrgID</p>';
+            }
+
+            if (blnError == true) {
+                Swal.fire({
+                    title: 'Oops!',
+                    html: strError,
+                    icon: 'error',
+                });
+            }
+            else {
+                $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
+                    result = JSON.parse(result);
+                    console.log(result);
+
+                    if (result.Error) {
+                        Swal.fire({
+                            title: "Oops!",
+                            html: '<p>' + result.Error + '</p>',
+                            icon: "error"
+                        });
+                    }
+                })
+            }
+        })
+    </script>
 </body>
 
 </html>
