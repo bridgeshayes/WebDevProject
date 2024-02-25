@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Coop</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body class="bg-dark">
     <div class="d-flex col-12 justify-content-center align-items-center vh-100">
+        <!--LOGIN CARD-->
         <div id="divLogin" class="card col-12 col-md-5 col-lg-4">
             <div class="card-header">
                 <h3>Login</h3>
@@ -19,46 +19,47 @@
             <div class="card-body">
                 <form>
                     <div class="form-group mt-4">
-                        <label for="txtLoginEmail" class="form-label">Email</label>
+                        <label for="txtLoginEmail" class="form-label"> Email </label>
                         <input type="email" class="form-control mb-2" id="txtLoginEmail">
-                        <label for="txtLoginPassword" class="form-label">Password</label>
+                        <label for="txtLoginPassword" class="form-label"> Password </label>
                         <input type="password" class="form-control mb-3" id="txtLoginPassword">
                     </div>
-                    <button class="btn btn-success col-12" id="btnLogin" type="button">Login</button>
-                    <div class="col-12 justify-content-center d-flex">
-                        <a class="col-12 text-center btnToggle" data-type="login">Need an account?</a>
-                    </div>
+                    <button class="btn btn-primary col-12" id="btnLogin" type="button"> Login </button>
+                    <button class="col-12 btn btn-secondary mt-1 btnToggle" type="button" data-type="login"> Need an account? </button>
+                    <!-- <div class="col-12 justify-content-center d-flex">
+                        <a class="col-12 text-center btnToggle" data-type="login"> Need an account? </a>
+                    </div> -->
                 </form>
             </div>
         </div>
-        
+        <!--REGISTRATION CARD-->
         <div id="divRegister" class="card col-12 col-md-5 col-lg-4" style="display:none">
             <div class="card-header">
-                <h3> Register</h3>
+                <h3>Register</h3>
             </div>
             <div class="card-body">
                 <form>
                     <div class="form-group">
-                        <label for="txtFirstName" class="form-label"> First Name</label>
+                        <label for="txtFirstName" class="form-label"> First Name </label>
                         <input id="txtFirstName" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtLastName" class="form-label"> Last Name</label>
+                        <label for="txtLastName" class="form-label"> Last Name </label>
                         <input id="txtLastName" class="form-control">
                     </div>
                     <hr>
-                   
+
                     <div class="form-group mt-3">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
                         <input id="txtStreetAddress1" class="form-control">
                     </div>
-                        
+
                     <div class="form-group">
                         <label for="txtStreetAddress2" class="form-label"> Street Address 2 </label>
                         <input id="txtStreetAddress2" class="form-control">
                     </div>
-                    <hr class="">
+                    <hr>
 
                     <div class="form-group">
                         <label for="txtCity" class="form-label"> City </label>
@@ -81,21 +82,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="txtPassword" class="form-label"> Password</label>
+                        <label for="txtPassword" class="form-label"> Password </label>
                         <input id="txtPassword" class="form-control" type="password">
                     </div>
 
                     <div class="form-group mt-3">
-                        <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID</label>
+                        <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID </label>
                         <input id="txtCoopRegisterID" class="form-control">
                     </div>
-                    <button class="col-12 btn btn-success mt-3" id="btnRegister" type="button"> Register
-                    </button>
 
-                        <div class="col12 d-flex justify-content-center">
-                            <a class="col-12 text-center btnToggle" data-card="Register">Return to Login</a>
-                        </div>
+                    <button class="col-12 btn btn-primary mt-3" id="btnRegister" type="button"> Register </button>
+                    <button class="col-12 btn btn-secondary mt-1 btnToggle" type="button" data-type="register"> Return to Login </button>
+                    <!-- <div class="col12 d-flex justify-content-center">
+                        <a class="col-12 text-center btnToggle" data-card="Register"> Return to Login </a>
+                    </div> -->
                 </form>
+            </div>
+        </div>
+        <!--DASHBOARD CARD--> 
+        <div id="divDashboard" class="card col-12 col-md-5 col-lg-4" style="display:none">
+            <div class="card-header">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="card-body">
+                
             </div>
         </div>
     </div>
