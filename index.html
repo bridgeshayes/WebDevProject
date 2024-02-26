@@ -12,10 +12,10 @@
     <div id="divMain" class="d-flex col-12 justify-content-center align-items-center vh-100">
         <!--LOGIN CARD-->
         <div id="divLogin" class="card col-12 col-md-5 col-lg-4" style="background-color: #e8e0c8;">
-            <h1 class="login-header mt-4">Smart Coop</h1>
+            <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
                 <form>
-                    <div class="">
+                    <div>
                         <label for="txtLoginEmail"> Email </label>
                         <input type="email" placeholder="Email" aria-label="Email" class="form__group_oneform__field mt-2  mb-4 col-12" id="txtLoginEmail">
 
@@ -31,69 +31,67 @@
             </div>
         </div>
         <!--REGISTRATION CARD-->
-        <div id="divRegister" class="card col-12 col-md-5 col-lg-4 mt-2" style="display:none">
-            <div class="card-header">
-                <h3>Register</h3>
-            </div>
+        <div id="divRegister" class="card col-12 col-md-5 col-lg-4 mt-4 mb-4" style="background-color: #e8e0c8; display:none">
+            <p class="login-header mt-4">Register</p>
             <div class="card-body">
                 <form id="formRegister">
                     <div class="form-group">
-                        <label for="txtFirstName" class="form-label"> First Name </label>
-                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form-control">
+                        <label for="txtFirstName" class="form-label "> First Name </label>
+                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtLastName" class="form-label"> Last Name </label>
-                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form-control">
+                        <label for="txtLastName" class="form-label mt-2"> Last Name </label>
+                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <div class="form-group ">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
-                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form-control">
+                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtStreetAddress2" class="form-label"> Street Address 2 </label>
-                        <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form-control">
+                        <label for="txtStreetAddress2" class="form-label mt-2"> Street Address 2 </label>
+                        <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <input type="checkbox" id="btnFillStAdd">
                     <hr>
 
                     <div class="form-group">
                         <label for="txtCity" class="form-label"> City </label>
-                        <input id="txtCity" placeholder="City" aria-label="City" class="form-control">
+                        <input id="txtCity" placeholder="City" aria-label="City" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtState" class="form-label"> State </label>
-                        <input id="txtState" placeholder="State" aria-label="State" class="form-control">
+                        <label for="txtState" class="form-label mt-2"> State </label>
+                        <input id="txtState" placeholder="State" aria-label="State" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtZipCode" class="form-label"> Zip Code </label>
-                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form-control">
+                        <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
+                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>    
 
                     <div class="form-group ">
                         <label for="txtEmail" class="form-label"> Email </label>
-                        <input id="txtEmail" placeholder="Email" aria-label="Email" class="form-control" type="email">
+                        <input id="txtEmail" placeholder="Email" aria-label="Email" class="form__group_oneform__field col-12 mb-2" type="email">
                     </div>
 
                     <div class="form-group">
-                        <label for="txtPassword" class="form-label"> Password </label>
-                        <input id="txtPassword" placeholder="Password" aria-label="Password" class="form-control" type="password">
+                        <label for="txtPassword" class="form-label mt-2"> Password </label>
+                        <input id="txtPassword" placeholder="Password" aria-label="Password" class="form__group_oneform__field col-12 mb-2" type="password">
                     </div>
 
                     <div class="form-group ">
-                        <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID </label>
-                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form-control">
+                        <label for="txtCoopRegisterID" class="form-label mt-2"> Coop Registration ID </label>
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
-                    <button class="col-12 btn btn-primary mt-3" id="btnRegister" type="button"> Register </button>
-                    <button class="col-12 btn btn-secondary mt-2 btnToggle" type="button" data-type="register"> Return to Login </button>
+                    <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" type="button" data-type="register"> Return to Login </button>
                     <!-- <div class="col12 d-flex justify-content-center">
                         <a class="col-12 text-center btnToggle" data-card="Register"> Return to Login </a>
                     </div> -->
@@ -119,7 +117,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        const regex = /[^0-9a-zA-Z_\-@.\s]/
+        const regex = '/[^0-9a-zA-Z_\-@.\s]/'
         $('#btnFillStAdd').on('click', function() {
             if ($('#txtStreetAddress1').val() && $('#txtStreetAddress2').val() == '') {
                 $('#txtStreetAddress2').val($('#txtStreetAddress1').val())
