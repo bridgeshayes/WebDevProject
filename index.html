@@ -36,7 +36,7 @@
                 <h3>Register</h3>
             </div>
             <div class="card-body">
-                <form>
+                <form id="formRegister">
                     <div class="form-group">
                         <label for="txtFirstName" class="form-label"> First Name </label>
                         <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form-control">
@@ -101,7 +101,7 @@
             </div>
         </div>
         <!--DASHBOARD CARD--> 
-        <div id="divDashboard" class="card col-12 col-md-5 col-lg-4" style="display:none">
+        <div id="divDashboard" class="card col-12 col-md-5 col-lg-4 vh-100" style="display:none">
             <div class="card-header">
                 <h2>Dashboard</h2>
             </div>
@@ -121,7 +121,7 @@
     <script>
         const regex = /[^0-9a-zA-Z_\-@.\s]/
         $('#btnFillStAdd').on('click', function() {
-            if ($('#txtStreetAddress1').val() != '') {
+            if ($('#txtStreetAddress1').val() && $('#txtStreetAddress2').val() == '') {
                 $('#txtStreetAddress2').val($('#txtStreetAddress1').val())
             }
             else {
@@ -181,6 +181,17 @@
             let strPassword = $('#txtPassword').val();
             let strCoopID = $('#txtCoopRegisterID').val();
 
+            $('#txtFirstName').val('');
+            $('#txtLastName').val('');
+            $('#txtStreetAddress1').val('');
+            $('#txtStreetAddress2').val('');
+            $('#txtCity').val('');
+            $('#txtState').val('')
+            $('#txtZipCode').val('')
+            $('#txtEmail').val('');
+            $('#txtPassword').val('');
+            $('#txtCoopRegisterID').val('');
+
             if (strFirstName.length < 1) {
                 blnError = true;
                 strError += '<p>Invalid First Name (cannot be blank)</p>';
@@ -205,7 +216,7 @@
                 blnError = true;
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
-            if(!regex.test(strEmail))
+            if(regex.test(strEmail))
             {
                 blnError = true
                 strError += '<p>Email is invalid!</p>'
@@ -227,6 +238,9 @@
                     title: 'Yass!',
                     icon: 'success',
                 });
+                $('#divRegister').slideUp(function () {
+                    $('#divDashboard').slideDown()
+                })
             }
             // else {
             //     $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
