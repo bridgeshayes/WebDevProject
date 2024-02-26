@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Coop</title>
+    <link href="assets/css/index.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body class="bg-dark">
+<body class="container">
     <div id="divMain" class="d-flex col-12 justify-content-center align-items-center vh-100">
         <!--LOGIN CARD-->
-        <div id="divLogin" class="card col-12 col-md-5 col-lg-4">
-            <div class="card-header">
-                <h3>Login</h3>
-            </div>
+        <div id="divLogin" class="card col-12 col-md-5 col-lg-4" style="background-color: #e8e0c8;">
+            <h1 class="login-header mt-4">Smart Coop</h1>
             <div class="card-body">
                 <form>
-                    <div class="form-group mt-4">
-                        <label for="txtLoginEmail" class="form-label"> Email </label>
-                        <input type="email" placeholder="Email" aria-label="Email" class="form-control mb-2" id="txtLoginEmail">
-                        <label for="txtLoginPassword" class="form-label"> Password </label>
-                        <input type="password" placeholder="Password" aria-label="Password" class="form-control mb-3" id="txtLoginPassword">
+                    <div class="">
+                        <label for="txtLoginEmail"> Email </label>
+                        <input type="email" placeholder="Email" aria-label="Email" class="form__group_oneform__field mt-2  mb-4 col-12" id="txtLoginEmail">
+
+                        <label for="txtLoginPassword"> Password </label>
+                        <input type="password" placeholder="Password" aria-label="Password" class="form__group_oneform__field mt-2 mb-4 col-12" id="txtLoginPassword">
                     </div>
-                    <button class="btn btn-primary col-12" id="btnLogin" type="button"> Login </button>
-                    <button class="col-12 btn btn-secondary mt-1 btnToggle" type="button" data-type="login"> Need an account? </button>
+                    <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button"> Login </button>
+                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login"> Need an account? </button>
                     <!-- <div class="col-12 justify-content-center d-flex">
                         <a class="col-12 text-center btnToggle" data-type="login"> Need an account? </a>
                     </div> -->
@@ -48,7 +48,7 @@
                     </div>
                     <hr>
 
-                    <div class="form-group mt-3">
+                    <div class="form-group ">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
                         <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form-control">
                     </div>
@@ -74,8 +74,9 @@
                         <label for="txtZipCode" class="form-label"> Zip Code </label>
                         <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form-control">
                     </div>
+                    <hr>    
 
-                    <div class="form-group mt-3">
+                    <div class="form-group ">
                         <label for="txtEmail" class="form-label"> Email </label>
                         <input id="txtEmail" placeholder="Email" aria-label="Email" class="form-control" type="email">
                     </div>
@@ -85,13 +86,14 @@
                         <input id="txtPassword" placeholder="Password" aria-label="Password" class="form-control" type="password">
                     </div>
 
-                    <div class="form-group mt-3">
+                    <div class="form-group ">
                         <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID </label>
                         <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form-control">
                     </div>
+                    <hr>
 
                     <button class="col-12 btn btn-primary mt-3" id="btnRegister" type="button"> Register </button>
-                    <button class="col-12 btn btn-secondary mt-1 btnToggle" type="button" data-type="register"> Return to Login </button>
+                    <button class="col-12 btn btn-secondary mt-2 btnToggle" type="button" data-type="register"> Return to Login </button>
                     <!-- <div class="col12 d-flex justify-content-center">
                         <a class="col-12 text-center btnToggle" data-card="Register"> Return to Login </a>
                     </div> -->
@@ -181,27 +183,27 @@
 
             if (strFirstName.length < 1) {
                 blnError = true;
-                strError += '<p>First Name cannot be blank</p>';
+                strError += '<p>Invalid First Name (cannot be blank)</p>';
             }
             if (strLastName.length < 1) {
                 blnError = true;
-                strError += '<p>Last Name cannot be blank</p>';
+                strError += '<p>Invalid Last Name (cannot be blank)</p>';
             }
             if (strStAdd1.length < 2) {
                 blnError = true;
-                strError += '<p>Invalid  Address (must be at least 2 characters)</p>';
+                strError += '<p>Invalid Address (must be at least 2 characters)</p>';
             }
             if (strCity.length < 2) {
                 blnError = true;
-                strError += '<p>Invalid  City (must be at least 2 characters)</p>';
+                strError += '<p>Invalid City (must be at least 2 characters)</p>';
             }
             if (strState.length < 2) {
                 blnError = true;
-                strError += '<p>Invalid  State (must be at least 2 characters)</p>';
+                strError += '<p>Invalid State (must be at least 2 characters)</p>';
             }
             if (strZip.length < 5) {
                 blnError = true;
-                strError += '<p>Invalid  Zip Code (must be at least 5 characters)</p>';
+                strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
             if(!regex.test(strEmail))
             {
@@ -210,7 +212,7 @@
             }
             if (strPassword.length < 6) {
                 blnError = true;
-                strError += '<p>Invalid  Password (must be at least 6 characters)</p>';
+                strError += '<p>Invalid Password (must be at least 6 characters)</p>';
             }
             if (blnError) {
                 Swal.fire({
