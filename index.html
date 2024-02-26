@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-
 <body class="bg-dark">
-    <div class="d-flex col-12 justify-content-center align-items-center vh-100">
+    <div id="divMain" class="d-flex col-12 justify-content-center align-items-center vh-100">
         <!--LOGIN CARD-->
         <div id="divLogin" class="card col-12 col-md-5 col-lg-4">
             <div class="card-header">
@@ -20,9 +18,9 @@
                 <form>
                     <div class="form-group mt-4">
                         <label for="txtLoginEmail" class="form-label"> Email </label>
-                        <input type="email" class="form-control mb-2" id="txtLoginEmail">
+                        <input type="email" placeholder="Email" aria-label="Email" class="form-control mb-2" id="txtLoginEmail">
                         <label for="txtLoginPassword" class="form-label"> Password </label>
-                        <input type="password" class="form-control mb-3" id="txtLoginPassword">
+                        <input type="password" placeholder="Password" aria-label="Password" class="form-control mb-3" id="txtLoginPassword">
                     </div>
                     <button class="btn btn-primary col-12" id="btnLogin" type="button"> Login </button>
                     <button class="col-12 btn btn-secondary mt-1 btnToggle" type="button" data-type="login"> Need an account? </button>
@@ -33,7 +31,7 @@
             </div>
         </div>
         <!--REGISTRATION CARD-->
-        <div id="divRegister" class="card col-12 col-md-5 col-lg-4" style="display:none">
+        <div id="divRegister" class="card col-12 col-md-5 col-lg-4 mt-2" style="display:none">
             <div class="card-header">
                 <h3>Register</h3>
             </div>
@@ -41,54 +39,55 @@
                 <form>
                     <div class="form-group">
                         <label for="txtFirstName" class="form-label"> First Name </label>
-                        <input id="txtFirstName" class="form-control">
+                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="txtLastName" class="form-label"> Last Name </label>
-                        <input id="txtLastName" class="form-control">
+                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form-control">
                     </div>
                     <hr>
 
                     <div class="form-group mt-3">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
-                        <input id="txtStreetAddress1" class="form-control">
+                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="txtStreetAddress2" class="form-label"> Street Address 2 </label>
-                        <input id="txtStreetAddress2" class="form-control">
+                        <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form-control">
                     </div>
+                    <input type="checkbox" id="btnFillStAdd">
                     <hr>
 
                     <div class="form-group">
                         <label for="txtCity" class="form-label"> City </label>
-                        <input id="txtCity" class="form-control">
+                        <input id="txtCity" placeholder="City" aria-label="City" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="txtState" class="form-label"> State </label>
-                        <input id="txtState" class="form-control">
+                        <input id="txtState" placeholder="State" aria-label="State" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label for="txtZipCode" class="form-label"> Zip Code </label>
-                        <input id="txtZipCode" class="form-control">
+                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form-control">
                     </div>
 
                     <div class="form-group mt-3">
                         <label for="txtEmail" class="form-label"> Email </label>
-                        <input id="txtEmail" class="form-control" type="email">
+                        <input id="txtEmail" placeholder="Email" aria-label="Email" class="form-control" type="email">
                     </div>
 
                     <div class="form-group">
                         <label for="txtPassword" class="form-label"> Password </label>
-                        <input id="txtPassword" class="form-control" type="password">
+                        <input id="txtPassword" placeholder="Password" aria-label="Password" class="form-control" type="password">
                     </div>
 
                     <div class="form-group mt-3">
                         <label for="txtCoopRegisterID" class="form-label"> Coop Registration ID </label>
-                        <input id="txtCoopRegisterID" class="form-control">
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form-control">
                     </div>
 
                     <button class="col-12 btn btn-primary mt-3" id="btnRegister" type="button"> Register </button>
@@ -105,7 +104,7 @@
                 <h2>Dashboard</h2>
             </div>
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>
@@ -118,16 +117,27 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        const regex = /[^0-9a-zA-Z_\-@.\s]/
+        $('#btnFillStAdd').on('click', function() {
+            if ($('#txtStreetAddress1').val() != '') {
+                $('#txtStreetAddress2').val($('#txtStreetAddress1').val())
+            }
+            else {
+                $('#txtStreetAddress2').val('')
+            }
+        })
         $('.btnToggle').on('click', function () {
             let page = $(this).attr('data-type');
             if (page == 'login') {
                 $('#divLogin').slideToggle(function () {
-                    $('#divRegister').slideToggle();
+                    $('#divMain').removeClass('vh-100');
+                    $('#divRegister').slideToggle('slow');
                 })
             }
             else {
                 $('#divRegister').slideToggle(function () {
-                    $('#divLogin').slideToggle();
+                    $('#divMain').addClass('vh-100')
+                    $('#divLogin').slideToggle('slow');
                 })
             }
         })
@@ -143,11 +153,14 @@
                 })
             }
             else {
-                $.post('https://www.thesimplehomestead.com/simpletime/sessions.php', { Email: strEmail, Password: strPassword }, function (results) {
-                    results = JSON.parse(results);
-                    console.log(results);
-                    sessionStorage.setItem('SimpleSession', results.SessionID);
-                })
+            //    $.post('https://www.thesimplehomestead.com/simpletime/sessions.php', { Email: strEmail, Password: strPassword }, function (results) {
+            //       results = JSON.parse(results);
+            //        console.log(results);
+            //      sessionStorage.setItem('SimpleSession', results.SessionID);
+                    $('#divLogin').slideUp(function () {
+                        $('#divDashboard').slideDown();
+                    })
+                
             }
         })
 
@@ -157,9 +170,14 @@
 
             let strFirstName = $('#txtFirstName').val();
             let strLastName = $('#txtLastName').val();
+            let strStAdd1 = $('#txtStreetAddress1').val();
+            let strStAdd2 = $('#txtStreetAddress2').val();
+            let strCity = $('#txtCity').val()
+            let strState = $('#txtState').val()
+            let strZip = $('#txtZipCode').val()
             let strEmail = $('#txtEmail').val();
             let strPassword = $('#txtPassword').val();
-            let strOrgID = $('#txtOrgID').val();
+            let strCoopID = $('#txtCoopRegisterID').val();
 
             if (strFirstName.length < 1) {
                 blnError = true;
@@ -169,42 +187,75 @@
                 blnError = true;
                 strError += '<p>Last Name cannot be blank</p>';
             }
-            if (strEmail.length < 7 || !strEmail.includes('@') || !strEmail.includes('.')) {
+            if (strStAdd1.length < 2) {
                 blnError = true;
-                strError += '<p>Invalid Email</p>';
+                strError += '<p>Invalid  Address (must be at least 2 characters)</p>';
+            }
+            if (strCity.length < 2) {
+                blnError = true;
+                strError += '<p>Invalid  City (must be at least 2 characters)</p>';
+            }
+            if (strState.length < 2) {
+                blnError = true;
+                strError += '<p>Invalid  State (must be at least 2 characters)</p>';
+            }
+            if (strZip.length < 5) {
+                blnError = true;
+                strError += '<p>Invalid  Zip Code (must be at least 5 characters)</p>';
+            }
+            if(!regex.test(strEmail))
+            {
+                blnError = true
+                strError += '<p>Email is invalid!</p>'
             }
             if (strPassword.length < 6) {
                 blnError = true;
                 strError += '<p>Invalid  Password (must be at least 6 characters)</p>';
             }
-            if (strOrgID.length != 4) {
-                blnError = true;
-                strError += '<p>Invalid OrgID</p>';
-            }
-
-            if (blnError == true) {
+            if (blnError) {
                 Swal.fire({
                     title: 'Oops!',
                     html: strError,
                     icon: 'error',
                 });
             }
-            else {
-                $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
-                    result = JSON.parse(result);
-                    console.log(result);
-
-                    if (result.Error) {
-                        Swal.fire({
-                            title: "Oops!",
-                            html: '<p>' + result.Error + '</p>',
-                            icon: "error"
-                        });
-                    }
-                })
+            else
+            {
+                Swal.fire({
+                    title: 'Yass!',
+                    icon: 'success',
+                });
             }
+            // else {
+            //     $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
+            //         result = JSON.parse(result);
+            //         console.log(result);
+
+            //         if (result.Error) {
+            //             Swal.fire({
+            //                 title: "Oops!",
+            //                 html: '<p>' + result.Error + '</p>',
+            //                 icon: "error"
+            //             });
+            //         }
+            //     })
+            // }
         })
     </script>
 </body>
 
 </html>
+
+<!-- /[^0-9a-zA-Z_\-@.\s]/gi - validate the string is all alphanumeric characters, -, @, .
+use this for the emails and all generic text fields, this MATCHES
+all non-valid characters so to validate the input, do something like this:
+
+if ([regex].test(userInputVariable)) // do something, warn them, pop up an alert, whatever
+
+[^\d] - validate the string is all numbers
+use this for the zip code and any other field in the database
+where the input HAS to be all numbers - someone blew up the backend by putting
+'h' for a zip code this morning
+again, this MATCHES INVALID CHARACTERS, so your if statement should be written
+accordingly, if the block of code inside the if statement executes, that means
+the user has typed an invalid string -->
