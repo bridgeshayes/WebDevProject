@@ -1,0 +1,99 @@
+.comic-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ff5252;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .comic-button:hover {
+    background-color: #fff;
+    color: #ff5252;
+    border: 2px solid #ff5252;
+    box-shadow: 5px 5px 0px #ff5252;
+  }
+  
+  .comic-button:active {
+    background-color: #fcf414;
+    box-shadow: none;
+    transform: translateY(4px);
+  }
+  
+  .form__group_one {
+    position: relative;
+  }
+  
+  .form__group_oneform__field {
+    border: 1px solid silver !important;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #0b2447;
+    height: 40px;
+    padding: 0rem 15px;
+    box-shadow: 5px 5px 0 0;
+  }
+  
+  .form__group_oneform__field::placeholder {
+    color: transparent;
+  }
+  
+  .form__group_oneform__field:placeholder-shown ~ .form__group_oneform__label {
+    top: 10px;
+    border-right: none;
+    border-left: none;
+  }
+  
+  .form__group_oneform__label {
+    background-color: white;
+    border-left: 1px solid silver;
+    border-right: 1px solid silver;
+    color: #9b9b9b;
+    display: block;
+    font-size: 0.9em;
+    margin-left: 10px;
+    padding: 0 10px;
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    transition: 0.2s;
+  }
+  
+  .form__group_oneform__field:focus {
+    border: 1px solid #0b2447 !important;
+    outline: none;
+    box-shadow: none;
+    transform: matrix3d();
+    animation-duration: 1;
+  }
+  
+  .form__group_oneform__field:focus ~ .form__group_oneform__label {
+    background-color: white;
+    border-right: 1px solid #0b2447;
+    border-left: 1px solid #0b2447;
+    color: #0b2447;
+    font-size: 0.9em;
+    margin-left: 10px;
+    padding: 0 10px;
+    position: absolute;
+    top: -10px;
+    transition: 0.2s;
+  }
+  
+  .login-header{
+    font-size: 40px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .container {
+    background-color: #297272;
+  }
+  
