@@ -97,3 +97,6 @@
     background-color: #297272;
   }
   
+  .card{
+    box-shadow: 5px 5px 0px #000;
+  }
