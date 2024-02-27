@@ -1,0 +1,300 @@
+<!--
+    Authors:    Garrett Hayes, Wes Talley, Johnny Mac Brentlinger, Gavin Davis, Kaylee Miller
+	Course:     CSC 3100-001
+	Date:       23 February 2024
+    Due:        1 March 2024
+	File:       index.html
+	Purpose:    This single page application is the basis of the Smart Chicken Coop that was ordered by the SwollenHippo Company.
+                It contains a login page for returning users along with a registration page for new users receiving their Smart Coop and a dashbaord which is currently blank. 
+                This application uses CSS and Jquery for apperance and functionality along with incorporating error handling by SweetAlerts2.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Coop</title>
+    <link href="assets/css/index.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body class="container">
+    <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
+    <div id="divMain" class="d-flex col-12 justify-content-center align-items-center vh-100">
+        <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8;" >
+            <p class="login-header mt-4">Smart Coop</p>
+            <div class="card-body">
+                <form>
+                    <div>
+                        <label for="txtLoginEmail"> Email </label>
+                        <input type="email" placeholder="Email" aria-label="Email" class="form__group_oneform__field col-12 mt-2 mb-4 " id="txtLoginEmail">
+
+                        <label for="txtLoginPassword"> Password </label>
+                        <input type="password" placeholder="Password" aria-label="Password" class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginPassword">
+                    </div>
+                    
+                    <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button"> Login </button>
+                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login"> Need an account? </button>
+                    <!-- <div class="col-12 justify-content-center d-flex">
+                        <a class="col-12 text-center btnToggle" data-type="login"> Need an account? </a>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+        <!--This is the Registration Card for new users, and can be accessed by the Login Card. -->
+        <div id="divRegister" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4" style="background-color: #e8e0c8; display:none">
+            <p class="login-header mt-4">Register</p>
+            <div class="card-body">
+                <form id="formRegister">
+                    <div class="form-group">
+                        <label for="txtFirstName" class="form-label "> First Name </label>
+                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtLastName" class="form-label mt-2"> Last Name </label>
+                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+                    <hr>
+
+                    <div class="form-group ">
+                        <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
+                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtStreetAddress2" class="form-label mt-2"> Street Address 2 </label>
+                        <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+                    
+                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1-->
+                    <input type="checkbox" id="btnFillStAdd">
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="txtCity" class="form-label"> City </label>
+                        <input id="txtCity" placeholder="City" aria-label="City" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtState" class="form-label mt-2"> State </label>
+                        <input id="txtState" placeholder="State" aria-label="State" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
+                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+                    <hr>    
+
+                    <div class="form-group">
+                        <label for="txtPhone" class="form-label"> Phone Number </label>
+                        <input id="txtPhone" placeholder="Phone Number" aria-label="Phone Number" class="form__group_oneform__field col-12 mb-2" type="tel">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtEmail" class="form-label mt-2"> Email </label>
+                        <input id="txtEmail" placeholder="Email" aria-label="Email" class="form__group_oneform__field col-12 mb-2" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtPassword" class="form-label mt-2"> Password </label>
+                        <input id="txtPassword" placeholder="Password" aria-label="Password" class="form__group_oneform__field col-12 mb-2" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtCoopRegisterID" class="form-label mt-2"> Coop Registration ID </label>
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2">
+                    </div>
+                    <hr>
+
+                    <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnToggle" type="button"> Return to Login </button>
+                    <!-- <div class="col12 d-flex justify-content-center">
+                        <a class="col-12 text-center btnToggle" data-card="Register"> Return to Login </a>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+        <!-- This is the Dashboard Card, which is currently blank. --> 
+        <div id="divDashboard" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8; display:none" >
+            <div class="card-header">
+                <h2>Dashboard</h2>
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        //const testRegex = '/[^0-9a-zA-Z_\-@.\s]/'
+        // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
+        $('#btnFillStAdd').on('click', function() {
+            if ($('#txtStreetAddress1').val() && $('#txtStreetAddress2').val() == '') {
+                $('#txtStreetAddress2').val($('#txtStreetAddress1').val())
+            }
+            else {
+                $('#txtStreetAddress2').val('')
+            }
+        })
+
+        // This is the function that toggles the Login and Registration Pages.
+        $('.btnToggle').on('click', function () {
+            let page = $(this).attr('data-type');
+            if (page == 'login') {
+                $('#divLogin').slideToggle(function () {
+                    $('#divMain').removeClass('vh-100');
+                    $('#divRegister').slideToggle('slow');
+                })
+            }
+            else {
+                $('#divRegister').slideToggle(function () {
+                    $('#divMain').addClass('vh-100')
+                    $('#divLogin').slideToggle('slow');
+                })
+            }
+        })
+        
+        // This is the function that validates the email and password on the Login Card. 
+        $('#btnLogin').on('click', function()
+        {
+            let strEmail = $('#txtLoginEmail').val();
+            let strPassword = $('#txtLoginPassword').val();
+
+            if (strEmail.length < 1 || strPassword.length < 1) {
+                Swal.fire({
+                    title: 'Oops!',
+                    html: '<p>Email and Password cannot be blank!</p>',
+                    icon: 'error'
+                })
+            }
+            else {
+            //    $.post('https://www.thesimplehomestead.com/simpletime/sessions.php', { Email: strEmail, Password: strPassword }, function (results) {
+            //       results = JSON.parse(results);
+            //        console.log(results);
+            //      sessionStorage.setItem('SimpleSession', results.SessionID);
+                    $('#divLogin').slideUp(function () {
+                        $('#divDashboard').slideDown();
+                    })
+                
+            }
+        })
+
+        // This is the function that validates the all input on the Registration Card.
+        $('#btnRegister').on('click', function()
+        {
+            let blnError = false;
+            let strError = '';
+
+            let strFirstName = $('#txtFirstName').val();
+            let strLastName = $('#txtLastName').val();
+            let strStAdd1 = $('#txtStreetAddress1').val();
+            let strStAdd2 = $('#txtStreetAddress2').val();
+            let strCity = $('#txtCity').val()
+            let strState = $('#txtState').val()
+            let strZip = $('#txtZipCode').val()
+            let strEmail = $('#txtEmail').val();
+            let strPassword = $('#txtPassword').val();
+            let strCoopID = $('#txtCoopRegisterID').val();
+
+            $('#txtFirstName').val('');
+            $('#txtLastName').val('');
+            $('#txtStreetAddress1').val('');
+            $('#txtStreetAddress2').val('');
+            $('#txtCity').val('');
+            $('#txtState').val('')
+            $('#txtZipCode').val('')
+            $('#txtEmail').val('');
+            $('#txtPassword').val('');
+            $('#txtCoopRegisterID').val('');
+
+            if (strFirstName.length < 1) {
+                blnError = true;
+                strError += '<p>Invalid First Name (cannot be blank)</p>';
+            }
+            if (strLastName.length < 1) {
+                blnError = true;
+                strError += '<p>Invalid Last Name (cannot be blank)</p>';
+            }
+            if (strStAdd1.length < 2) {
+                blnError = true;
+                strError += '<p>Invalid Address (must be at least 2 characters)</p>';
+            }
+            if (strCity.length < 2) {
+                blnError = true;
+                strError += '<p>Invalid City (must be at least 2 characters)</p>';
+            }
+            if (strState.length < 2) {
+                blnError = true;
+                strError += '<p>Invalid State (must be at least 2 characters)</p>';
+            }
+            if (strZip.length != 5) {
+                blnError = true;
+                strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
+            }
+            if(strEmail.length < 7)
+            {
+                blnError = true
+                strError += '<p>Invalid Email (Must be longer than 7 characters, and contain a "@" and ".")</p>'
+            }
+            if (strPassword.length < 6) {
+                blnError = true;
+                strError += '<p>Invalid Password (must be at least 6 characters)</p>';
+            }
+            
+            if (blnError == true)
+            {
+                Swal.fire({
+                    title: 'Oops!',
+                    html: strError,
+                    icon: 'error',
+                });
+            }
+            else
+            {
+                Swal.fire({
+                    title: 'Yass!',
+                    icon: 'success',
+                });
+
+                $('#divRegister').slideUp(function () {
+                    $('#divDashboard').slideDown()
+                })
+            }
+            // else {
+            //     $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
+            //         result = JSON.parse(result);
+            //         console.log(result);
+
+            //         if (result.Error) {
+            //             Swal.fire({
+            //                 title: "Oops!",
+            //                 html: '<p>' + result.Error + '</p>',
+            //                 icon: "error"
+            //             });
+            //         }
+            //     })
+            // }
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- /[^0-9a-zA-Z_\-@.\s]/gi - validate the string is all alphanumeric characters, -, @, .
+use this for the emails and all generic text fields, this MATCHES
+all non-valid characters so to validate the input, do something like this:
+
+if ([regex].test(userInputVariable)) // do something, warn them, pop up an alert, whatever
+
+[^\d] - validate the string is all numbers
+use this for the zip code and any other field in the database
+where the input HAS to be all numbers - someone blew up the backend by putting
+'h' for a zip code this morning
+again, this MATCHES INVALID CHARACTERS, so your if statement should be written
+accordingly, if the block of code inside the if statement executes, that means
+the user has typed an invalid string -->
