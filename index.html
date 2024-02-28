@@ -2,7 +2,7 @@
     Authors:    Garrett Hayes, Wes Talley, Johnny Mac Brentlinger, Gavin Davis, Kaylee Miller
 	Course:     CSC 3100-001
 	Date:       23 February 2024
-    Due:        1 March 2024
+    Due:        6 March 2024
 	File:       index.html
 	Purpose:    This single page application is the basis of the Smart Chicken Coop that was ordered by the SwollenHippo Company.
                 It contains a login page for returning users along with a registration page for new users receiving their Smart Coop and a dashbaord which is currently blank. 
@@ -35,9 +35,6 @@
                     
                     <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button"> Login </button>
                     <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login"> Need an account? </button>
-                    <!-- <div class="col-12 justify-content-center d-flex">
-                        <a class="col-12 text-center btnToggle" data-type="login"> Need an account? </a>
-                    </div> -->
                 </form>
             </div>
         </div>
@@ -47,7 +44,7 @@
             <div class="card-body">
                 <form id="formRegister">
                     <div class="form-group">
-                        <label for="txtFirstName" class="form-label "> First Name </label>
+                        <label for="txtFirstName" class="form-label"> First Name </label>
                         <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
@@ -57,18 +54,19 @@
                     </div>
                     <hr>
 
-                    <div class="form-group ">
+                    <div class="form-group">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
                         <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
                     </div>
+                    
+                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1-->
+                    <label for="btnFillStAdd"> Street Address 2 Not Necessary</label>
+                    <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3">
 
                     <div class="form-group">
                         <label for="txtStreetAddress2" class="form-label mt-2"> Street Address 2 </label>
                         <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
                     </div>
-                    
-                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1-->
-                    <input type="checkbox" id="btnFillStAdd">
                     <hr>
 
                     <div class="form-group">
@@ -109,10 +107,7 @@
                     <hr>
 
                     <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
-                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnToggle" type="button"> Return to Login </button>
-                    <!-- <div class="col12 d-flex justify-content-center">
-                        <a class="col-12 text-center btnToggle" data-card="Register"> Return to Login </a>
-                    </div> -->
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button"> Return to Login </button>
                 </form>
             </div>
         </div>
@@ -145,6 +140,7 @@
         // This is the function that toggles the Login and Registration Pages.
         $('.btnToggle').on('click', function () {
             let page = $(this).attr('data-type');
+            
             if (page == 'login') {
                 $('#divLogin').slideToggle(function () {
                     $('#divMain').removeClass('vh-100');
@@ -172,14 +168,11 @@
                     icon: 'error'
                 })
             }
-            else {
-            //    $.post('https://www.thesimplehomestead.com/simpletime/sessions.php', { Email: strEmail, Password: strPassword }, function (results) {
-            //       results = JSON.parse(results);
-            //        console.log(results);
-            //      sessionStorage.setItem('SimpleSession', results.SessionID);
-                    $('#divLogin').slideUp(function () {
-                        $('#divDashboard').slideDown();
-                    })
+            else 
+            {
+                $('#divLogin').slideUp(function () {
+                    $('#divDashboard').slideDown();
+                })
                 
             }
         })
@@ -265,24 +258,9 @@
                     $('#divDashboard').slideDown()
                 })
             }
-            // else {
-            //     $.post('https://www.thesimplehomestead.com/simpletime/users.php', { 'Email': strEmail, 'FirstName': strFirstName, 'LastName': strLastName, 'OrgNumber': strOrgID, 'Password': strPassword }, function (result) {
-            //         result = JSON.parse(result);
-            //         console.log(result);
-
-            //         if (result.Error) {
-            //             Swal.fire({
-            //                 title: "Oops!",
-            //                 html: '<p>' + result.Error + '</p>',
-            //                 icon: "error"
-            //             });
-            //         }
-            //     })
-            // }
         });
     </script>
 </body>
-
 </html>
 
 <!-- /[^0-9a-zA-Z_\-@.\s]/gi - validate the string is all alphanumeric characters, -, @, .
