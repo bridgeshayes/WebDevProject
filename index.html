@@ -131,7 +131,7 @@
                 <h2>Dashboard</h2>
             </div>
             <div class="card-body">
-
+                
             </div>
         </div>
     </div>
@@ -268,6 +268,10 @@
             if (!PasswordRegex.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
+            if(strCoopID != 3870)
+            {
+                strError += '<p>Invalid Coop ID (Must be 4 digits)</p>'
+            }
 
             if (strError) {
                 Swal.fire({
@@ -278,7 +282,7 @@
             }
             else {
                 Swal.fire({
-                    title: 'Yass!',
+                    title: 'Yippee!',
                     icon: 'success',
                 });
 
