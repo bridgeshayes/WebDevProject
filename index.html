@@ -5,8 +5,8 @@
     Due:        6 March 2024
 	File:       index.html
 	Purpose:    This single page application is the basis of the Smart Chicken Coop that was ordered by the SwollenHippo Company.
-                It contains a login page for returning users along with a registration page for new users receiving their Smart Coop and a dashbaord which is currently blank. 
-                This application uses CSS and Jquery for apperance and functionality along with incorporating error handling by SweetAlerts2.
+                It contains a login page for returning users along with a registration page for new users receiving their Smart Coop and a dashboard which is currently blank. 
+                This application uses CSS and Jquery for apperance and functionality along with incorporating error handling by SweetAlerts2 and input validation by regular expression.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +126,7 @@
             </div>
         </div>
         <!-- This is the Dashboard Card, which is currently blank. -->
-        <div id="divDashboard" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8; display:none">
+        <div id="divDashboard" class="card col-12 col-md-8 col-lg-5 justify-content-center align-items-center" style="background-color: #e8e0c8; display:none">
             <div class="card-header">
                 <h2>Dashboard</h2>
             </div>
@@ -187,7 +187,7 @@
             }
         })
 
-        // This is the function that validates the email and password on the Login Card. 
+        // This is the function that validates the email and password by the use of regular expressions on the Login Card. 
         $('#btnLogin').on('click', function () {
             let strEmail = $('#txtLoginEmail').val();
             let strPassword = $('#txtLoginPassword').val();
@@ -262,11 +262,9 @@
             if (strZip.length != 5) {
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
-            
             if (!EmailRegex.test(strEmail)) {
                 strError += '<p>Invalid Email (must have a "@", ".", and valid length)</p>';
             }
-
             if (!PasswordRegex.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
