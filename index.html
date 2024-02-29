@@ -4,7 +4,7 @@
 	Date:       23 February 2024
     Due:        6 March 2024
 	File:       index.html
-	Purpose:    This single page application is the basis of the Smart Chicken Coop that was ordered by the SwollenHippo Company.
+	Purpose:    This single page application is the basis of the Smart Chicken Coop Product by the SwollenHippo Company.
                 It contains a login page for returning users along with a registration page for new users receiving their Smart Coop and a dashboard which is currently blank. 
                 This application uses CSS and Jquery for apperance and functionality along with incorporating error handling by SweetAlerts2 and input validation by regular expression.
 -->
@@ -33,7 +33,7 @@
                             class="form__group_oneform__field col-12 mt-2 mb-4 " id="txtLoginEmail">
 
                         <label for="txtLoginPassword"> Password </label>
-                        <input type="password" placeholder="Password" aria-label="Password"
+                        <input type="password" placeholder="Password (8+ characters)" aria-label="Password"
                             class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginPassword">
                     </div>
 
@@ -108,9 +108,9 @@
 
                     <div class="form-group">
                         <label for="txtPassword" class="form-label mt-2"> Password </label>
-                        <input id="txtPassword" placeholder="Password" aria-label="Password"
+                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
                             class="form__group_oneform__field col-12 mb-2" type="password"
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                            pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/">
                     </div>
 
                     <div class="form-group">
@@ -194,7 +194,7 @@
             let strError = ''
 
             if (!EmailRegex.test(strEmail)) {
-                strError += '<p>Invalid Email (must have a "@", ".", and valid length)</p>';
+                strError += '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
 
             if (!PasswordRegex.test(strPassword)) {
@@ -263,7 +263,7 @@
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
             if (!EmailRegex.test(strEmail)) {
-                strError += '<p>Invalid Email (must have a "@", ".", and valid length)</p>';
+                strError += '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
             if (!PasswordRegex.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
