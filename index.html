@@ -64,7 +64,7 @@
                         <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     
-                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1-->
+                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
                     <label for="btnFillStAdd"> Street Address 2 Not Necessary</label>
                     <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3">
 
@@ -175,8 +175,9 @@
                 $('#txtStreetAddress1').val('');
                 $('#txtStreetAddress2').val('');
                 $('#txtCity').val('');
-                $('#txtState').val('')
-                $('#txtZipCode').val('')
+                $('#txtState').val('');
+                $('#txtZipCode').val('');
+                $('#txtPhoneNumber').val('');
                 $('#txtEmail').val('');
                 $('#txtPassword').val('');
                 $('#txtCoopRegisterID').val('');
@@ -219,7 +220,7 @@
             }
         })
 
-        // This is the function that validates all input on the Registration Card.
+        // This is the function that validates all input on the Registration Card using length and regular expressions.
         $('#btnRegister').on('click', function () {
             let strError = '';
 
@@ -234,18 +235,6 @@
             let strEmail = $('#txtEmail').val();
             let strPassword = $('#txtPassword').val();
             let strCoopID = $('#txtCoopRegisterID').val();
-
-            $('#txtFirstName').val('');
-            $('#txtLastName').val('');
-            $('#txtStreetAddress1').val('');
-            $('#txtStreetAddress2').val('');
-            $('#txtCity').val('');
-            $('#txtState').val('');
-            $('#txtZipCode').val('');
-            $('#txtPhoneNumber').val('');
-            $('#txtEmail').val('');
-            $('#txtPassword').val('');
-            $('#txtCoopRegisterID').val('');
 
             if (strFirstName.length < 1) {
                 strError += '<p>Invalid First Name (cannot be blank)</p>';
@@ -279,14 +268,29 @@
                 strError += '<p>Invalid Coop ID (Must be 4 digits)</p>'
             }
 
-            if (strError) {
+            if (strError) 
+            {
                 Swal.fire({
                     title: 'Oops!',
                     html: strError,
                     icon: 'error',
                 });
             }
-            else {
+            else 
+            {
+                // clears all input on successful registration.
+                $('#txtFirstName').val('');
+                $('#txtLastName').val('');
+                $('#txtStreetAddress1').val('');
+                $('#txtStreetAddress2').val('');
+                $('#txtCity').val('');
+                $('#txtState').val('');
+                $('#txtZipCode').val('');
+                $('#txtPhoneNumber').val('');
+                $('#txtEmail').val('');
+                $('#txtPassword').val('');
+                $('#txtCoopRegisterID').val('');
+
                 Swal.fire({
                     title: 'Yippee!',
                     icon: 'success',
@@ -294,7 +298,7 @@
 
                 $('#divRegister').slideUp(function () {
                     $('#divDashboard').slideDown()
-                })
+                });
             }
         });
     </script>
