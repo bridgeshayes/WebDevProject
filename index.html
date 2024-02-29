@@ -95,8 +95,8 @@
                     <hr>
 
                     <div class="form-group">
-                        <label for="txtPhone" class="form-label"> Phone Number </label>
-                        <input id="txtPhone" placeholder="Phone Number" aria-label="Phone Number"
+                        <label for="txtPhoneNumber" class="form-label"> Phone Number </label>
+                        <input id="txtPhoneNumber" placeholder="Phone Number" aria-label="Phone Number"
                             class="form__group_oneform__field col-12 mb-2" type="tel">
                     </div>
 
@@ -144,8 +144,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // These regular expressions are used to validate the user's email and password. 
-        var EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        var PasswordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        var regexPhoneNumber= /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $('#btnFillStAdd').on('click', function () {
@@ -193,11 +194,11 @@
             let strPassword = $('#txtLoginPassword').val();
             let strError = ''
 
-            if (!EmailRegex.test(strEmail)) {
+            if (!regexEmail.test(strEmail)) {
                 strError += '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
 
-            if (!PasswordRegex.test(strPassword)) {
+            if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
             
@@ -226,9 +227,10 @@
             let strLastName = $('#txtLastName').val();
             let strStAdd1 = $('#txtStreetAddress1').val();
             let strStAdd2 = $('#txtStreetAddress2').val();
-            let strCity = $('#txtCity').val()
-            let strState = $('#txtState').val()
-            let strZip = $('#txtZipCode').val()
+            let strCity = $('#txtCity').val();
+            let strState = $('#txtState').val();
+            let strZip = $('#txtZipCode').val();
+            let strPhoneNumber = $('#txtPhoneNumber')
             let strEmail = $('#txtEmail').val();
             let strPassword = $('#txtPassword').val();
             let strCoopID = $('#txtCoopRegisterID').val();
@@ -238,8 +240,9 @@
             $('#txtStreetAddress1').val('');
             $('#txtStreetAddress2').val('');
             $('#txtCity').val('');
-            $('#txtState').val('')
-            $('#txtZipCode').val('')
+            $('#txtState').val('');
+            $('#txtZipCode').val('');
+            $('#txtPhoneNumber').val('');
             $('#txtEmail').val('');
             $('#txtPassword').val('');
             $('#txtCoopRegisterID').val('');
@@ -262,10 +265,13 @@
             if (strZip.length != 5) {
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
-            if (!EmailRegex.test(strEmail)) {
+            if(!regexPhoneNumber.test(strPhoneNumber)){
+                strError += '<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>'
+            }
+            if (!regexEmail.test(strEmail)) {
                 strError += '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
-            if (!PasswordRegex.test(strPassword)) {
+            if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
             if(strCoopID != 3870)
