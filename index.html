@@ -148,6 +148,10 @@
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         var regexPhoneNumber= /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
+        $.get('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function(session) {
+            console.log(session)
+        })
+
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $('#btnFillStAdd').on('click', function () {
             if ($('#txtStreetAddress1').val() && $('#txtStreetAddress2').val() == '') {
@@ -213,6 +217,9 @@
             }
             else 
             {
+                $.get('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail }, function(user) {
+                    
+                })
                 $('#divLogin').slideUp(function () {
                     $('#divDashboard').slideDown();
                 })
@@ -263,7 +270,7 @@
             if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
-            if(strCoopID != 3870)
+            if(strCoopID != '2RXVJZT0')
             {
                 strError += '<p>Invalid Coop ID (Must be 4 digits)</p>'
             }
@@ -278,6 +285,14 @@
             }
             else 
             {
+                $.post('https://simplecoop.swollenhippo.com/usersaddress.php',{Email: strEmail, Street1: strStAdd1, Street2:strStAdd2, City: strCity, State: strState, ZIP: strZip}, function(result){
+                    console.log(result);
+                })
+                $.post('https://simplecoop.swollenhippo.com/user.php',{Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID}, function(result){
+                    console.log(result);
+                })
+                
+                
                 // clears all input on successful registration.
                 $('#txtFirstName').val('');
                 $('#txtLastName').val('');
