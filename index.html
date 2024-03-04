@@ -38,7 +38,8 @@
                     </div>
 
                     <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button"> Login </button>
-                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login"> Need an account? </button>
+                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login">
+                        Need an account? </button>
                 </form>
             </div>
         </div>
@@ -50,20 +51,23 @@
                 <form id="formRegister">
                     <div class="form-group">
                         <label for="txtFirstName" class="form-label"> First Name </label>
-                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
                         <label for="txtLastName" class="form-label mt-2"> Last Name </label>
-                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <div class="form-group">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
-                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtStreetAddress1" placeholder="Street Address Line 1"
+                            aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
                     </div>
-                    
+
                     <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
                     <label for="btnFillStAdd"> Street Address 2 not necessary</label>
                     <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3">
@@ -121,17 +125,19 @@
                     <hr>
 
                     <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
-                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button"> Return to Login </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
+                        Return to Login </button>
                 </form>
             </div>
         </div>
         <!-- This is the Dashboard Card, which is currently blank. -->
-        <div id="divDashboard" class="card col-12 col-md-8 col-lg-5 justify-content-center align-items-center" style="background-color: #e8e0c8; display:none">
+        <div id="divDashboard" class="card col-12 col-md-8 col-lg-5 justify-content-center align-items-center"
+            style="background-color: #e8e0c8; display:none">
             <div class="card-header">
                 <h2>Dashboard</h2>
             </div>
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>
@@ -146,11 +152,74 @@
         // These regular expressions are used to validate the user's email and password. 
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        var regexPhoneNumber= /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+        var regexPhoneNumber = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
-        $.get('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function(session) {
+
+
+        /*
+            eggs.php API call: Place all functions below regarding the eggs.php endpoint
+            TODO:
+                POST - We need a POST option inside of btnEnterEggs.
+                GET - We need a GET option that retrieves the egg records (will always be an array).
+            DONE: 
+
+        */
+
+        /*
+            environment.php API call: Place all functions below regarding the environment.php endpoint
+            TODO: 
+                POST - We need a button that allows us to enter environment data into a form and POST.
+                DELETE - We need a remove environment data button that takes in a certain ID to remove.
+                GET - We need a button that takes in certain days and returns the weather conditions for those days (an array).
+            DONE:
+
+        */
+
+        /*
+            sessions.php API call: Place all functions below regarding the sessions.php endpoint
+            TODO: 
+                POST - This is the login button that verifies the credentials and returns a new SessionID.
+                PUT - This will be used to update the database with the last time that the SessionID was used.
+                DELETE - This is called to free the SessionID from the database table once the session is over.
+            IN PROGRESS:
+                GET - Checks the last time the SessionID was used to see if they need to sign in again.
+            DONE:
+        */
+        $.get('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
             console.log(session)
         })
+
+        /*
+            settings.php API call: Place all functions below regarding the settings.php endpoint
+            TODO:
+                POST- Takes in user-defined settings and stores them in the settings table.
+                PUT - Updates said settings.
+                DELETE - Removes said settings from table.
+                GET - Retrives said settings.
+            DONE:
+
+        */
+
+
+        /*
+            useraddress.php API call: Place all functions below regarding the useraddess.php endpoint
+            TODO:
+                PUT - Updates the address.
+                DELETE - Removes the row associated with an email.
+                GET - Returns an address linked to an email.
+            DONE:
+                POST - Creates an address associated with an email.
+        */
+
+        /*
+            users.php API call: Place all functions below regarding the users.php endpoint
+            TODO:
+                PUT - Update account info, minus the CoopID.
+                DELETE - Delete the account from users.
+                GET - Return the account info.
+            DONE:
+                POST - Register an account.
+        */
 
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $('#btnFillStAdd').on('click', function () {
@@ -165,7 +234,7 @@
         // This is the function that toggles the Login and Registration Pages.
         $('.btnToggle').on('click', function () {
             let page = $(this).attr('data-type');
-            
+
             if (page == 'login') {
                 $('#divLogin').slideToggle(function () {
                     $('#divMain').removeClass('vh-100');
@@ -206,24 +275,18 @@
             if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
-            
-            if(strError)
-            {
+
+            if (strError) {
                 Swal.fire({
                     title: 'Oops!',
                     html: strError,
                     icon: 'error'
                 });
             }
-            else 
-            {
-                $.get('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail }, function(user) {
-                    
-                })
+            else {
                 $('#divLogin').slideUp(function () {
                     $('#divDashboard').slideDown();
                 })
-                
             }
         })
 
@@ -261,7 +324,7 @@
             if (strZip.length != 5) {
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
-            if(!regexPhoneNumber.test(strPhoneNumber)){
+            if (!regexPhoneNumber.test(strPhoneNumber)) {
                 strError += '<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>'
             }
             if (!regexEmail.test(strEmail)) {
@@ -270,29 +333,26 @@
             if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
             }
-            if(strCoopID != '2RXVJZT0')
-            {
+            if (strCoopID != '2RXVJZT0') {
                 strError += '<p>Invalid Coop ID (Must be 4 digits)</p>'
             }
 
-            if (strError) 
-            {
+            if (strError) {
                 Swal.fire({
                     title: 'Oops!',
                     html: strError,
                     icon: 'error',
                 });
             }
-            else 
-            {
-                $.post('https://simplecoop.swollenhippo.com/usersaddress.php',{Email: strEmail, Street1: strStAdd1, Street2:strStAdd2, City: strCity, State: strState, ZIP: strZip}, function(result){
+            else {
+                $.post('https://simplecoop.swollenhippo.com/usersaddress.php', { Email: strEmail, Street1: strStAdd1, Street2: strStAdd2, City: strCity, State: strState, ZIP: strZip }, function (result) {
                     console.log(result);
                 })
-                $.post('https://simplecoop.swollenhippo.com/user.php',{Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID}, function(result){
+                $.post('https://simplecoop.swollenhippo.com/user.php', { Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID }, function (result) {
                     console.log(result);
                 })
-                
-                
+
+
                 // clears all input on successful registration.
                 $('#txtFirstName').val('');
                 $('#txtLastName').val('');
@@ -318,4 +378,5 @@
         });
     </script>
 </body>
+
 </html>
