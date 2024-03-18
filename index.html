@@ -185,8 +185,10 @@
                 GET - Checks the last time the SessionID was used to see if they need to sign in again.
             DONE:
         */
-        $.get('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
-            console.log(session)
+        $.getJSON('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
+            if(session){
+                console.log(session)
+            }
         })
 
         /*
@@ -284,8 +286,26 @@
                 });
             }
             else {
-                $('#divLogin').slideUp(function () {
-                    $('#divDashboard').slideDown();
+                $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
+                    if (session) {
+                        session = JSON.parse(session)
+                        sessionStorage.setItem('SessionID', session.SessionID)
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Created a session!',
+                            title: 'Success'
+                        })
+                        $('#divLogin').slideToggle(function() {
+                            $('#divDashboard').slideToggle()
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'No session!',
+                            title: 'Error'
+                        })
+                    }
                 })
             }
         })
@@ -324,9 +344,9 @@
             if (strZip.length != 5) {
                 strError += '<p>Invalid Zip Code (must be 5 characters)</p>';
             }
-            if (!regexPhoneNumber.test(strPhoneNumber)) {
-                strError += '<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>'
-            }
+            // if (!regexPhoneNumber.test(strPhoneNumber)) {
+            //     strError += '<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>'
+            // }
             if (!regexEmail.test(strEmail)) {
                 strError += '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
@@ -346,10 +366,28 @@
             }
             else {
                 $.post('https://simplecoop.swollenhippo.com/usersaddress.php', { Email: strEmail, Street1: strStAdd1, Street2: strStAdd2, City: strCity, State: strState, ZIP: strZip }, function (result) {
-                    console.log(result);
+                    if (result) {
+                        console.log(result);
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Could not register address',
+                            icon: 'error',
+                        });
+                    }
                 })
-                $.post('https://simplecoop.swollenhippo.com/user.php', { Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID }, function (result) {
-                    console.log(result);
+                $.post('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID }, function (result) {
+                    if (result) {
+                        console.log(result);
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Could not register',
+                            icon: 'error',
+                        });
+                    }
                 })
 
 
