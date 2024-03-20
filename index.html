@@ -187,8 +187,10 @@
                 GET - Checks the last time the SessionID was used to see if they need to sign in again.
             DONE:
         */
-        $.get('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
-            console.log(session)
+        $.getJSON('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
+            if (session) {
+                console.log(session)
+            }
         })
 
         /*
@@ -286,8 +288,26 @@
                 });
             }
             else {
-                $('#divLogin').slideUp(function () {
-                    $('#divDashboard').slideDown();
+                $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
+                    if (session) {
+                        session = JSON.parse(session)
+                        sessionStorage.setItem('SessionID', session.SessionID)
+                        Swal.fire({
+                            icon: 'success',
+                            text: 'Created a session!',
+                            title: 'Success'
+                        })
+                        $('#divLogin').slideToggle(function() {
+                            $('#divDashboard').slideToggle()
+                        })
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            text: 'No session!',
+                            title: 'Error'
+                        })
+                    }
                 })
             }
         })
