@@ -186,7 +186,7 @@
             DONE:
         */
         $.getJSON('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
-            if(session){
+            if (session) {
                 console.log(session)
             }
         })
@@ -286,27 +286,39 @@
                 });
             }
             else {
-                $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
-                    if (session) {
-                        session = JSON.parse(session)
-                        sessionStorage.setItem('SessionID', session.SessionID)
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Created a session!',
-                            title: 'Success'
-                        })
-                        $('#divLogin').slideToggle(function() {
-                            $('#divDashboard').slideToggle()
+                $.getJSON('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail }, function (user) {
+                    if (user.Password == strPassword) {
+                        $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
+                            if (session) {
+                                session = JSON.parse(session)
+                                sessionStorage.setItem('SessionID', session.SessionID)
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: 'Created a session!',
+                                    title: 'Success'
+                                })
+                                $('#divLogin').slideToggle(function () {
+                                    $('#divDashboard').slideToggle()
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    text: 'No session!',
+                                    title: 'Error'
+                                })
+                            }
                         })
                     }
                     else {
                         Swal.fire({
                             icon: 'error',
-                            text: 'No session!',
-                            title: 'Error'
+                            text: 'Incorrect password!',
+                            title: 'Invalid'
                         })
                     }
                 })
+
             }
         })
 
