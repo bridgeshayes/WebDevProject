@@ -29,14 +29,17 @@
                 <form>
                     <div>
                         <label for="txtLoginEmail"> Email </label>
-                        <input type="email" placeholder="Email" aria-label="Email" class="form__group_oneform__field col-12 mt-2 mb-4 " id="txtLoginEmail">
+                        <input type="email" placeholder="Email" aria-label="Email"
+                            class="form__group_oneform__field col-12 mt-2 mb-4 " id="txtLoginEmail">
 
                         <label for="txtLoginPassword"> Password </label>
-                        <input type="password" placeholder="Password (8+ characters)" aria-label="Password" class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginPassword">
+                        <input type="password" placeholder="Password (8+ characters)" aria-label="Password"
+                            class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginPassword">
                     </div>
 
                     <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button"> Login </button>
-                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login"> Need an account? </button>
+                    <button class="col-8 comic-button mt-2 mb-4 btnToggle offset-2" type="button" data-type="login">
+                        Need an account? </button>
                 </form>
             </div>
         </div>
@@ -48,18 +51,21 @@
                 <form id="formRegister">
                     <div class="form-group">
                         <label for="txtFirstName" class="form-label"> First Name </label>
-                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtFirstName" placeholder="First Name" aria-label="First Name"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
                         <label for="txtLastName" class="form-label mt-2"> Last Name </label>
-                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtLastName" placeholder="Last Name" aria-label="Last Name"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <div class="form-group">
                         <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
-                        <input id="txtStreetAddress1" placeholder="Street Address Line 1" aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtStreetAddress1" placeholder="Street Address Line 1"
+                            aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
@@ -68,61 +74,73 @@
 
                     <div class="form-group">
                         <label for="txtStreetAddress2" class="form-label mt-2"> Street Address 2 (Optional)</label>
-                        <input id="txtStreetAddress2" placeholder="Street Address Line 2" aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtStreetAddress2" placeholder="Street Address Line 2"
+                            aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <div class="form-group">
                         <label for="txtCity" class="form-label"> City </label>
-                        <input id="txtCity" placeholder="City" aria-label="City" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtCity" placeholder="City" aria-label="City"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
                         <label for="txtState" class="form-label mt-2"> State </label>
-                        <input id="txtState" placeholder="State" aria-label="State" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtState" placeholder="State" aria-label="State"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
 
                     <div class="form-group">
                         <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
-                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
+                            class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <div class="form-group">
                         <label for="txtPhoneNumber" class="form-label"> Phone Number </label>
-                        <input id="txtPhoneNumber" placeholder="Phone Number" aria-label="Phone Number" class="form__group_oneform__field col-12 mb-2" type="tel">
+                        <input id="txtPhoneNumber" placeholder="Phone Number" aria-label="Phone Number"
+                            class="form__group_oneform__field col-12 mb-2" type="tel">
                     </div>
 
                     <div class="form-group">
                         <label for="txtEmail" class="form-label mt-2"> Email </label>
-                        <input id="txtEmail" placeholder="Email" aria-label="Email" class="form__group_oneform__field col-12 mb-2" type="email" pattern="/[^0-9a-zA-Z_\-@.\s]/">
+                        <input id="txtEmail" placeholder="Email" aria-label="Email"
+                            class="form__group_oneform__field col-12 mb-2" type="email" pattern="/[^0-9a-zA-Z_\-@.\s]/">
                     </div>
 
                     <div class="form-group">
                         <label for="txtPassword" class="form-label mt-2"> Password </label>
-                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password" class="form__group_oneform__field col-12 mb-2" type="password" pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/">
+                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
+                            class="form__group_oneform__field col-12 mb-2" type="password"
+                            pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/">
                     </div>
 
                     <div class="form-group">
                         <label for="txtCoopRegisterID" class="form-label mt-2"> Coop Registration ID </label>
-                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID" aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2">
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                            aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2">
                     </div>
                     <hr>
 
                     <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
-                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button"> Return to Login </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
+                        Return to Login </button>
                 </form>
             </div>
         </div>
         <!-- This is the Dashboard Card, -->
-        <div id="divDashboard" class="card col-12 row" style="background-color: #e8e0c8; display:none; "> <!-- add display:none; when finished. -->
+        <div id="divDashboard" class="card col-12 row" style="background-color: #e8e0c8; display:none; ">
+            <!-- add display:none; when finished. -->
             <div class="login-header mt-4 ">
                 <h2>Dashboard</h2>
             </div>
             <div class="card-body col-6">
-                                
+
                 <label for="cboEggColletionTime" class="form-label mt-3">Egg Collection Time </label>
-                <select id="cboEggColletionTime" placeholder="Egg Colletion Time" aria-label="Egg Collection Time" class="form__group_oneform__field col-12 mb-2">
+                <select id="cboEggColletionTime" placeholder="Egg Colletion Time" aria-label="Egg Collection Time"
+                    class="form__group_oneform__field col-12 mb-2">
                     <option> </option>
                     <option> Before Sunrise</option>
                     <option> Morning (After Sunrise)</option>
@@ -134,12 +152,15 @@
 
                 <div class="form-group">
                     <label for="txtEggCounter" class="form-label mt-3"> Number of Eggs Harvested </label>
-                    <input id="txtEggCounter" placeholder="Number of Eggs Harvested" aria-label="Number of Eggs Harvested" class="form__group_oneform__field col-12 mb-2">
+                    <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
+                        aria-label="Number of Eggs Harvested" class="form__group_oneform__field col-12 mb-2">
                 </div>
                 <hr>
 
-                <button class="col-6 offset-3 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs Harvested </button>
-                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg Count </button>
+                <button class="col-6 offset-3 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs Harvested
+                </button>
+                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg
+                    Count </button>
             </div>
         </div>
     </div>
@@ -288,27 +309,39 @@
                 });
             }
             else {
-                $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
-                    if (session) {
-                        session = JSON.parse(session)
-                        sessionStorage.setItem('SessionID', session.SessionID)
-                        Swal.fire({
-                            icon: 'success',
-                            text: 'Created a session!',
-                            title: 'Success'
-                        })
-                        $('#divLogin').slideToggle(function() {
-                            $('#divDashboard').slideToggle()
+                $.getJSON('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail }, function (user) {
+                    if (user.Password == strPassword) {
+                        $.post('https://simplecoop.swollenhippo.com/sessions.php', { Email: strEmail, Password: strPassword }, function (session) {
+                            if (session) {
+                                session = JSON.parse(session)
+                                sessionStorage.setItem('SessionID', session.SessionID)
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: 'Created a session!',
+                                    title: 'Success'
+                                })
+                                $('#divLogin').slideToggle(function () {
+                                    $('#divDashboard').slideToggle()
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    text: 'No session!',
+                                    title: 'Error'
+                                })
+                            }
                         })
                     }
                     else {
                         Swal.fire({
                             icon: 'error',
-                            text: 'No session!',
+                            text: 'Invalid password!',
                             title: 'Error'
                         })
                     }
                 })
+
             }
         })
 
