@@ -161,6 +161,7 @@
                 </button>
                 <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg
                     Count </button>
+                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnLogout" type="button">Logout</button>
             </div>
         </div>
     </div>
@@ -208,12 +209,6 @@
                 GET - Checks the last time the SessionID was used to see if they need to sign in again.
             DONE:
         */
-        $.getJSON('https://simplecoop.swollenhippo.com/sessions.php', { SessionID: sessionStorage.getItem('SessionID') }, function (session) {
-            if (session) {
-                console.log(session)
-            }
-        })
-
         /*
             settings.php API call: Place all functions below regarding the settings.php endpoint
             TODO:
@@ -348,6 +343,7 @@
         // This is the function that validates all input on the Registration Card using length and regular expressions.
         $('#btnRegister').on('click', function () {
             let strError = '';
+            let userExist = false;
 
             let strFirstName = $('#txtFirstName').val();
             let strLastName = $('#txtLastName').val();
@@ -400,36 +396,64 @@
                 });
             }
             else {
-                $.post('https://simplecoop.swollenhippo.com/usersaddress.php', { Email: strEmail, Street1: strStAdd1, Street2: strStAdd2, City: strCity, State: strState, ZIP: strZip }, function (result) {
-                    console.log(result);
-                })
-                $.post('https://simplecoop.swollenhippo.com/user.php', { Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID }, function (result) {
-                    console.log(result);
-                })
+                $.getJSON('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail }, function (user) {
+                    if (user != null) {
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: 'User with this email already exists!',
+                            icon: 'error',
+                        });
+                        userExist = true;
+                    }
+
+                    else {
+                        $.post('https://simplecoop.swollenhippo.com/useraddress.php', { Email: strEmail, Street1: strStAdd1, Street2: strStAdd2, City: strCity, State: strState, ZIP: strZip }, function (result) {
+                            console.log(result);
+                        })
+                        $.post('https://simplecoop.swollenhippo.com/users.php', { Email: strEmail, Password: strPassword, FirstName: strFirstName, LastName: strLastName, CoopID: strCoopID }, function (result) {
+                            console.log(result);
+                        })
 
 
-                // clears all input on successful registration.
-                $('#txtFirstName').val('');
-                $('#txtLastName').val('');
-                $('#txtStreetAddress1').val('');
-                $('#txtStreetAddress2').val('');
-                $('#txtCity').val('');
-                $('#txtState').val('');
-                $('#txtZipCode').val('');
-                $('#txtPhoneNumber').val('');
-                $('#txtEmail').val('');
-                $('#txtPassword').val('');
-                $('#txtCoopRegisterID').val('');
+                        // clears all input on successful registration.
+                        $('#txtFirstName').val('');
+                        $('#txtLastName').val('');
+                        $('#txtStreetAddress1').val('');
+                        $('#txtStreetAddress2').val('');
+                        $('#txtCity').val('');
+                        $('#txtState').val('');
+                        $('#txtZipCode').val('');
+                        $('#txtPhoneNumber').val('');
+                        $('#txtEmail').val('');
+                        $('#txtPassword').val('');
+                        $('#txtCoopRegisterID').val('');
 
-                Swal.fire({
-                    title: 'Yippee!',
-                    icon: 'success',
-                });
+                        Swal.fire({
+                            title: 'Yippee!',
+                            icon: 'success',
+                        });
 
-                $('#divRegister').slideUp(function () {
-                    $('#divDashboard').slideDown()
-                });
+                        $('#divRegister').slideUp(function () {
+                            $('#divDashboard').slideDown();
+                        });
+                    }
+                }
+                )
             }
+        });
+
+        $('#btnLogout').on('click', function () {
+            sessionStorage.removeItem('SessionID');
+            $.ajax({
+                url: 'https://simplecoop.swollenhippo.com/sessions.php',
+                type: 'DELETE',
+                data: { SessionID: sessionStorage.getItem('SessionID') },
+                success: function () {
+                    $('#divDashboard').slideUp(function () {
+                        $('#divLogin').slideDown();
+                    });
+                }
+            });
         });
     </script>
 </body>
