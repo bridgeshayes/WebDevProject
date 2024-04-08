@@ -62,48 +62,7 @@
                     </div>
                     <hr>
 
-                    <div class="form-group">
-                        <label for="txtStreetAddress1" class="form-label"> Street Address 1 </label>
-                        <input id="txtStreetAddress1" placeholder="Street Address Line 1"
-                            aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2">
-                    </div>
-
-                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
-                    <label for="btnFillStAdd"> Street Address 2 not necessary</label>
-                    <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3">
-
-                    <div class="form-group">
-                        <label for="txtStreetAddress2" class="form-label mt-2"> Street Address 2 (Optional)</label>
-                        <input id="txtStreetAddress2" placeholder="Street Address Line 2"
-                            aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2">
-                    </div>
-                    <hr>
-
-                    <div class="form-group">
-                        <label for="txtCity" class="form-label"> City </label>
-                        <input id="txtCity" placeholder="City" aria-label="City"
-                            class="form__group_oneform__field col-12 mb-2">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtState" class="form-label mt-2"> State </label>
-                        <input id="txtState" placeholder="State" aria-label="State"
-                            class="form__group_oneform__field col-12 mb-2">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
-                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
-                            class="form__group_oneform__field col-12 mb-2">
-                    </div>
-                    <hr>
-
-                    <div class="form-group">
-                        <label for="txtPhoneNumber" class="form-label"> Phone Number </label>
-                        <input id="txtPhoneNumber" placeholder="Phone Number" aria-label="Phone Number"
-                            class="form__group_oneform__field col-12 mb-2" type="tel">
-                    </div>
-
+                    
                     <div class="form-group">
                         <label for="txtEmail" class="form-label mt-2"> Email </label>
                         <input id="txtEmail" placeholder="Email" aria-label="Email"
@@ -117,13 +76,6 @@
                             pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/">
                     </div>
 
-                    <div class="form-group">
-                        <label for="txtCoopRegisterID" class="form-label mt-2"> Coop Registration ID </label>
-                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
-                            aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2">
-                    </div>
-                    <hr>
-
                     <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button"> Register </button>
                     <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
                         Return to Login </button>
@@ -132,37 +84,6 @@
         </div>
         <!-- This is the Dashboard Card, -->
         <div id="divDashboard" class="card col-12 row" style="background-color: #e8e0c8; display:none; ">
-            <!-- add display:none; when finished. -->
-            <div class="login-header mt-4 ">
-                <h2>Dashboard</h2>
-            </div>
-            <div class="card-body col-6">
-
-                <label for="cboEggColletionTime" class="form-label mt-3">Egg Collection Time </label>
-                <select id="cboEggColletionTime" placeholder="Egg Colletion Time" aria-label="Egg Collection Time"
-                    class="form__group_oneform__field col-12 mb-2">
-                    <option> </option>
-                    <option> Before Sunrise</option>
-                    <option> Morning (After Sunrise)</option>
-                    <option> Midday</option>
-                    <option> Afternoon</option>
-                    <option> Night (After Sunset)</option>
-                    <option> Midnight</option>
-                </select>
-
-                <div class="form-group">
-                    <label for="txtEggCounter" class="form-label mt-3"> Number of Eggs Harvested </label>
-                    <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
-                        aria-label="Number of Eggs Harvested" class="form__group_oneform__field col-12 mb-2">
-                </div>
-                <hr>
-
-                <button class="col-6 offset-3 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs Harvested
-                </button>
-                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg
-                    Count </button>
-                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnLogout" type="button">Logout</button>
-            </div>
         </div>
     </div>
 
@@ -383,9 +304,6 @@
             }
             if (!regexPassword.test(strPassword)) {
                 strError += '<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>';
-            }
-            if (strCoopID != '2RXVJZT0') {
-                strError += '<p>Invalid Coop ID (Must be 4 digits)</p>'
             }
 
             if (strError) {
