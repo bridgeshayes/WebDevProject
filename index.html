@@ -149,17 +149,17 @@
                             <div class="form-group">
                                 <label for="txtEggCounter" class="form-label mt-3"> Number of Eggs Harvested </label>
                                 <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
-                                    aria-label="Number of Eggs Harvested" 
+                                    aria-label="Number of Eggs Harvested"
                                     class="form__group_oneform__field col-12 mb-2">
-
-                                <label for="txtEggObservationDate" class="form-label mt-3"> Observation Date </label>
-                                <input id="txtEggObservationDate" placeholder="Observation Date"
-                                    aria-label="Observation Date" type="date"
-                                    class="form__group_oneform__field col-12 mb-2">
-
-                                <label for="txtEggObservationTime" class="form-label mt-3"> Observation Time </label>
-                                <input id="txtEggObservationTime" placeholder="Observation Time"
+                                
+                                <label for="txtEggCollectionTime" class="form-label mt-3"> Collection Time </label>
+                                <input id="txtEggCollectionTime" placeholder="Observation Time"
                                     aria-label="Observation Time" type="time"
+                                    class="form__group_oneform__field col-12 mb-2">
+
+                                <label for="txtEggCollectionDate" class="form-label mt-3"> Collection Date </label>
+                                <input id="txtEggCollectionDate" placeholder="Observation Date"
+                                    aria-label="Observation Date" type="date"
                                     class="form__group_oneform__field col-12 mb-2">
                             </div>
                         </div>
@@ -168,7 +168,8 @@
                         <button class="col-10 offset-1 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs
                             Harvested
                         </button>
-                        <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total
+                        <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show
+                            Total
                             Egg
                             Count </button>
                     </div>
@@ -181,28 +182,28 @@
                     <div class="card col-10" id="divEnvironment">
                         <div class="card-body">
                             <img src="assets/icons/icons8-cloud-50.png">
-                            <h2>Environment</h2>                            
+                            <h2>Environment</h2>
                             <div class="form-group">
-                                <label for="txtObservationDate" class="form-label mt-3"> Observation Date </label>
-                                <input id="txtObservationDate" placeholder="Observation Date"
-                                    aria-label="Observation Date"
-                                    class="form__group_oneform__field col-12 mb-2">
-
                                 <label for="txtTemperature" class="form-label mt-3"> Observed Temperature </label>
                                 <input id="txtTemperature" placeholder="Observed Temperature"
-                                    aria-label="Observed Temperature"
-                                    class="form__group_oneform__field col-12 mb-2">
+                                    aria-label="Observed Temperature" class="form__group_oneform__field col-12 mb-2">
 
                                 <label for="txtHumidity" class="form-label mt-3"> Observed Humidity </label>
-                                <input id="txtHumidity" placeholder="Observed Humidity"
-                                    aria-label="Observed Humidity"
+                                <input id="txtHumidity" placeholder="Observed Humidity" aria-label="Observed Humidity"
+                                    class="form__group_oneform__field col-12 mb-2">
+                                
+                                <label for="txtObservationDate" class="form-label mt-3"> Observation Date </label>
+                                <input id="txtObservationDate" placeholder="Observation Date"
+                                    aria-label="Observation Date" type="date"
                                     class="form__group_oneform__field col-12 mb-2">
                             </div>
                         </div>
                         <hr>
 
-                        <button class="col-10 offset-1 comic-button mt-2" id="btnEggCounter" type="button"> Record Weather Data</button>
-                        <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> View All Weather Dat</button>
+                        <button class="col-10 offset-1 comic-button mt-2" id="btnEggCounter" type="button"> Record
+                            Weather Data</button>
+                        <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> View All
+                            Weather Data</button>
                     </div>
                     <div class="card col-4" style="display: none;" id="divShowEggs">
                         <h2>Total Eggs for </h2>
@@ -220,7 +221,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     <script>
-        
+
     </script>
     <script>
         // These regular expressions are used to validate the user's email and password. 
