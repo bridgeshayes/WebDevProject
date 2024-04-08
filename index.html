@@ -22,8 +22,8 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="d-flex col-12 justify-content-center align-items-center vh-100">
-        <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8;">
+    <div id="divMain" class="d-flex col-12 justify-content-center align-items-center">
+        <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8; display: none;">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
                 <form>
@@ -131,36 +131,46 @@
             </div>
         </div>
         <!-- This is the Dashboard Card, -->
-        <div id="divDashboard" class="card col-12 row" style="background-color: #e8e0c8; display:none; ">
+        <div id="divDashboard" class="card col-12 row" style="background-color: #e8e0c8;">
             <!-- add display:none; when finished. -->
             <div class="login-header mt-4 ">
                 <h2>Dashboard</h2>
             </div>
-            <div class="card-body col-6">
+            <div class="card-body row col-12">
+                <div class="card col-4">
+                    <div class="card-header">
+                        <h2>Eggs</h2>
+                    </div>
+                    <div class="card-body">
+                        <label for="cboEggColletionTime" class="form-label mt-3">Egg Collection Time </label>
+                        <select id="cboEggColletionTime" placeholder="Egg Colletion Time"
+                            aria-label="Egg Collection Time" class="form__group_oneform__field col-12 mb-2">
+                            <option> </option>
+                            <option> Before Sunrise</option>
+                            <option> Morning (After Sunrise)</option>
+                            <option> Midday</option>
+                            <option> Afternoon</option>
+                            <option> Night (After Sunset)</option>
+                            <option> Midnight</option>
+                        </select>
 
-                <label for="cboEggColletionTime" class="form-label mt-3">Egg Collection Time </label>
-                <select id="cboEggColletionTime" placeholder="Egg Colletion Time" aria-label="Egg Collection Time"
-                    class="form__group_oneform__field col-12 mb-2">
-                    <option> </option>
-                    <option> Before Sunrise</option>
-                    <option> Morning (After Sunrise)</option>
-                    <option> Midday</option>
-                    <option> Afternoon</option>
-                    <option> Night (After Sunset)</option>
-                    <option> Midnight</option>
-                </select>
+                        <div class="form-group">
+                            <label for="txtEggCounter" class="form-label mt-3"> Number of Eggs Harvested </label>
+                            <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
+                                aria-label="Number of Eggs Harvested" class="form__group_oneform__field col-12 mb-2">
+                            <div id="calendar"></div>
+                            <input type="text" id="txtDateTime" class="form-control">
+                        </div>
+                    </div>
+                    <hr>
 
-                <div class="form-group">
-                    <label for="txtEggCounter" class="form-label mt-3"> Number of Eggs Harvested </label>
-                    <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
-                        aria-label="Number of Eggs Harvested" class="form__group_oneform__field col-12 mb-2">
+                    <button class="col-6 offset-3 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs
+                        Harvested
+                    </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg
+                        Count </button>
                 </div>
-                <hr>
 
-                <button class="col-6 offset-3 comic-button mt-2" id="btnEggCounter" type="button"> Enter Eggs Harvested
-                </button>
-                <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> Show Total Egg
-                    Count </button>
                 <button class="col-8 offset-2 comic-button mt-3 mb-4" id="btnLogout" type="button">Logout</button>
             </div>
         </div>
@@ -172,13 +182,25 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                selectable: true,
+                dateClick: (info) => {
+                    $('#txtDateTime').val(info.dateStr)
+                }
+            });
+            calendar.render();
+        });
+    </script>
     <script>
         // These regular expressions are used to validate the user's email and password. 
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         var regexPhoneNumber = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
-
-
 
         /*
             eggs.php API call: Place all functions below regarding the eggs.php endpoint
@@ -188,6 +210,56 @@
             DONE: 
 
         */
+        $('#btnEggCounter').on('click', () => {
+            let strSessionID = sessionStorage.getItem('SessionID')
+            let strDateTime = $('#txtDateTime').val()
+            let strEggs = $('#txtEggCounter').val()
+
+            if (strEggs && strSessionID && strDateTime) {
+                $.ajax({
+                    url: 'https://simplecoop.swollenhippo.com/eggs.php',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        SessionID: strSessionID,
+                        observationDateTime: strDateTime,
+                        eggs: strEggs
+                    }),
+                    success: (result) => {
+                        console.log(result)
+                        sessionStorage.setItem('LogID', result.LogID)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Egg count recorded!'
+                        })
+                        $('#txtDateTime').val('')
+                        $('#txtEggCounter').val('')
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Inputs cannot be blank'
+                })
+            }
+        })
+
+        // $('#btnShowEggs').on('click', () => {
+        //     $.ajax({
+        //         url: 'https://simplecoop.swollenhippo.com/eggs.php',
+        //         type: 'GET',
+        //         data: JSON.stringify({
+        //             SessionID: sessionStorage.getItem('SessionID'),
+        //             days: //wtf is this
+        //         }),
+        //         success: function (result) {
+
+        //         },
+        //         error: function (result) {
+
+        //         }
+        //     })
+        // })
 
         /*
             environment.php API call: Place all functions below regarding the environment.php endpoint
@@ -209,17 +281,6 @@
                 GET - Checks the last time the SessionID was used to see if they need to sign in again.
             DONE:
         */
-        /*
-            settings.php API call: Place all functions below regarding the settings.php endpoint
-            TODO:
-                POST- Takes in user-defined settings and stores them in the settings table.
-                PUT - Updates said settings.
-                DELETE - Removes said settings from table.
-                GET - Retrives said settings.
-            DONE:
-
-        */
-
 
         /*
             useraddress.php API call: Place all functions below regarding the useraddess.php endpoint
