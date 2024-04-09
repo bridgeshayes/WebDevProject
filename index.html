@@ -160,7 +160,7 @@
                     <button class="comic-button offset-5 mt-3 mb-1" id="btnSettings" type="button">
                         Settings
                     </button>
-                    <button class="comic-button mt-3 mb-1" id="btnLogout" type="button">
+                    <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
                         Logout
                     </button>
                 </div>
@@ -198,7 +198,7 @@
                                 <button class="col-10 offset-1 comic-button mt-3" id="btnEggCounter" type="button">
                                     Enter Eggs Harvested
                                 </button>
-                                <button class="col-10 offset-1 comic-button mt-3" id="btnShowEggs" type="button">
+                                <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowEggs" type="button">
                                     Show Total Egg Count
                                 </button>
                             </div>
@@ -267,6 +267,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    
     <script></script>
     <script>
         // These regular expressions are used to validate the user's email and password.
@@ -411,6 +412,7 @@
             $("#divAddWeather").slideToggle(() => {
                 $("#divViewWeather").slideToggle();
             });
+
         });
 
         $('#btnReturnToAddWeather').on("click", () => {
@@ -704,20 +706,6 @@
                     }
                 );
             }
-        });
-
-        $("#btnLogout").on("click", function () {
-            sessionStorage.removeItem("SessionID");
-            $.ajax({
-                url: "https://simplecoop.swollenhippo.com/sessions.php",
-                type: "DELETE",
-                data: { SessionID: sessionStorage.getItem("SessionID") },
-                success: function () {
-                    $("#divDashboard").slideUp(() => {
-                        $("#divLogin").slideDown();
-                    });
-                },
-            });
         });
     </script>
 </body>
