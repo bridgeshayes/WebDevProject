@@ -18,6 +18,7 @@
     <link href="assets/css/index.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <img src="assets/icons/icons8-eggs-50.png">
 </head>
 
 <body class="container">
@@ -134,15 +135,18 @@
         <div id="divDashboard" class="card col-12" style="background-color: #e8e0c8;">
             <!-- add display:none; when finished. -->
             <div class="login-header mt-4 col-12 row">
-                <button class="col-2 offset-9 comic-button mt-3 mb-4" id="btnLogout" type="button">Logout</button>
-
                 <h2><strong>Smart Coop Dashboard Home</strong></h2>
+                <div class="col-12 d-flex justify-content-left">
+                    <h3 class="offset-1 mt-4"><strong>USERNAME</strong></h3>
+                    <button class="comic-button offset-6 mt-3 mb-4" id="btnLogout" type="button">Settings</button>
+                    <button class="comic-button mt-3 mb-4" id="btnLogout" type="button">Logout</button>
+                </div>
             </div>
             <hr>
             <div class="card-body col-12 row">
                 <div class="col-6 d-flex justify-content-center">
-                    <div class="card col-10" id="divEggCard">
-                        <div class="card-body">
+                    <div class="card col-10">
+                        <div class="card-body" id="divAddEggs">
                             <img src="assets/icons/icons8-eggs-50.png">
                             <h2>Eggs</h2>
 
@@ -151,7 +155,7 @@
                                 <input id="txtEggCounter" placeholder="Number of Eggs Harvested"
                                     aria-label="Number of Eggs Harvested"
                                     class="form__group_oneform__field col-12 mb-2">
-                                
+
                                 <label for="txtEggCollectionTime" class="form-label mt-3"> Collection Time </label>
                                 <input id="txtEggCollectionTime" placeholder="Observation Time"
                                     aria-label="Observation Time" type="time"
@@ -161,6 +165,13 @@
                                 <input id="txtEggCollectionDate" placeholder="Observation Date"
                                     aria-label="Observation Date" type="date"
                                     class="form__group_oneform__field col-12 mb-2">
+                            </div>
+                        </div>
+                        <div class="card-body" id="divViewEggs" style="display: none;">
+                            <img src="assets/icons/icons8-eggs-50.png">
+                            <h2>Eggs</h2>
+                            <div id="calendar" class="col-12">
+
                             </div>
                         </div>
                         <hr>
@@ -175,9 +186,6 @@
                     </div>
                 </div>
                 <div class="col-6 d-flex justify-content-center">
-                    <div class="card col-12" style="display: none;" id="divShowEggs">
-                        <h2>Total Eggs for </h2>
-                    </div>
                     <div class="vr bg-transparent"></div>
                     <div class="card col-10" id="divEnvironment">
                         <div class="card-body">
@@ -191,7 +199,7 @@
                                 <label for="txtHumidity" class="form-label mt-3"> Observed Humidity </label>
                                 <input id="txtHumidity" placeholder="Observed Humidity" aria-label="Observed Humidity"
                                     class="form__group_oneform__field col-12 mb-2">
-                                
+
                                 <label for="txtObservationDate" class="form-label mt-3"> Observation Date </label>
                                 <input id="txtObservationDate" placeholder="Observation Date"
                                     aria-label="Observation Date" type="date"
@@ -204,9 +212,6 @@
                             Weather Data</button>
                         <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowEggs" type="button"> View All
                             Weather Data</button>
-                    </div>
-                    <div class="card col-4" style="display: none;" id="divShowEggs">
-                        <h2>Total Eggs for </h2>
                     </div>
                 </div>
             </div>
@@ -272,6 +277,9 @@
         })
 
         $('#btnShowEggs').on('click', () => {
+            $('#divAddEggs').slideToggle('slow').then(
+                $('#divViewEggs').slideToggle('slow')
+            )
             $.ajax({
                 url: 'https://simplecoop.swollenhippo.com/eggs.php',
                 type: 'GET',
