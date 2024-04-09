@@ -238,7 +238,7 @@
                                     aria-label="Observation Date" type="date"
                                     class="form__group_oneform__field col-12 mb-3" />
                                 <hr>
-                                    <button class="col-10 offset-1 comic-button mt-3" id="btnRecordWeather" type="button">
+                                <button class="col-10 offset-1 comic-button mt-3" id="btnRecordWeather" type="button">
                                     Record Weather Data
                                 </button>
                                 <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnShowWeather"
@@ -250,6 +250,8 @@
                         <div class="card-body" id="divViewWeather" style="display: none">
                             <img src="assets/icons/icons8-cloud-50.png" />
                             <h2>Environment</h2>
+                            <canvas id="myChart"></canvas>
+                            <hr>
                             <button class="col-10 offset-1 comic-button mt-3" id="btnReturnToAddWeather" type="button">
                                 Return
                             </button>
@@ -267,8 +269,30 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-    
-    <script></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        ctx.canvas.height = 250;
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
     <script>
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -410,10 +434,10 @@
 
         $("#btnShowWeather").on("click", () => {
             $("#divAddWeather").slideToggle(() => {
-                $("#divViewWeather").slideToggle();
-            });
+                $("#divViewWeather").slideToggle()
+            })
 
-        });
+        })
 
         $('#btnReturnToAddWeather').on("click", () => {
             $("#divViewWeather").slideToggle(() => {
