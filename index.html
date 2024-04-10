@@ -349,7 +349,7 @@
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         var regexPhoneNumber =
             /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
-
+        // runs on app launch if they have an active session id then fetches the session details
         $(document).ready(() => {
             if (sessionStorage.getItem("SessionID")) {
                 $.ajax({
@@ -359,6 +359,7 @@
                     type: "GET",
                     success: (result) => {
                         result = $.parseJSON(result);
+                        //saves all the varaibles that the session details provide.
                         //console.log(result)
                         let dateString = result.LastUsedDateTime;
                         let emailTest = result.Email;
@@ -374,7 +375,7 @@
                                 title: "Session expired",
                                 text: "Please log in again.",
                             });
-                        } else {
+                        } else { //sends a put to the sessions which lets us update the date and time of use
                             $.ajax({
                                 url: "https://simplecoop.swollenhippo.com/sessions.php",
                                 type: "PUT",
@@ -389,7 +390,7 @@
                                     console.log(result);
                                 },
                             });
-                            $("#divLogin").slideUp("fast", () => {
+                            $("#divLogin").slideUp("fast", () => { 
                                 $("#divDashboard").slideDown("fast");
                             });
                         }
@@ -400,7 +401,7 @@
                 });
             }
         });
-
+        //button that triggers when the egg counter is clicked
         $("#btnEggCounter").on("click", () => {
             let strSessionID = sessionStorage.getItem("SessionID");
             let strDate = $("#txtEggCollectionDate").val();
@@ -408,7 +409,7 @@
             let objDate = new Date(strDate)
             strDate = objDate.toISOString()
             console.log(strDate)
-
+            //if we click the egg button then we  make sure that all the variables have data, then we make a post to update the counter 
             if (strEggs && strSessionID && strDate) {
                 $.ajax({
                     url: `https://simplecoop.swollenhippo.com/eggs.php`,
@@ -418,7 +419,7 @@
                         observationDateTime: strDate,
                         eggs: strEggs
                     },
-                    success: (result) => {
+                    success: (result) => { //if the post was successful we tell the user we recored another egg and set the egg counter to 0
                         console.log(result);
                         sessionStorage.setItem("LogID", result.LogID);
                         Swal.fire({
@@ -440,16 +441,16 @@
             }
         });
 
-        $("#btnReturnToAddEggs").on("click", () => {
+        $("#btnReturnToAddEggs").on("click", () => { //btn to switch from viewing eggs to adding them
             $("#divViewEggs").slideToggle(() => {
                 $("#divAddEggs").slideToggle();
             });
         });
 
-        $("#btnShowEggs").on("click", () => {
+        $("#btnShowEggs").on("click", () => { //btn to show the egss
             $("#divAddEggs").slideToggle(() => {
-                $("#divViewEggs").slideToggle(() => {
-                    var calendarEl = document.getElementById("calendar");
+                $("#divViewEggs").slideToggle(() => { 
+                    var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: "dayGridMonth",
                         dateClick: (info) => {
@@ -473,20 +474,20 @@
             });
         });
 
-        $("#btnShowWeather").on("click", () => {
+        $("#btnShowWeather").on("click", () => { //btn to go from the add weather to viewing it
             $("#divAddWeather").slideToggle(() => {
                 $("#divViewWeather").slideToggle()
             })
 
         })
 
-        $('#btnReturnToAddWeather').on("click", () => {
+        $('#btnReturnToAddWeather').on("click", () => { //btn to go from viewing weather to adding
             $("#divViewWeather").slideToggle(() => {
                 $("#divAddWeather").slideToggle();
             });
         });
 
-        $("#btnLogout").on("click", function () {
+        $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login
             $.ajax({
                 url:
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
@@ -501,14 +502,14 @@
             });
         });
 
-        $('#btnRecordWeather').on('click', () => {
+        $('#btnRecordWeather').on('click', () => { //when the record weather button is hit we collect all the variables we took as input and make a post
             let strTemp = $('#txtTemperature').val();
             let strHumid = $('#txtHumidity').val();
             let strObvDate = $('#txtObservationDate').val();
             let objObvDate = new Date(strObvDate)
             strObvDate = objObvDate.toISOString()
 
-            if (strTemp && strHumid && strObvDate) {
+            if (strTemp && strHumid && strObvDate) { // post sends the variables to record the weather 
                 $.ajax({
                     url: `https://simplecoop.swollenhippo.com/environment.php`,
                     type: 'POST',
@@ -575,7 +576,7 @@
             let strEmail = $("#txtLoginEmail").val();
             let strPassword = $("#txtLoginPassword").val();
             let strError = "";
-
+            //tests if the email and password is valid according to our regex
             if (!regexEmail.test(strEmail)) {
                 strError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
@@ -593,7 +594,7 @@
                     icon: "error",
                 });
             } else {
-                $.getJSON(
+                $.getJSON( //we get the password for the user listed and if the password is the same as the string, then we make a post to generate a session
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
@@ -652,7 +653,7 @@
             let strPassword = $("#txtPassword").val();
             let strCoopID = $("#txtCoopRegisterID").val();
 
-            if (strFirstName.length < 1) {
+            if (strFirstName.length < 1) { //all validation
                 strError += "<p>Invalid First Name (cannot be blank)</p>";
             }
             if (strLastName.length < 1) {
@@ -692,7 +693,7 @@
                     icon: "error",
                 });
             } else {
-                $.getJSON(
+                $.getJSON( // calls a get to check if the user exisits if not sends a post to make one and a post with the address
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
