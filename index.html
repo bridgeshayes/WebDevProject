@@ -22,7 +22,7 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center vh-100mt-3">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center vh-100 mt-3">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
@@ -159,9 +159,7 @@
                             <img src="assets/icons/icons8-account-48.png" class="" />
                         </div>
                         <div class="col-8 justify-content-left d-flex">
-                            <h5 class="mt-4" id="txtUserAccount">
-                                <strong>' + emailTest + '</strong>
-                            </h5>
+                            <h5 class="mt-4" id="txtUserAccount"></h5>
                         </div>
                     </div>
                     <div class="col-6 justify-content-end d-flex">
@@ -399,8 +397,13 @@
 
             if (strEggs && strSessionID && strDate) {
                 $.ajax({
-                    url: `https://simplecoop.swollenhippo.com/eggs.php?SessionID=${strSessionID}&observationDateTime=${strDate}&eggs=${strEggs}`,
+                    url: `https://simplecoop.swollenhippo.com/eggs.php`,
                     type: "POST",
+                    data: {
+                        SessionID: strSessionID,
+                        observationDateTime: strDate,
+                        eggs: strEggs
+                    },
                     success: (result) => {
                         console.log(result);
                         sessionStorage.setItem("LogID", result.LogID);
