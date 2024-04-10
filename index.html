@@ -150,7 +150,6 @@
         </div>
         <!-- This is the Dashboard Card, -->
         <div id="divDashboard" class="card col-12 mb-3" style="background-color: #e8e0c8; display: none">
-            <!-- add display:none; when finished. -->
             <div class="login-header mt-4 col-12 row">
                 <h2><strong>Smart Coop Dashboard Home</strong></h2>
                 <div class="col-12 d-flex justify-content-left" id="divDashBoardHeader">
@@ -258,6 +257,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>        
+        <div id="divSettings" class="card col-12 mb-3" style="background-color :#e8e0c8; display: none;">
+            <div class="card-body"> 
+                <h2> Smart Coop Settings</h2>
+
+                <button class="comic-button offset-5 mt-3 mb-1" id="btnReturnToDashboard" type="button">
+                    Dashboard
+                </button>
+                <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
+                    Logout
+                </button>
             </div>
         </div>
     </div>
@@ -439,11 +450,19 @@
 
         })
 
-        $('#btnReturnToAddWeather').on("click", () => {
-            $("#divViewWeather").slideToggle(() => {
-                $("#divAddWeather").slideToggle();
-            });
+
+        $("#btnSettings").on("click", () => {
+            $("#divDashboard").slideToggle(() => {
+                $("#divSettings").slideToggle()
+            })
         });
+
+        $("#btnReturnToDashboard").on("click", () => {
+            $("#divSettings").slideToggle(() => {
+                $("#divDashboard").slideToggle()
+            })
+        })
+
 
         /*
               environment.php API call: Place all functions below regarding the environment.php endpoint
