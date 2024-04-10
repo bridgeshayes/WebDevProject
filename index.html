@@ -22,7 +22,7 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="d-flex col-12 justify-content-center align-items-center mt-3">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center vh-100 mt-3">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
@@ -150,18 +150,26 @@
         </div>
         <!-- This is the Dashboard Card, -->
         <div id="divDashboard" class="card col-12 mb-3" style="background-color: #e8e0c8; display: none">
-            <div class="login-header mt-4 col-12 row">
+            <!-- add display:none; when finished. -->
+            <div class="login-header mt-4 col-12">
                 <h2><strong>Smart Coop Dashboard Home</strong></h2>
-                <div class="col-12 d-flex justify-content-left" id="divDashBoardHeader">
-                    <h5 class="offset-1 mt-4" id="txtUserAccount">
-                        <strong>' + emailTest + '</strong>
-                    </h5>
-                    <button class="comic-button offset-5 mt-3 mb-1" id="btnSettings" type="button">
-                        Settings
-                    </button>
-                    <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
-                        Logout
-                    </button>
+                <div class="col-11 d-flex" id="divDashBoardHeader">
+                    <div class="col-6 row">
+                        <div class="col-2 offset-1">
+                            <img src="assets/icons/icons8-account-48.png" class="" />
+                        </div>
+                        <div class="col-8 justify-content-left d-flex">
+                            <h5 class="mt-4" id="txtUserAccount"></h5>
+                        </div>
+                    </div>
+                    <div class="col-6 justify-content-end d-flex">
+                        <button class="comic-button mt-3 mb-1" id="btnSettings" type="button">
+                            Settings
+                        </button>
+                        <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </div>
             <hr />
@@ -285,20 +293,51 @@
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
+        function getWeatherData() {
+            let arrTemps = []
+            $.ajax({
+                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=?`,
+                type: 'GET',
+                success: (result) => {
+                    // append all the data to the array
+                    return arrTemps
+                }
+            })
+        }
+
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                datasets: [
+                    {
+                        label: 'Temperature',
+                        data: [],
+                        borderWidth: 1,
+                        yAxisID: 't'
+                    },
+                    {
+                        label: 'Humidity',
+                        data: [],
+                        borderWidth: 1,
+                        yAxisID: 'h'
+                    }
+                ]
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: true
+                    t: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                    },
+                    h: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
                     }
                 }
             }
@@ -319,12 +358,10 @@
                         sessionStorage.getItem("SessionID"),
                     type: "GET",
                     success: (result) => {
-                        //console.log(result)
                         result = $.parseJSON(result);
                         //console.log(result)
                         let dateString = result.LastUsedDateTime;
                         let emailTest = result.Email;
-                        console.log(emailTest);
                         $("#txtUserAccount").text(emailTest);
                         let dateObj = new Date(dateString);
                         let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
@@ -338,14 +375,13 @@
                                 text: "Please log in again.",
                             });
                         } else {
-                            // ASK BURCHFIELD ABOUT THIS PUT BECAUSE IT SAYS 'NO SESSIONID PROVIDED!'
                             $.ajax({
-                                url: "https://simplecoop.swollenhippo.com/sessions.php?",
+                                url: "https://simplecoop.swollenhippo.com/sessions.php",
                                 type: "PUT",
                                 contentType: "application/json",
-                                data: JSON.stringify({
+                                data: {
                                     SessionID: sessionStorage.getItem("SessionID"),
-                                }),
+                                },
                                 success: (result) => {
                                     console.log(result);
                                 },
@@ -365,28 +401,23 @@
             }
         });
 
-        /*
-              eggs.php API call: Place all functions below regarding the eggs.php endpoint
-              TODO:
-                  POST - We need a POST option inside of btnEnterEggs.
-                  GET - We need a GET option that retrieves the egg records (will always be an array).
-              DONE: 
-  
-          */
         $("#btnEggCounter").on("click", () => {
             let strSessionID = sessionStorage.getItem("SessionID");
             let strDate = $("#txtEggCollectionDate").val();
             let strEggs = $("#txtEggCounter").val();
+            let objDate = new Date(strDate)
+            strDate = objDate.toISOString()
+            console.log(strDate)
 
             if (strEggs && strSessionID && strDate) {
                 $.ajax({
-                    url: "https://simplecoop.swollenhippo.com/eggs.php",
+                    url: `https://simplecoop.swollenhippo.com/eggs.php`,
                     type: "POST",
-                    data: JSON.stringify({
+                    data: {
                         SessionID: strSessionID,
                         observationDateTime: strDate,
-                        eggs: strEggs,
-                    }),
+                        eggs: strEggs
+                    },
                     success: (result) => {
                         console.log(result);
                         sessionStorage.setItem("LogID", result.LogID);
@@ -397,10 +428,9 @@
                         $("#txtDateTime").val("");
                         $("#txtEggCounter").val("");
                     },
-                    // this is throwing a 500 from the endpoint, so ask Burchfield about it!
                     error: (result) => {
                         console.log(result);
-                    },
+                    }
                 });
             } else {
                 Swal.fire({
@@ -450,40 +480,11 @@
 
         })
 
-
-        $("#btnSettings").on("click", () => {
-            $("#divDashboard").slideToggle(() => {
-                $("#divSettings").slideToggle()
-            })
+        $('#btnReturnToAddWeather').on("click", () => {
+            $("#divViewWeather").slideToggle(() => {
+                $("#divAddWeather").slideToggle();
+            });
         });
-
-        $("#btnReturnToDashboard").on("click", () => {
-            $("#divSettings").slideToggle(() => {
-                $("#divDashboard").slideToggle()
-            })
-        })
-
-
-        /*
-              environment.php API call: Place all functions below regarding the environment.php endpoint
-              TODO: 
-                  POST - We need a button that allows us to enter environment data into a form and POST.
-                  DELETE - We need a remove environment data button that takes in a certain ID to remove.
-                  GET - We need a button that takes in certain days and returns the weather conditions for those days (an array).
-              DONE:
-  
-          */
-
-        /*
-              sessions.php API call: Place all functions below regarding the sessions.php endpoint
-              TODO: 
-                  POST - This is the login button that verifies the credentials and returns a new SessionID.
-                  PUT - This will be used to update the database with the last time that the SessionID was used.
-                  DELETE - This is called to free the SessionID from the database table once the session is over.
-              IN PROGRESS:
-                  GET - Checks the last time the SessionID was used to see if they need to sign in again.
-              DONE:
-          */
 
         $("#btnLogout").on("click", function () {
             $.ajax({
@@ -491,7 +492,6 @@
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
                     sessionStorage.getItem("SimpleSession"),
                 type: "DELETE",
-                data: { SessionID: sessionStorage.getItem("SimpleSession") },
                 success: function (result) {
                     sessionStorage.removeItem("SimpleSession");
                     $("#divDashboard").slideUp(function () {
@@ -501,25 +501,32 @@
             });
         });
 
-        /*
-              useraddress.php API call: Place all functions below regarding the useraddess.php endpoint
-              TODO:
-                  PUT - Updates the address.
-                  DELETE - Removes the row associated with an email.
-                  GET - Returns an address linked to an email.
-              DONE:
-                  POST - Creates an address associated with an email.
-          */
+        $('#btnRecordWeather').on('click', () => {
+            let strTemp = $('#txtTemperature').val();
+            let strHumid = $('#txtHumidity').val();
+            let strObvDate = $('#txtObservationDate').val();
+            let objObvDate = new Date(strObvDate)
+            strObvDate = objObvDate.toISOString()
 
-        /*
-              users.php API call: Place all functions below regarding the users.php endpoint
-              TODO:
-                  PUT - Update account info, minus the CoopID.
-                  DELETE - Delete the account from users.
-                  GET - Return the account info.
-              DONE:
-                  POST - Register an account.
-          */
+            if (strTemp && strHumid && strObvDate) {
+                $.ajax({
+                    url: `https://simplecoop.swollenhippo.com/environment.php`,
+                    type: 'POST',
+                    data: {
+                        SessionID: sessionStorage.getItem('SessionID'),
+                        observationDateTime: strObvDate,
+                        temperature: strTemp,
+                        humidity: strHumid
+                    },
+                    success: (result) => {
+                        console.log(result)
+                    },
+                    error: (result) => {
+                        console.log(result)
+                    }
+                })
+            }
+        })
 
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $("#btnFillStAdd").on("click", function () {
@@ -603,6 +610,7 @@
                                             text: "Created a session!",
                                             title: "Success",
                                         });
+                                        $('#txtUserAccount').text(session.Email)
                                         $("#divLogin").slideToggle(function () {
                                             $("#divDashboard").slideToggle();
                                         });
