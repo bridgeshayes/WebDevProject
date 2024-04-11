@@ -266,9 +266,9 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         <div id="divSettings" class="card col-12 mb-3" style="background-color :#e8e0c8; display: none;">
-            <div class="card-body"> 
+            <div class="card-body">
                 <h2> Smart Coop Settings</h2>
 
                 <button class="comic-button offset-5 mt-3 mb-1" id="btnReturnToDashboard" type="button">
@@ -349,7 +349,9 @@
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         var regexPhoneNumber =
             /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+        var CoopID = "QEJ73JMH"
         // runs on app launch if they have an active session id then fetches the session details
+
         $(document).ready(() => {
             if (sessionStorage.getItem("SessionID")) {
                 $.ajax({
@@ -368,7 +370,7 @@
                         let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
                         let currDate = new Date();
                         let currDay = currDate.getDate();
-                        if (currDay - day > 0) {
+                        if ((currDay - day) > 0) {
                             // aka the user's last sign-on was the day before.
                             Swal.fire({
                                 icon: "error",
@@ -390,7 +392,7 @@
                                     console.log(result);
                                 },
                             });
-                            $("#divLogin").slideUp("fast", () => { 
+                            $("#divLogin").slideUp("fast", () => {
                                 $("#divDashboard").slideDown("fast");
                             });
                         }
@@ -449,7 +451,7 @@
 
         $("#btnShowEggs").on("click", () => { //btn to show the egss
             $("#divAddEggs").slideToggle(() => {
-                $("#divViewEggs").slideToggle(() => { 
+                $("#divViewEggs").slideToggle(() => {
                     var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: "dayGridMonth",
@@ -682,8 +684,8 @@
                 strError +=
                     "<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>";
             }
-            if (strCoopID != "2RXVJZT0") {
-                strError += "<p>Invalid Coop ID (Must be 4 digits)</p>";
+            if (strCoopID != "QEJ73JMH") {
+                strError += "<p>Invalid Coop ID (Must be 8 digits)</p>";
             }
 
             if (strError) {
@@ -752,7 +754,7 @@
                             });
 
                             $("#divRegister").slideUp(function () {
-                                $("#divDashboard").slideDown();
+                                $("#divLogin").slideDown();
                             });
                         }
                     }
