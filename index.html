@@ -22,14 +22,14 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center vh-100 mt-3">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
                 <form>
                     <div>
                         <label for="txtLoginEmail"> Email </label>
-                        <input type="email" placeholder="Email" aria-label="Email"
+                        <input type="email" placeholder="johndoe08@gmail.com" aria-label="Email"
                             class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginEmail" />
 
                         <label for="txtLoginPassword"> Password </label>
@@ -102,7 +102,7 @@
                     <div class="form-group">
                         <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
                         <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
-                            class="form__group_oneform__field col-12 mb-2" />
+                            class="form__group_oneform__field col-12 mb-2"/>
                     </div>
                     <hr />
 
@@ -267,16 +267,15 @@
                 </div>
             </div>
         </div>
-        <div id="divSettings" class="card col-12 mb-3" style="background-color :#e8e0c8; display: none;">
+        <div id="divSettings" class="col-12 mt-3 mb-3" style="background-color :#e8e0c8; display: none;">
             <div class="card-body">
-                <h2> Smart Coop Settings</h2>
-
-                <button class="comic-button offset-5 mt-3 mb-1" id="btnReturnToDashboard" type="button">
-                    Dashboard
-                </button>
-                <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
-                    Logout
-                </button>
+                <p class="login-header mt-4"> Smart Coop Settings</p>
+                <button class="comic-button mt-3 mb-1" id="btnReturnToDashboard" type="button">Dashboard</button>
+                <button class="comic-button mt-3 mb-1" id="btnLogout" type="button">Logout</button>
+                <hr>
+            </div>
+            <div class="card-body">
+                
             </div>
         </div>
     </div>
@@ -293,26 +292,61 @@
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
-        function getWeatherData() {
-            let arrTemps = []
+        // function getRandomTemperature() {
+        //     // Generate a random temperature between 42 and 90
+        //     return Math.random() * (90 - 42) + 42;
+        // }
+        // function getRandomHumidity() {
+        //     // Generate a random humidity between 30 and 98
+        //     return Math.random() * (98 - 30) + 30;
+        // }
+        //     // Loop to execute the code block 100 times
+        // for (var i = 0; i < 8; i++) {
+        //     // The SessionID and additional data with random temperature, humidity,     
+        //     //and observationdatetime
+        //     var requestData = {
+        //         SessionID: sessionStorage.getItem('SessionID'),
+        //         temperature: getRandomTemperature(),
+        //         observationDateTime: `2024-4-${i+4}`,
+        //         humidity: getRandomHumidity()
+        //     };
+        //     // Making the AJAX request using POST
+        //     $.post('https://simplecoop.swollenhippo.com/environment.php', requestData,  function(result) {
+        //         console.log(result);
+        //     });
+        // }
+
+
+        function getEnvironmentData(days) {
             $.ajax({
-                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=?`,
+                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=${days}`,
                 type: 'GET',
                 success: (result) => {
+                    let newArray = []
+                    if (typeof result === 'string') {
+                        result = JSON.parse(result);
+                    }
                     // append all the data to the array
-                    return arrTemps
+                    result.forEach(day => {
+                        newArray.push(day.Temperature)
+                    })
+                    console.log(newArray)
+                    return newArray
+                },
+                error: (result) => {
+                    console.log(result)
                 }
             })
         }
 
-        new Chart(ctx, {
+        let envChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                labels: ['2024-4-4', '2024-4-5', '2024-4-6', '2024-4-7', '2024-4-8', '2024-4-9', '2024-4-10', '2024-4-11'],
                 datasets: [
                     {
                         label: 'Temperature',
-                        data: [],
+                        data: getEnvironmentData($(this).data.labels),
                         borderWidth: 1,
                         yAxisID: 't'
                     },
@@ -342,6 +376,7 @@
                 }
             }
         });
+        console.log(getEnvironmentData(envChart.data.labels))
     </script>
     <script>
         // These regular expressions are used to validate the user's email and password.
@@ -505,10 +540,10 @@
             $.ajax({
                 url:
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
-                    sessionStorage.getItem("SimpleSession"),
+                    sessionStorage.getItem("SessionID"),
                 type: "DELETE",
                 success: function (result) {
-                    sessionStorage.removeItem("SimpleSession");
+                    sessionStorage.removeItem("SessionID");
                     $("#divDashboard").slideUp(function () {
                         $("#divLogin").slideDown();
                     });
@@ -520,8 +555,6 @@
             let strTemp = $('#txtTemperature').val();
             let strHumid = $('#txtHumidity').val();
             let strObvDate = $('#txtObservationDate').val();
-            let objObvDate = new Date(strObvDate)
-            strObvDate = objObvDate.toISOString()
 
             if (strTemp && strHumid && strObvDate) { // post sends the variables to record the weather 
                 $.ajax({
@@ -607,7 +640,8 @@
                     html: strError,
                     icon: "error",
                 });
-            } else {
+            } 
+            else {
                 $.getJSON( //we get the password for the user listed and if the password is the same as the string, then we make a post to generate a session
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
@@ -623,9 +657,10 @@
                                         Swal.fire({
                                             icon: "success",
                                             text: "Created a session!",
-                                            title: "Success",
-                                        });
-                                        $('#txtUserAccount').text(session.Email)
+                                            title: "Success"
+                                        }).then((result) => {
+                                            $('#txtUserAccount').text(session.Email)
+                                        })
                                         $("#divLogin").slideToggle(function () {
                                             $("#divDashboard").slideToggle();
                                         });
