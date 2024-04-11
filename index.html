@@ -489,6 +489,18 @@
             });
         });
 
+        $("#btnSettings").on("click", () => {
+            $("#divDashboard").slideToggle(() => {
+                $("#divSettings").slideToggle()
+            })
+        });
+
+        $("#btnReturnToDashboard").on("click", () => {
+            $("#divSettings").slideToggle(() => {
+                $("#divDashboard").slideToggle()
+            })
+        })
+
         $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login
             $.ajax({
                 url:
