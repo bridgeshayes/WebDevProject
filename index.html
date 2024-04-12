@@ -102,7 +102,7 @@
                     <div class="form-group">
                         <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
                         <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
-                            class="form__group_oneform__field col-12 mb-2"/>
+                            class="form__group_oneform__field col-12 mb-2" />
                     </div>
                     <hr />
 
@@ -275,7 +275,7 @@
                 <hr>
             </div>
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>
@@ -287,6 +287,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -301,13 +302,13 @@
         //     return Math.random() * (98 - 30) + 30;
         // }
         //     // Loop to execute the code block 100 times
-        // for (var i = 0; i < 8; i++) {
+        // for (var i = 0; i <= 6; i++) {
         //     // The SessionID and additional data with random temperature, humidity,     
         //     //and observationdatetime
         //     var requestData = {
         //         SessionID: sessionStorage.getItem('SessionID'),
         //         temperature: getRandomTemperature(),
-        //         observationDateTime: `2024-4-${i+4}`,
+        //         observationDateTime: `2024-4-${i+6}`,
         //         humidity: getRandomHumidity()
         //     };
         //     // Making the AJAX request using POST
@@ -316,69 +317,83 @@
         //     });
         // }
 
+        function getLastWeeksDays(lastDay) {
+            let funMath = 24 * 60 * 60 * 1000;
+            let arrWeek = [];
+            for (let i = 6; i >= 0; i--) {
+                arrWeek.push(moment(lastDay - i * funMath).format("YYYY-MM-DD"));
+            }
+            return arrWeek;
+        }
 
         function getEnvironmentData(days) {
             $.ajax({
-                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=${days}`,
+                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=${days.join(',')}`,
                 type: 'GET',
                 success: (result) => {
-                    let newArray = []
                     if (typeof result === 'string') {
                         result = JSON.parse(result);
                     }
-                    // append all the data to the array
-                    result.forEach(day => {
-                        newArray.push(day.Temperature)
-                    })
-                    console.log(newArray)
-                    return newArray
+                    let temperatures = result.map(day => day.Temperature); // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
+                    let humidities = result.map(day => day.Humidity)
+                    createChart(days, temperatures, humidities);
                 },
                 error: (result) => {
-                    console.log(result)
+                    console.log(result);
                 }
-            })
+            });
         }
 
-        let envChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['2024-4-4', '2024-4-5', '2024-4-6', '2024-4-7', '2024-4-8', '2024-4-9', '2024-4-10', '2024-4-11'],
-                datasets: [
-                    {
-                        label: 'Temperature',
-                        data: getEnvironmentData($(this).data.labels),
-                        borderWidth: 1,
-                        yAxisID: 't'
-                    },
-                    {
-                        label: 'Humidity',
-                        data: [],
-                        borderWidth: 1,
-                        yAxisID: 'h'
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    t: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                    },
-                    h: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        grid: {
-                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+        var envChart
+
+        function createChart(days, temps, humidities) {
+            envChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [
+                        {
+                            label: 'Temperature',
+                            data: temps,
+                            borderWidth: 1,
+                            yAxisID: 't'
                         },
+                        {
+                            label: 'Humidity',
+                            data: humidities,
+                            borderWidth: 1,
+                            yAxisID: 'h'
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        t: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                        },
+                        h: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                        }
                     }
                 }
-            }
-        });
-        console.log(getEnvironmentData(envChart.data.labels))
-    </script>
-    <script>
+            });
+        }
+
+        getEnvironmentData(getLastWeeksDays(new Date().getTime()))
+
+        function updateChart(newDay, newTemp, newHumidity) {
+            envChart.data.labels.push(newDay)
+            envChart.data.datasets.Temperature.push(newTemp)
+            envChart.data.datasets.Humidity.push(newHumidity)
+        }
+
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
@@ -568,6 +583,7 @@
                     },
                     success: (result) => {
                         console.log(result)
+                        updateChart(strObvDate, strTemp, strHumid)
                     },
                     error: (result) => {
                         console.log(result)
@@ -640,7 +656,7 @@
                     html: strError,
                     icon: "error",
                 });
-            } 
+            }
             else {
                 $.getJSON( //we get the password for the user listed and if the password is the same as the string, then we make a post to generate a session
                     "https://simplecoop.swollenhippo.com/users.php",
