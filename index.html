@@ -657,11 +657,11 @@
         $("#btnShowEggs").on("click", () => { //btn to show the egss
             $("#divAddEggs").slideToggle(() => {
                 $("#divViewEggs").slideToggle(() => {
-                    let arrEggsForDay = [];
                     var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: "dayGridMonth",
                         dateClick: (info) => {
+                            let arrEggsForDay = [];
                             console.log(info);
                             $.ajax({
                                 url: `https://simplecoop.swollenhippo.com/eggs.php?SessionID=${sessionStorage.getItem(
@@ -671,20 +671,20 @@
                                 success: function (result) {
                                     console.log(result)
                                     result = JSON.parse(result);
-                                    console.log(info.dateStr);
                                     result.forEach(element => {
                                         if(element.LogDateTime.substring(0,10) == info.dateStr.substring(0, 10)){
+                                            console.log(element.LogDateTime);
                                             arrEggsForDay.push(element);
                                         }
                                     });
                                     
                                     let strHtml = ""
                                     arrEggsForDay.forEach(element => {
-                                        strHtml = strHtml + "<p>" + element.LogDateTime + "</p> <p>" + element.Harvested + "</p>";
+                                        strHtml = strHtml + "<p>" + element.LogDateTime.substring(11,16) + "- " + element.Harvested + "</p>";
                                     });
                                     Swal.fire({
                                         title: 'Eggs',
-                                        html: '<h1>' + info.dateStr.substring(0,10) + '</h1>' + strHtml,
+                                        html: '<h1>' + info.dateStr.substring(0,10) + '</h1>' + '<h3>Date   Eggs</h3>' + strHtml,
                                         icon: 'info'
                                     });
                                 },
