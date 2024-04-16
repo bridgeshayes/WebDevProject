@@ -22,7 +22,7 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3 vh-100">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3 vmin-90 vmax-95">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
@@ -36,7 +36,6 @@
                         <input type="password" placeholder="Password (8+ characters)" aria-label="Password"
                             class="form__group_oneform__field col-12 mt-2 mb-4" id="txtLoginPassword" />
                     </div>
-
                     <button class="comic-button col-6 offset-3 mb-2" id="btnLogin" type="button">
                         Login
                     </button>
@@ -188,18 +187,11 @@
                                     aria-label="Number of Eggs Harvested"
                                     class="form__group_oneform__field col-12 mb-2" />
 
-                                <label for="txtEggCollectionTime" class="form-label mt-3">
-                                    Collection Time
-                                </label>
-                                <input id="txtEggCollectionTime" placeholder="Observation Time"
-                                    aria-label="Observation Time" type="time"
-                                    class="form__group_oneform__field col-12 mb-2" />
-
                                 <label for="txtEggCollectionDate" class="form-label mt-3">
                                     Collection Date
                                 </label>
                                 <input id="txtEggCollectionDate" placeholder="Observation Date"
-                                    aria-label="Observation Date" type="date"
+                                    aria-label="Observation Date" type="datetime-local"
                                     class="form__group_oneform__field col-12 mb-3" />
                                 <hr />
                                 <button class="col-10 offset-1 comic-button mt-3" id="btnEggCounter" type="button">
@@ -620,8 +612,9 @@
             let strSessionID = sessionStorage.getItem("SessionID");
             let strDate = $("#txtEggCollectionDate").val();
             let strEggs = $("#txtEggCounter").val();
-            let objDate = new Date(strDate)
-            strDate = objDate.toISOString()
+            let objDate = new Date(strDate);
+            let strTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            strDate.toLocaleString('en-US', { timeZone: strTimeZone })
             console.log(strDate)
             //if we click the egg button then we  make sure that all the variables have data, then we make a post to update the counter 
             if (strEggs && strSessionID && strDate) {
@@ -640,7 +633,7 @@
                             icon: "success",
                             title: "Egg count recorded!",
                         });
-                        $("#txtDateTime").val("");
+                        $("#txtEggCollectionDate").val("");
                         $("#txtEggCounter").val("");
                     },
                     error: (result) => {
@@ -664,6 +657,7 @@
         $("#btnShowEggs").on("click", () => { //btn to show the egss
             $("#divAddEggs").slideToggle(() => {
                 $("#divViewEggs").slideToggle(() => {
+                    let arrEggsForDay = [];
                     var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: "dayGridMonth",
@@ -677,13 +671,20 @@
                                 success: function (result) {
                                     console.log(result)
                                     result = JSON.parse(result);
-                                    let strHtml = ""
+                                    console.log(info.dateStr);
                                     result.forEach(element => {
+                                        if(element.LogDateTime.substring(0,10) == info.dateStr.substring(0, 10)){
+                                            arrEggsForDay.push(element);
+                                        }
+                                    });
+                                    
+                                    let strHtml = ""
+                                    arrEggsForDay.forEach(element => {
                                         strHtml = strHtml + "<p>" + element.LogDateTime + "</p> <p>" + element.Harvested + "</p>";
                                     });
                                     Swal.fire({
                                         title: 'Eggs',
-                                        html: strHtml,
+                                        html: '<h1>' + info.dateStr.substring(0,10) + '</h1>' + strHtml,
                                         icon: 'info'
                                     });
                                 },
