@@ -22,7 +22,7 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3 vh-100">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
@@ -483,13 +483,13 @@
         //     return Math.random() * (98 - 30) + 30;
         // }
         //     // Loop to execute the code block 100 times
-        // for (var i = 0; i <= 6; i++) {
+        // for (var i = 0; i < 6; i++) {
         //     // The SessionID and additional data with random temperature, humidity,     
         //     //and observationdatetime
         //     var requestData = {
         //         SessionID: sessionStorage.getItem('SessionID'),
         //         temperature: getRandomTemperature(),
-        //         observationDateTime: `2024-4-${i+6}`,
+        //         observationDateTime: `2024-4-${i+9}`,
         //         humidity: getRandomHumidity()
         //     };
         //     // Making the AJAX request using POST
@@ -497,6 +497,10 @@
         //         console.log(result);
         //     });
         // }
+
+
+
+        var lastWeeksDays = getLastWeeksDays(new Date().getTime())
 
         function getLastWeeksDays(lastDay) {
             let funMath = 24 * 60 * 60 * 1000;
@@ -507,73 +511,82 @@
             return arrWeek;
         }
 
-        function getEnvironmentData(days) {
-            $.ajax({
-                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=${days.join(',')}`,
-                type: 'GET',
-                success: (result) => {
-                    if (typeof result === 'string') {
-                        result = JSON.parse(result);
-                    }
-                    let temperatures = result.map(day => day.Temperature); // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
-                    let humidities = result.map(day => day.Humidity)
-                    createChart(days, temperatures, humidities);
-                },
-                error: (result) => {
-                    console.log(result);
+        $.ajax({
+            url: 'https://simplecoop.swollenhippo.com/environment.php',
+            type: 'GET',                                                    // backend handling of "days" is odd, it returns ALL days associated with the SessionID
+            data: {
+                SessionID: sessionStorage.getItem('SessionID'),
+                days: lastWeeksDays.join(',') // ASK BURCHFIELD HOW HE HANDLES THE NODE PORTION OF THIS!!!!
+            },
+            success: (result) => {
+                if (typeof result === 'string') {
+                    result = JSON.parse(result)
                 }
-            });
-        }
-
-        var envChart
-
-        function createChart(days, temps, humidities) {
-            envChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: days,
-                    datasets: [
-                        {
-                            label: 'Temperature',
-                            data: temps,
-                            borderWidth: 1,
-                            yAxisID: 't'
-                        },
-                        {
-                            label: 'Humidity',
-                            data: humidities,
-                            borderWidth: 1,
-                            yAxisID: 'h'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        t: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                        },
-                        h: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            grid: {
-                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
+                console.log(result)
+                let temps = []
+                let hums = []
+                // this section of code below populats the chart with ONLY relative environment data.
+                let i = 0
+                while (result[i].ObservationDateTime != (lastWeeksDays[0] + ' 00:00:00') && i < 7) {
+                    i++
+                }
+                let k = 7 - i
+                for (let j = 0; j < k; j++) {
+                    console.log(result[i].ObservationDateTime)
+                    console.log(lastWeeksDays[j] + ' 00:00:00')
+                    console.log('\n')
+                    if (result[i].ObservationDateTime == (lastWeeksDays[j] + ' 00:00:00')) {
+                        temps.push(result[i].Temperature)
+                        hums.push(result[i].Humidity)
+                    }
+                    i++
+                }
+                ///////////////////////////
+                var envChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: lastWeeksDays,
+                        datasets: [
+                            {
+                                label: 'Temperature',
+                                data: temps,
+                                borderWidth: 1,
+                                yAxisID: 't',
+                                tension: 0.25,
                             },
+                            {
+                                label: 'Humidity',
+                                data: hums,
+                                borderWidth: 1,
+                                yAxisID: 'h',
+                                tension: 0.25,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            t: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                            },
+                            h: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                grid: {
+                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                },
+                            }
                         }
                     }
-                }
-            });
-        }
-
-        getEnvironmentData(getLastWeeksDays(new Date().getTime()))
-
-        function updateChart(newDay, newTemp, newHumidity) {
-            envChart.data.labels.push(newDay)
-            envChart.data.datasets.Temperature.push(newTemp)
-            envChart.data.datasets.Humidity.push(newHumidity)
-        }
+                });
+            },
+            error: (result) => {
+                console.log(result)
+            }
+        })
 
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -583,12 +596,61 @@
         // runs on app launch if they have an active session id then fetches the session details
 
         $(document).ready(() => {
-            displayEmailonDashboard();
-        });
+            if (sessionStorage.getItem("SessionID")) {
+                $.ajax({
+                    url:
+                        "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
+                        sessionStorage.getItem("SessionID"),
+                    type: "GET",
+                    success: (result) => {
+                        result = $.parseJSON(result);
+                        //saves all the varaibles that the session details provide.
+                        //console.log(result)
+                        let dateString = result.LastUsedDateTime;
+                        let emailTest = result.Email;
+                        $("#txtUserAccount").text(emailTest);
+                        let dateObj = new Date(dateString);
+                        let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
+                        let currDate = new Date();
+                        let currDay = currDate.getDate();
 
-        $("#btnLogin").on("click", () => {
-            displayEmailonDashboard();
-        })
+                        if ((currDay - day) > 0) { // aka the user's last sign-on was the day before.
+                            Swal.fire({
+                                icon: "error",
+                                title: "Session expired",
+                                text: "Please log in again.",
+                            });
+                            sessionStorage.removeItem("SessionID")
+                            $('#divDashboard').slideToggle("slow", () => {
+                                $('#divLogin').slideToggle("slow")
+                            })
+                        }
+                        else { //sends a put to the sessions which lets us update the date of use
+                            $.ajax({
+                                url: "https://simplecoop.swollenhippo.com/sessions.php",
+                                type: "PUT",
+                                contentType: "application/json",
+                                data: {
+                                    SessionID: sessionStorage.getItem("SessionID"),
+                                },
+                                success: (result) => {
+                                    console.log(result);
+                                },
+                                error: (result) => {
+                                    console.log(result);
+                                },
+                            });
+                            $("#divLogin").slideUp("fast", () => {
+                                $("#divDashboard").slideDown("fast");
+                            });
+                        }
+                    },
+                    error: (result) => {
+                        console.log(result);
+                    },
+                });
+            }
+        });
         //button that triggers when the egg counter is clicked
         $("#btnEggCounter").on("click", () => {
             let strSessionID = sessionStorage.getItem("SessionID");
@@ -649,7 +711,17 @@
                                 )}&days=${info.dateStr}`,
                                 type: "GET",
                                 success: function (result) {
-                                    console.log("Yay" + result); // result is an empty array (most likely because I can't post anything yet :/)
+                                    console.log(result)
+                                    result = JSON.parse(result);
+                                    let strHtml = ""
+                                    result.forEach(element => {
+                                        strHtml = strHtml + "<p>" + element.LogDateTime + "</p> <p>" + element.Harvested + "</p>";
+                                    });
+                                    Swal.fire({
+                                        title: 'Eggs',
+                                        html: strHtml,
+                                        icon: 'info'
+                                    });
                                 },
                                 error: function (result) {
                                     console.log("boo" + result);
@@ -735,7 +807,10 @@
                     },
                     success: (result) => {
                         console.log(result)
-                        updateChart(strObvDate, strTemp, strHumid)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Refresh to update chart!'
+                        })
                     },
                     error: (result) => {
                         console.log(result)
@@ -826,12 +901,11 @@
                                             icon: "success",
                                             text: "Created a session!",
                                             title: "Success"
-                                        }).then((result) => {
-                                            $('#txtUserAccount').text(session.Email)
                                         })
+                                        $('#txtUserAccount').text(strEmail)
                                         $("#divLogin").slideToggle(function () {
                                             $("#divDashboard").slideToggle();
-                                        });
+                                        })
                                     } else {
                                         Swal.fire({
                                             icon: "error",
