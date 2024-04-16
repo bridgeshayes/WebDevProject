@@ -149,7 +149,7 @@
             </div>
         </div>
         <!-- This is the Dashboard Card, -->
-        <div id="divDashboard" class="card col-12 mb-3" style="background-color: #e8e0c8; display: none">
+        <div id="divDashboard" class="card col-12 mt-3 mb-3" style="background-color: #e8e0c8; display: none;">
             <!-- add display:none; when finished. -->
             <div class="login-header mt-4 col-12">
                 <h2><strong>Smart Coop Dashboard Home</strong></h2>
@@ -166,7 +166,7 @@
                         <button class="comic-button mt-3 mb-1" id="btnSettings" type="button">
                             Settings
                         </button>
-                        <button class="comic-button mt-3 mb-1 ms-3" id="btnLogout" type="button">
+                        <button class="comic-button mt-3 mb-1 ms-3 btnLogout" id="btnLogout" type="button">
                             Logout
                         </button>
                     </div>
@@ -269,14 +269,140 @@
         </div>
         <div id="divSettings" class="col-12 mt-3 mb-3" style="background-color :#e8e0c8; display: none;">
             <div class="card-body">
-                <p class="login-header mt-4"> Smart Coop Settings</p>
+                <p class="login-header mt-4"> Settings</p>
                 <button class="comic-button mt-3 mb-1" id="btnReturnToDashboard" type="button">Dashboard</button>
-                <button class="comic-button mt-3 mb-1" id="btnLogout" type="button">Logout</button>
+                <button class="comic-button mt-3 mb-1 btnLogout" id="btnSettingsLogout" type="button">Logout</button>
                 <hr>
             </div>
-            <div class="card-body">
+            <div class="card-body col-12 row mb-3">
+                <div class="col-6 d-flex justify-content-center">
+                    <div class="card col-10">
+                        <div class="card-body" id="divCoopSettings">
+                            <h2>Coop Settings</h2>
 
+                            <div class="form-group">
+                                <label for="txtCurrentTemp" class="form-label mt-3">
+                                    Current Temperature
+                                </label>
+                                <input id="txtCurrentTemp" placeholder="Current Temperature"
+                                    aria-label="Current Temperature"
+                                    class="form__group_oneform__field col-12 mb-2" />
+
+                                <label for="txtCurrentLightStatus" class="form-label mt-3">
+                                    Current Light Status
+                                </label>
+                                <input id="txtCurrentLightStatus" placeholder="(on / off)"
+                                    aria-label="Current Light Status (on / off)"
+                                    class="form__group_oneform__field col-12 mb-2" />
+
+                                <label for="txtCurrentDoorStatus" class="form-label mt-3">
+                                    Current Door Status 
+                                </label>
+                                <input id="txtCurrentDoorStatus" placeholder="(open / closed)"
+                                    aria-label="Current Door Status (open / closed)"
+                                    class="form__group_oneform__field col-12 mb-3" />
+                                <hr />
+                                <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnUpdateCoopSettings" type="button">
+                                    Update Coop Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 d-flex justify-content-center">
+                    <div class="card col-10" id="divUserSettings mb-3">
+                        <div class="card-body scroll">
+                            <h2>User Settings</h2>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="txtSettingsFirstName" class="form-label mt-3"> First Name </label>
+                                    <input id="txtSettingsFirstName" placeholder="First Name" aria-label="First Name"
+                                        class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsLastName" class="form-label mt-2">
+                                        Last Name
+                                    </label>
+                                    <input id="txtSettingsLastName" placeholder="Last Name" aria-label="Last Name"
+                                        class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+                                <hr />
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsStreetAddress1" class="form-label">
+                                        Street Address 1
+                                    </label>
+                                    <input id="txtSettingsStreetAddress1" placeholder="Street Address Line 1"
+                                        aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsStreetAddress2" class="form-label mt-2">
+                                        Street Address 2 (Optional)</label>
+                                    <input id="txtSettingsStreetAddress2" placeholder="Street Address Line 2"
+                                        aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+                                <hr />
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsCity" class="form-label"> City </label>
+                                    <input id="txtSettingsCity" placeholder="City" aria-label="City"
+                                        class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsState" class="form-label mt-2"> State </label>
+                                    <input id="txtSettingsState" placeholder="State" aria-label="State"
+                                        class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsZipCode" class="form-label mt-2"> Zip Code </label>
+                                    <input id="txtSettingsZipCode" placeholder="Zip Code" aria-label="Zip Code"
+                                        class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+                                <hr />
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsPhoneNumber" class="form-label">
+                                        Phone Number
+                                    </label>
+                                    <input id="txtSettingsPhoneNumber" placeholder="Phone Number" aria-label="Phone Number"
+                                        class="form__group_oneform__field col-12 mb-2" type="tel" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsEmail" class="form-label mt-2"> Email </label>
+                                    <input id="txtSettingsEmail" placeholder="Email" aria-label="Email"
+                                        class="form__group_oneform__field col-12 mb-2" type="email"
+                                        pattern="/[^0-9a-zA-Z_\-@.\s]/" />
+                                </div>
+            
+                                <div class="form-group">
+                                    <label for="txtSettingsPassword" class="form-label mt-2">
+                                        Password
+                                    </label>
+                                    <input id="txtSettingsPassword" placeholder="Password (8+ characters)" aria-label="Password"
+                                        class="form__group_oneform__field col-12 mb-2" type="password"
+                                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="txtSettingsCoopRegisterID" class="form-label mt-2">
+                                        Coop Registration ID
+                                    </label>
+                                    <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                                        aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
+                                </div>
+                                <hr />
+                                <button class="col-10 offset-1 comic-button mt-3" id="btnUpdateProfileSettings" type="button">Update Profile Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
         </div>
     </div>
 
@@ -293,6 +419,61 @@
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
+        function displayEmailonDashboard()
+        {
+            if (sessionStorage.getItem("SessionID")) {
+                $.ajax({
+                    url:
+                        "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
+                        sessionStorage.getItem("SessionID"),
+                    type: "GET",
+                    success: (result) => {
+                        result = $.parseJSON(result);
+                        //saves all the variables that the session details provide.
+                        //console.log(result)
+                        let dateString = result.LastUsedDateTime;
+                        let emailTest = result.Email;
+                        console.log(emailTest);
+                        $("#txtUserAccount").text(emailTest);
+                        let dateObj = new Date(dateString);
+                        let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
+                        let currDate = new Date();
+                        let currDay = currDate.getDate();
+                        if ((currDay - day) > 0) {
+                            // aka the user's last sign-on was the day before.
+                            Swal.fire({
+                                icon: "error",
+                                title: "Session expired",
+                                text: "Please log in again.",
+                            });
+                        } else { //sends a put to the sessions which lets us update the date and time of use
+                            $.ajax({
+                                url: "https://simplecoop.swollenhippo.com/sessions.php",
+                                type: "PUT",
+                                contentType: "application/json",
+                                data: {
+                                    SessionID: sessionStorage.getItem("SessionID"),
+                                },
+                                success: (result) => {
+                                    //$("#txtUserAccount").text(emailTest);
+                                    console.log(result);
+                                },
+                                error: (result) => {
+                                    console.log(result);
+                                },
+                            });
+                            $("#divLogin").slideUp("fast", () => {
+                                //$("#txtUserAccount").text(emailTest);
+                                $("#divDashboard").slideDown("fast");
+                            });
+                        }
+                    },
+                    error: (result) => {
+                        console.log(result);
+                    },
+                });
+            }
+        }
         // function getRandomTemperature() {
         //     // Generate a random temperature between 42 and 90
         //     return Math.random() * (90 - 42) + 42;
@@ -397,62 +578,17 @@
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        var regexPhoneNumber =
-            /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+        var regexPhoneNumber =/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
         var CoopID = "QEJ73JMH"
         // runs on app launch if they have an active session id then fetches the session details
 
         $(document).ready(() => {
-            if (sessionStorage.getItem("SessionID")) {
-                $.ajax({
-                    url:
-                        "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
-                        sessionStorage.getItem("SessionID"),
-                    type: "GET",
-                    success: (result) => {
-                        result = $.parseJSON(result);
-                        //saves all the varaibles that the session details provide.
-                        //console.log(result)
-                        let dateString = result.LastUsedDateTime;
-                        let emailTest = result.Email;
-                        $("#txtUserAccount").text(emailTest);
-                        let dateObj = new Date(dateString);
-                        let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
-                        let currDate = new Date();
-                        let currDay = currDate.getDate();
-                        if ((currDay - day) > 0) {
-                            // aka the user's last sign-on was the day before.
-                            Swal.fire({
-                                icon: "error",
-                                title: "Session expired",
-                                text: "Please log in again.",
-                            });
-                        } else { //sends a put to the sessions which lets us update the date and time of use
-                            $.ajax({
-                                url: "https://simplecoop.swollenhippo.com/sessions.php",
-                                type: "PUT",
-                                contentType: "application/json",
-                                data: {
-                                    SessionID: sessionStorage.getItem("SessionID"),
-                                },
-                                success: (result) => {
-                                    console.log(result);
-                                },
-                                error: (result) => {
-                                    console.log(result);
-                                },
-                            });
-                            $("#divLogin").slideUp("fast", () => {
-                                $("#divDashboard").slideDown("fast");
-                            });
-                        }
-                    },
-                    error: (result) => {
-                        console.log(result);
-                    },
-                });
-            }
+            displayEmailonDashboard();
         });
+
+        $("#btnLogin").on("click", () => {
+            displayEmailonDashboard();
+        })
         //button that triggers when the egg counter is clicked
         $("#btnEggCounter").on("click", () => {
             let strSessionID = sessionStorage.getItem("SessionID");
@@ -551,7 +687,8 @@
             })
         })
 
-        $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login
+
+        $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the dashboard card.
             $.ajax({
                 url:
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
@@ -560,6 +697,21 @@
                 success: function (result) {
                     sessionStorage.removeItem("SessionID");
                     $("#divDashboard").slideUp(function () {
+                        $("#divLogin").slideDown();
+                    });
+                },
+            });
+        });
+
+        $("#btnSettingsLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the settings card.
+            $.ajax({
+                url:
+                    "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                type: "DELETE",
+                success: function (result) {
+                    sessionStorage.removeItem("SessionID");
+                    $("#divSettings").slideUp(function () {
                         $("#divLogin").slideDown();
                     });
                 },
