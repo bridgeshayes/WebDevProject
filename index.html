@@ -387,7 +387,7 @@
                                     <label for="txtSettingsCoopRegisterID" class="form-label mt-2">
                                         Coop Registration ID
                                     </label>
-                                    <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                                    <input id="txtSettingsCoopRegisterID" placeholder="Coop Registration ID"
                                         aria-label="Coop Registration ID"
                                         class="form__group_oneform__field col-12 mb-2" />
                                 </div>
@@ -716,6 +716,54 @@
             $("#divDashboard").slideToggle(() => {
                 $("#divSettings").slideToggle()
             })
+            if (sessionStorage.getItem("SessionID")) {
+                $.ajax({
+                    url:
+                        "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
+                        sessionStorage.getItem("SessionID"),
+                    type: "GET",
+                    success: (result) => {
+                        result = $.parseJSON(result);
+                        userEmail = result.Email
+                    $.ajax({
+                        url: "https://simplecoop.swollenhippo.com/users.php?Email=" +
+                        userEmail,
+                        type: 'GET',
+                        success: function (user) {
+                            user = $.parseJSON(user);
+                            $('#txtSettingsFirstName').val(user.FirstName);
+                            $('#txtSettingsLastName').val(user.LastName);
+                            $('#txtSettingsPassword').val(user.Password);
+                            $('#txtSettingsCoopRegisterID').val(user.Coop);
+                            $('#txtSettingsEmail').val(user.Email);
+                        },
+                        error: function (result) {
+                            console.log(result)
+                        }
+                    })
+                    
+                    $.ajax({
+                        url: "https://simplecoop.swollenhippo.com/useraddress.php?Email=" +
+                        userEmail,
+                        type: 'GET',
+                        success: function (address) {
+                            address = $.parseJSON(address);
+                            $('#txtSettingsStreetAddress1').val(address.Street1);
+                            $('#txtSettingsStreetAddress2').val(address.Street2);
+                            $('#txtSettingsCity').val(address.City);
+                            $('#txtSettingsState').val(address.State);
+                            $('#txtSettingsZipCode').val(address.Zip);
+                            $('#txtSettingsPhoneNumber').val(address.PhoneNumber);
+                            $('#txtSettingsEmail').val(address.Email);
+                        },
+                        error: (result) => {
+                            console.log(result);
+                        },
+                    });
+                
+                    },
+                });
+            }
         });
 
         $("#btnReturnToDashboard").on("click", () => {
