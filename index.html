@@ -302,13 +302,13 @@
         //     return Math.random() * (98 - 30) + 30;
         // }
         //     // Loop to execute the code block 100 times
-        // for (var i = 0; i <= 6; i++) {
+        // for (var i = 0; i < 6; i++) {
         //     // The SessionID and additional data with random temperature, humidity,     
         //     //and observationdatetime
         //     var requestData = {
         //         SessionID: sessionStorage.getItem('SessionID'),
         //         temperature: getRandomTemperature(),
-        //         observationDateTime: `2024-4-${i+6}`,
+        //         observationDateTime: `2024-4-${i+9}`,
         //         humidity: getRandomHumidity()
         //     };
         //     // Making the AJAX request using POST
@@ -316,6 +316,10 @@
         //         console.log(result);
         //     });
         // }
+
+
+
+        var lastWeeksDays = getLastWeeksDays(new Date().getTime())
 
         function getLastWeeksDays(lastDay) {
             let funMath = 24 * 60 * 60 * 1000;
@@ -326,73 +330,82 @@
             return arrWeek;
         }
 
-        function getEnvironmentData(days) {
-            $.ajax({
-                url: `https://simplecoop.swollenhippo.com/environment.php?SessionID=${sessionStorage.getItem('SessionID')}&days=${days.join(',')}`,
-                type: 'GET',
-                success: (result) => {
-                    if (typeof result === 'string') {
-                        result = JSON.parse(result);
-                    }
-                    let temperatures = result.map(day => day.Temperature); // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
-                    let humidities = result.map(day => day.Humidity)
-                    createChart(days, temperatures, humidities);
-                },
-                error: (result) => {
-                    console.log(result);
+        $.ajax({
+            url: 'https://simplecoop.swollenhippo.com/environment.php',
+            type: 'GET',                                                    // backend handling of "days" is odd, it returns ALL days associated with the SessionID
+            data: {
+                SessionID: sessionStorage.getItem('SessionID'),
+                days: lastWeeksDays.join(',') // ASK BURCHFIELD HOW HE HANDLES THE NODE PORTION OF THIS!!!!
+            },
+            success: (result) => {
+                if (typeof result === 'string') {
+                    result = JSON.parse(result)
                 }
-            });
-        }
-
-        var envChart
-
-        function createChart(days, temps, humidities) {
-            envChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: days,
-                    datasets: [
-                        {
-                            label: 'Temperature',
-                            data: temps,
-                            borderWidth: 1,
-                            yAxisID: 't'
-                        },
-                        {
-                            label: 'Humidity',
-                            data: humidities,
-                            borderWidth: 1,
-                            yAxisID: 'h'
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        t: {
-                            type: 'linear',
-                            display: true,
-                            position: 'left',
-                        },
-                        h: {
-                            type: 'linear',
-                            display: true,
-                            position: 'right',
-                            grid: {
-                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
+                console.log(result)
+                let temps = []
+                let hums = []
+                // this section of code below populats the chart with ONLY relative environment data.
+                let i = 0
+                while (result[i].ObservationDateTime != (lastWeeksDays[0] + ' 00:00:00') && i < 7) {
+                    i++
+                }
+                let k = 7 - i
+                for (let j = 0; j < k; j++) {
+                    console.log(result[i].ObservationDateTime)
+                    console.log(lastWeeksDays[j] + ' 00:00:00')
+                    console.log('\n')
+                    if (result[i].ObservationDateTime == (lastWeeksDays[j] + ' 00:00:00')) {
+                        temps.push(result[i].Temperature)
+                        hums.push(result[i].Humidity)
+                    }
+                    i++
+                }
+                ///////////////////////////
+                var envChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: lastWeeksDays,
+                        datasets: [
+                            {
+                                label: 'Temperature',
+                                data: temps,
+                                borderWidth: 1,
+                                yAxisID: 't',
+                                tension: 0.25,
                             },
+                            {
+                                label: 'Humidity',
+                                data: hums,
+                                borderWidth: 1,
+                                yAxisID: 'h',
+                                tension: 0.25,
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            t: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                            },
+                            h: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                grid: {
+                                    drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                },
+                            }
                         }
                     }
-                }
-            });
-        }
-
-        getEnvironmentData(getLastWeeksDays(new Date().getTime()))
-
-        function updateChart(newDay, newTemp, newHumidity) {
-            envChart.data.labels.push(newDay)
-            envChart.data.datasets.Temperature.push(newTemp)
-            envChart.data.datasets.Humidity.push(newHumidity)
-        }
+                });
+            },
+            error: (result) => {
+                console.log(result)
+            }
+        })
 
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -598,7 +611,10 @@
                     },
                     success: (result) => {
                         console.log(result)
-                        updateChart(strObvDate, strTemp, strHumid)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Refresh to update chart!'
+                        })
                     },
                     error: (result) => {
                         console.log(result)
