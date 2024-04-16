@@ -22,7 +22,7 @@
 
 <body class="container">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
-    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3">
+    <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3 vh-100">
         <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
@@ -420,14 +420,19 @@
                         let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
                         let currDate = new Date();
                         let currDay = currDate.getDate();
-                        if ((currDay - day) > 0) {
-                            // aka the user's last sign-on was the day before.
+
+                        if ((currDay - day) > 0) { // aka the user's last sign-on was the day before.
                             Swal.fire({
                                 icon: "error",
                                 title: "Session expired",
                                 text: "Please log in again.",
                             });
-                        } else { //sends a put to the sessions which lets us update the date and time of use
+                            sessionStorage.removeItem("SessionID")
+                            $('#divDashboard').slideToggle("slow", () => {
+                                $('#divLogin').slideToggle("slow")
+                            })
+                        }
+                        else { //sends a put to the sessions which lets us update the date of use
                             $.ajax({
                                 url: "https://simplecoop.swollenhippo.com/sessions.php",
                                 type: "PUT",
@@ -674,12 +679,11 @@
                                             icon: "success",
                                             text: "Created a session!",
                                             title: "Success"
-                                        }).then((result) => {
-                                            $('#txtUserAccount').text(session.Email)
                                         })
+                                        $('#txtUserAccount').text(strEmail)
                                         $("#divLogin").slideToggle(function () {
                                             $("#divDashboard").slideToggle();
-                                        });
+                                        })
                                     } else {
                                         Swal.fire({
                                             icon: "error",
