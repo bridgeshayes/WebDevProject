@@ -20,10 +20,10 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
 </head>
 
-<body class="container">
+<body class="container" style="background-image: url('./assets/images/cartoon-bg.jpg'); background-size: 100%;">
     <!-- This is the Login Card which appears on startup, and has a button for the Registration Card. -->
     <div id="divMain" class="col-12 d-flex justify-content-center align-items-center mt-3 vmin-90 vmax-95">
-        <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #e8e0c8">
+        <div id="divLogin" class="card col-12 col-md-8 col-lg-5" style="background-color: #a0a9c2">
             <p class="login-header mt-4">Smart Coop</p>
             <div class="card-body">
                 <form>
@@ -47,7 +47,7 @@
         </div>
         <!--This is the Registration Card for new users, and can be accessed by the Login Card. -->
         <div id="divRegister" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
-            style="background-color: #e8e0c8; display: none">
+            style="background-color: #a0a9c2; display: none">
             <p class="login-header mt-4">Register</p>
             <div class="card-body">
                 <form id="formRegister">
@@ -148,7 +148,7 @@
             </div>
         </div>
         <!-- This is the Dashboard Card, -->
-        <div id="divDashboard" class="card col-12 mt-3 mb-3" style="background-color: #e8e0c8; display: none;">
+        <div id="divDashboard" class="card col-12 mt-3 mb-3" style="background-color: #a0a9c2; display: none;">
             <!-- add display:none; when finished. -->
             <div class="login-header mt-4 col-12">
                 <h2><strong>Smart Coop Dashboard Home</strong></h2>
@@ -672,19 +672,19 @@
                                     console.log(result)
                                     result = JSON.parse(result);
                                     result.forEach(element => {
-                                        if(element.LogDateTime.substring(0,10) == info.dateStr.substring(0, 10)){
+                                        if (element.LogDateTime.substring(0, 10) == info.dateStr.substring(0, 10)) {
                                             console.log(element.LogDateTime);
                                             arrEggsForDay.push(element);
                                         }
                                     });
-                                    
+
                                     let strHtml = ""
                                     arrEggsForDay.forEach(element => {
-                                        strHtml = strHtml + "<p>" + element.LogDateTime.substring(11,16) + "- " + element.Harvested + "</p>";
+                                        strHtml = strHtml + "<p>" + element.LogDateTime.substring(11, 16) + "- " + element.Harvested + "</p>";
                                     });
                                     Swal.fire({
                                         title: 'Eggs',
-                                        html: '<h1>' + info.dateStr.substring(0,10) + '</h1>' + '<h3>Date   Eggs</h3>' + strHtml,
+                                        html: '<h1>' + info.dateStr.substring(0, 10) + '</h1>' + '<h3>Date   Eggs</h3>' + strHtml,
                                         icon: 'info'
                                     });
                                 },
