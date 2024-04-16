@@ -518,7 +518,17 @@
                                 )}&days=${info.dateStr}`,
                                 type: "GET",
                                 success: function (result) {
-                                    console.log("Yay" + result); // result is an empty array (most likely because I can't post anything yet :/)
+                                    console.log(result)
+                                    result = JSON.parse(result);
+                                    let strHtml = ""
+                                    result.forEach(element => {
+                                        strHtml = strHtml + "<p>" + element.LogDateTime + "</p> <p>" + element.Harvested + "</p>";
+                                    });
+                                    Swal.fire({
+                                        title: 'Eggs',
+                                        html: strHtml,
+                                        icon: 'info'
+                                    });
                                 },
                                 error: function (result) {
                                     console.log("boo" + result);
