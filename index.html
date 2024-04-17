@@ -109,13 +109,13 @@
                         <label for="txtPhoneNumber" class="form-label">
                             Phone Number
                         </label>
-                        <input id="txtPhoneNumber" placeholder="Phone Number" aria-label="Phone Number"
+                        <input id="txtPhoneNumber" placeholder="(555) 555-5555" aria-label="Phone Number"
                             class="form__group_oneform__field col-12 mb-2" type="tel" />
                     </div>
 
                     <div class="form-group">
                         <label for="txtEmail" class="form-label mt-2"> Email </label>
-                        <input id="txtEmail" placeholder="Email" aria-label="Email"
+                        <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
                             class="form__group_oneform__field col-12 mb-2" type="email"
                             pattern="/[^0-9a-zA-Z_\-@.\s]/" />
                     </div>
@@ -259,11 +259,13 @@
                 </div>
             </div>
         </div>
-        <div id="divSettings" class="col-12 mt-3 mb-3" style="background-color :#e8e0c8; display: none;">
+        <div id="divSettings" class="col-12 mt-3 mb-3" style="background-color :#a0a9c2; display: none;">
             <div class="card-body">
                 <p class="login-header mt-4"> Settings</p>
-                <button class="comic-button mt-3 mb-1" id="btnReturnToDashboard" type="button">Dashboard</button>
-                <button class="comic-button mt-3 mb-1 btnLogout" id="btnSettingsLogout" type="button">Logout</button>
+                <div class="d-flex justify-content-center">
+                    <button class="comic-button mt-3 mb-1" id="btnReturnToDashboard" type="button">Dashboard</button>
+                    <button class="comic-button mt-3 mb-1 ms-3 btnLogout" id="btnSettingsLogout" type="button">Logout</button>
+                </div>
                 <hr>
             </div>
             <div class="card-body col-12 row mb-3">
@@ -654,7 +656,7 @@
             });
         });
 
-        $("#btnShowEggs").on("click", () => { //btn to show the egss
+        $("#btnShowEggs").on("click", () => { //btn to show the eggs
             $("#divAddEggs").slideToggle(() => {
                 $("#divViewEggs").slideToggle(() => {
                     var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)

@@ -16,9 +16,9 @@
   
   .comic-button:hover {
     background-color: #fff;
-    color: #ff5252;
-    border: 2px solid #ff5252;
-    box-shadow: 5px 5px 0px #ff5252;
+    color: #6b9369;
+    border: 2px solid #6b9369;
+    box-shadow: 5px 5px 0px #6b9369;
   }
   
   .comic-button:active {
