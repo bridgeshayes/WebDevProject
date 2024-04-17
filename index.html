@@ -754,7 +754,7 @@
                             $('#txtSettingsStreetAddress2').val(address.Street2);
                             $('#txtSettingsCity').val(address.City);
                             $('#txtSettingsState').val(address.State);
-                            $('#txtSettingsZipCode').val(address.Zip);
+                            $('#txtSettingsZipCode').val(address.ZIP);
                             $('#txtSettingsPhoneNumber').val(address.PhoneNumber);
                             $('#txtSettingsEmail').val(address.Email);
                         },
@@ -763,6 +763,101 @@
                         },
                     });
                 
+                    },
+                });
+            }
+        });
+
+        $("#btnUpdateProfileSettings").on("click", () => {
+            let btnError = "";
+            let btnFirstName = $('#txtSettingsFirstName').val();
+            let btnLastName = $('#txtSettingsLastName').val();
+            let btnStreetAddress1 = $('#txtSettingsStreetAddress1').val();
+            let btnStreetAddress2 = $('#txtSettingsStreetAddress2').val();
+            let btnCity = $('#txtSettingsCity').val();
+            let btnState = $('#txtSettingsState').val();
+            let btnZipCode = $('#txtSettingsZipCode').val();
+            let btnPhoneNumber = $('#txtSettingsPhoneNumber').val();
+            let btnEmail = $('#txtSettingsEmail').val();
+            let btnPassword = $('#txtSettingsPassword').val();
+            let btnCoopID = $('#txtSettingsCoopRegisterID').val();
+            if (btnFirstName.length < 1) { //all validation
+                btnError += "<p>Invalid First Name (cannot be blank)</p>";
+            }
+            if (btnLastName.length < 1) {
+                btnError += "<p>Invalid Last Name (cannot be blank)</p>";
+            }
+            if (btnStreetAddress1.length < 2) {
+                btnError += "<p>Invalid Address (must be at least 2 characters)</p>";
+            }
+            if (btnCity.length < 2) {
+                btnError += "<p>Invalid City (must be at least 2 characters)</p>";
+            }
+            if (btnState.length < 2) {
+                btnError += "<p>Invalid State (must be at least 2 characters)</p>";
+            }
+            if (btnZipCode.length != 5) {
+                btnError += "<p>Invalid Zip Code (must be 5 characters)</p>";
+            }
+            if (!regexPhoneNumber.test(btnPhoneNumber)) {
+                btnError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
+            }
+            if (!regexEmail.test(btnEmail)) {
+                btnError +=
+                    '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
+            }
+            if (!regexPassword.test(btnPassword)) {
+                btnError +=
+                    "<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>";
+            }
+            if (btnCoopID != "QEJ73JMH") {
+                btnError += "<p>Invalid Coop ID (Must be 8 digits)</p>";
+            }
+
+            if (btnError) {
+                Swal.fire({
+                    title: "Oops!",
+                    html: btnError,
+                    icon: "error",
+                });
+            } else {
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/users.php",
+                    type: "PUT",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        FirstName: btnFirstName,
+                        LastName: btnLastName,
+                        Email: btnEmail,
+                        Password: btnPassword,
+                        Coop: btnCoopID,
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Profile Updated!",
+                        });
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    },
+                });
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/useraddress.php",
+                    type: "PUT",
+                    data: {
+
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Address Updated!",
+                        });
+                    },
+                    error: function (result) {
+                        console.log(result);
                     },
                 });
             }
