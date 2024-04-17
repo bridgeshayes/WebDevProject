@@ -885,6 +885,11 @@
                     });
                 },
             });
+            Swal.fire({
+                title: "Success",
+                icon: "success",
+                text: "Logout successful!",
+            });
         });
 
         $("#btnSettingsLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the settings card.
@@ -899,6 +904,11 @@
                         $("#divLogin").slideDown();
                     });
                 },
+            });
+            Swal.fire({
+                title: "Success",
+                icon: "success",
+                text: "Logout successful!",
             });
         });
 
@@ -928,6 +938,11 @@
                         console.log(result)
                     }
                 })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Inputs cannot be blank",
+                });
             }
         })
 
@@ -1152,6 +1167,7 @@
                             Swal.fire({
                                 title: "Yippee!",
                                 icon: "success",
+                                text: "Account created!",
                             });
 
                             $("#divRegister").slideUp(function () {
