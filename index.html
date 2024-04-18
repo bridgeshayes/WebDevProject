@@ -46,7 +46,7 @@
             </div>
         </div>
         <!--This is the Registration Card for new users, and can be accessed by the Login Card. -->
-        <div id="divRegister" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
+        <div id="divRegister1" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
             style="background-color: #a0a9c2; display: none">
             <p class="login-header mt-4">Register</p>
             <div class="card-body">
@@ -91,55 +91,8 @@
                         <input id="txtCity" placeholder="City" aria-label="City"
                             class="form__group_oneform__field col-12 mb-2" />
                     </div>
-
-                    <div class="form-group">
-                        <label for="txtState" class="form-label mt-2"> State </label>
-                        <input id="txtState" placeholder="State" aria-label="State"
-                            class="form__group_oneform__field col-12 mb-2" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
-                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
-                            class="form__group_oneform__field col-12 mb-2" />
-                    </div>
-                    <hr />
-
-                    <div class="form-group">
-                        <label for="txtPhoneNumber" class="form-label">
-                            Phone Number
-                        </label>
-                        <input id="txtPhoneNumber" placeholder="(555) 555-5555" aria-label="Phone Number"
-                            class="form__group_oneform__field col-12 mb-2" type="tel" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtEmail" class="form-label mt-2"> Email </label>
-                        <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
-                            class="form__group_oneform__field col-12 mb-2" type="email"
-                            pattern="/[^0-9a-zA-Z_\-@.\s]/" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtPassword" class="form-label mt-2">
-                            Password
-                        </label>
-                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
-                            class="form__group_oneform__field col-12 mb-2" type="password"
-                            pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="txtCoopRegisterID" class="form-label mt-2">
-                            Coop Registration ID
-                        </label>
-                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
-                            aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
-                    </div>
-                    <hr />
-
-                    <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button">
-                        Register
+                    <button class="col-6 offset-3 comic-button mt-2 btnRegisterToggle" id="btnRegisterToggle" type="button" data-type="first">
+                        Next Page
                     </button>
                     <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
                         Return to Login
@@ -147,6 +100,66 @@
                 </form>
             </div>
         </div>
+        <div id="divRegister2" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
+        style="background-color: #a0a9c2; display: none">
+        <p class="login-header mt-4">Register</p>
+        <div class="card-body">
+            <form id="formRegister2">
+                <div class="form-group">
+                    <label for="txtState" class="form-label mt-2"> State </label>
+                    <input id="txtState" placeholder="State" aria-label="State"
+                        class="form__group_oneform__field col-12 mb-2" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
+                    <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
+                        class="form__group_oneform__field col-12 mb-2" />
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <label for="txtPhoneNumber" class="form-label">
+                        Phone Number
+                    </label>
+                    <input id="txtPhoneNumber" placeholder="(555) 555-5555" aria-label="Phone Number"
+                        class="form__group_oneform__field col-12 mb-2" type="tel" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtEmail" class="form-label mt-2"> Email </label>
+                    <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
+                        class="form__group_oneform__field col-12 mb-2" type="email"
+                        pattern="/[^0-9a-zA-Z_\-@.\s]/" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtPassword" class="form-label mt-2">
+                        Password
+                    </label>
+                    <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
+                        class="form__group_oneform__field col-12 mb-2" type="password"
+                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtCoopRegisterID" class="form-label mt-2">
+                        Coop Registration ID
+                    </label>
+                    <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                        aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
+                </div>
+                <hr />
+
+                <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button">
+                    Register
+                </button>
+                <button class="col-8 offset-2 comic-button mt-3 mb-4 btnRegisterToggle" id="btnRegisterToggle" type="button">
+                    Previous Page
+                </button>
+            </form>
+        </div>
+    </div>
         <!-- This is the Dashboard Card, -->
         <div id="divDashboard" class="card col-12 mt-3 mb-3" style="background-color: #a0a9c2; display: none;">
             <!-- add display:none; when finished. -->
@@ -961,7 +974,7 @@
             if (page == "login") {
                 $("#divLogin").slideToggle(function () {
                     $("#divMain").removeClass("vh-100");
-                    $("#divRegister").slideToggle("slow");
+                    $("#divRegister1").slideToggle("slow");
                 });
             } else {
                 // clears the registration form if we return to login.
@@ -977,12 +990,27 @@
                 $("#txtPassword").val("");
                 $("#txtCoopRegisterID").val("");
 
-                $("#divRegister").slideToggle(function () {
+                $("#divRegister1").slideToggle(function () {
                     $("#divMain").addClass("vh-100");
                     $("#divLogin").slideToggle("slow");
                 });
             }
         });
+ //button for the registration page toggle
+        $(".btnRegisterToggle").on("click", function () {
+            let page = $(this).attr("data-type");
+
+            if (page == "first") {
+                $("#divRegister1").slideToggle(function () {
+                    $("#divRegister2").slideToggle("slow");
+                });
+            } else {
+                $("#divRegister2").slideToggle(function () {
+                    $("#divRegister1").slideToggle("slow");
+                });
+            }
+        });
+
 
         // This is the function that validates the email and password by the use of regular expressions on the Login Card.
         $("#btnLogin").on("click", function () {
@@ -1166,7 +1194,7 @@
                                 text: "Account created!",
                             });
 
-                            $("#divRegister").slideUp(function () {
+                            $("#divRegister2").slideUp(function () {
                                 $("#divLogin").slideDown();
                             });
                         }
