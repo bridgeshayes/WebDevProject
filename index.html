@@ -540,7 +540,7 @@
                             // this section of code below populats the chart with ONLY relevant environment data.
                             let i = 0
                             // trims the front of the returned array
-                            while (result[i].ObservationDateTime != (lastWeeksDays[0] + ' 00:00:00') && i < 7) {
+                            while (result[i].ObservationDateTime != (lastWeeksDays[0] + ' 00:00:00')) {
                                 i++
                             }
                             result.splice(0, i) // gets rid of the first 'i' elements (holy crap, this actually worked!)
@@ -619,7 +619,6 @@
             let objDate = new Date(strDate);
             let strTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             strDate.toLocaleString('en-US', { timeZone: strTimeZone })
-            console.log(strDate)
             //if we click the egg button then we  make sure that all the variables have data, then we make a post to update the counter 
             if (strEggs && strSessionID && strDate) {
                 $.ajax({
@@ -666,18 +665,15 @@
                         initialView: "dayGridMonth",
                         dateClick: (info) => {
                             let arrEggsForDay = [];
-                            console.log(info);
                             $.ajax({
                                 url: `https://simplecoop.swollenhippo.com/eggs.php?SessionID=${sessionStorage.getItem(
                                     "SessionID"
                                 )}&days=${info.dateStr}`,
                                 type: "GET",
                                 success: function (result) {
-                                    console.log(result)
                                     result = JSON.parse(result);
                                     result.forEach(element => {
                                         if (element.LogDateTime.substring(0, 10) == info.dateStr.substring(0, 10)) {
-                                            console.log(element.LogDateTime);
                                             arrEggsForDay.push(element);
                                         }
                                     });
