@@ -118,14 +118,6 @@
                 </div>
                 <hr />
 
-                    <!-- <div class="form-group">
-                        <label for="txtPhoneNumber" class="form-label">
-                            Phone Number
-                        </label>
-                        <input id="txtPhoneNumber" placeholder="(555) 555-5555" aria-label="Phone Number"
-                            class="form__group_oneform__field col-12 mb-2" type="tel" />
-                    </div> -->
-
                 <div class="form-group">
                     <label for="txtEmail" class="form-label mt-2"> Email </label>
                     <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
@@ -296,19 +288,22 @@
                                 <input id="txtCurrentTemp" placeholder="Current Temperature"
                                     aria-label="Current Temperature" class="form__group_oneform__field col-12 mb-2" />
 
-                                <label for="txtCurrentLightStatus" class="form-label mt-3">
+                                <div class="form-group row">
+                                    <label for="txtCurrentLightStatus" class="form-label mt-3">
                                     Set Light Status
-                                </label>
-                                <input id="txtCurrentLightStatus" placeholder="(on / off)"
-                                    aria-label="Current Light Status (on / off)"
-                                    class="form__group_oneform__field col-12 mb-2" />
+                                    </label>
+                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnLightStatusOn"type="button">Turn Light On</button>
+                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnLightStatusOff"type="button">Turn Light Off</button>
+                                </div>
 
-                                <label for="txtCurrentDoorStatus" class="form-label mt-3">
-                                    Set Door Status
-                                </label>
-                                <input id="txtCurrentDoorStatus" placeholder="(open / closed)"
-                                    aria-label="Current Door Status (open / closed)"
-                                    class="form__group_oneform__field col-12 mb-3" />
+                                <div class="form-group row">
+                                    <label for="txtCurrentDoorStatus" class="form-label mt-3">
+                                    Set Light Status
+                                    </label>
+                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnDoorStatusOpen"type="button">Open Door</button>
+                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnDoorStatusClosed"type="button">Close Door</button>
+                                </div>
+
                                 <hr />
                                 <button class="col-10 offset-1 comic-button mt-3 mb-4" id="btnUpdateCoopSettings"
                                     type="button">
@@ -374,15 +369,6 @@
                                         class="form__group_oneform__field col-12 mb-2" />
                                 </div>
                                 <hr />
-
-                                <!-- <div class="form-group">
-                                    <label for="txtSettingsPhoneNumber" class="form-label">
-                                        Phone Number
-                                    </label>
-                                    <input id="txtSettingsPhoneNumber" placeholder="Phone Number"
-                                        aria-label="Phone Number" class="form__group_oneform__field col-12 mb-2"
-                                        type="tel" />
-                                </div> -->
 
                                 <div class="form-group">
                                     <label for="txtSettingsEmail" class="form-label mt-2"> Email </label>
@@ -476,7 +462,6 @@
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        //var regexPhoneNumber = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
         var CoopID = "QEJ73JMH"
         // runs on app launch if they have an active session id then fetches the session details
 
@@ -803,7 +788,6 @@
             let strCity = $('#txtSettingsCity').val();
             let strState = $('#txtSettingsState').val();
             let strZipCode = $('#txtSettingsZipCode').val();
-            //let strPhoneNumber = $('#txtSettingsPhoneNumber').val();
             let strEmail = $('#txtSettingsEmail').val();
             let strPassword = $('#txtSettingsPassword').val();
             let strCoopID = $('#txtSettingsCoopRegisterID').val();
@@ -825,9 +809,6 @@
             if (strZipCode.length != 5) {
                 btnError += "<p>Invalid Zip Code (must be 5 characters)</p>";
             }
-            // if (!regexPhoneNumber.test(strPhoneNumber)) {
-            //     btnError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
-            // }
             if (!regexEmail.test(strEmail)) {
                 btnError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
@@ -1065,7 +1046,6 @@
                 $("#txtCity").val("");
                 $("#txtState").val("");
                 $("#txtZipCode").val("");
-                //$("#txtPhoneNumber").val("");
                 $("#txtEmail").val("");
                 $("#txtPassword").val("");
                 $("#txtCoopRegisterID").val("");
@@ -1170,7 +1150,6 @@
             let strCity = $("#txtCity").val();
             let strState = $("#txtState").val();
             let strZip = $("#txtZipCode").val();
-            //let strPhoneNumber = $("#txtPhoneNumber").val();
             let strEmail = $("#txtEmail").val();
             let strPassword = $("#txtPassword").val();
             let strCoopID = $("#txtCoopRegisterID").val();
@@ -1193,9 +1172,6 @@
             if (strZip.length != 5) {
                 strError += "<p>Invalid Zip Code (must be 5 characters)</p>";
             }
-            // if (!regexPhoneNumber.test(strPhoneNumber)) {
-            //     strError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
-            // }
             if (!regexEmail.test(strEmail)) {
                 strError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
@@ -1263,7 +1239,6 @@
                             $("#txtCity").val("");
                             $("#txtState").val("");
                             $("#txtZipCode").val("");
-                            //$("#txtPhoneNumber").val("");
                             $("#txtEmail").val("");
                             $("#txtPassword").val("");
                             $("#txtCoopRegisterID").val("");
@@ -1284,5 +1259,4 @@
         });
     </script>
 </body>
-
 </html>
