@@ -67,30 +67,29 @@
                     <hr />
 
                     <div class="form-group">
-                        <label for="txtStreetAddress1" class="form-label">
-                            Street Address 1
-                        </label>
-                        <input id="txtStreetAddress1" placeholder="Street Address Line 1"
-                            aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2" />
+                        <label for="txtEmail" class="form-label mt-2"> Email </label>
+                        <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
+                            class="form__group_oneform__field col-12 mb-2" type="email"
+                            pattern="/[^0-9a-zA-Z_\-@.\s]/" />
                     </div>
-
-                    <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
-                    <label for="btnFillStAdd"> Street Address 2 not necessary</label>
-                    <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3" />
-
+    
                     <div class="form-group">
-                        <label for="txtStreetAddress2" class="form-label mt-2">
-                            Street Address 2 (Optional)</label>
-                        <input id="txtStreetAddress2" placeholder="Street Address Line 2"
-                            aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2" />
+                        <label for="txtPassword" class="form-label mt-2">
+                            Password
+                        </label>
+                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
+                            class="form__group_oneform__field col-12 mb-2" type="password"
+                            pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="txtCoopRegisterID" class="form-label mt-2">
+                            Coop Registration ID
+                        </label>
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                            aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
                     </div>
                     <hr />
-
-                    <div class="form-group">
-                        <label for="txtCity" class="form-label"> City </label>
-                        <input id="txtCity" placeholder="City" aria-label="City"
-                            class="form__group_oneform__field col-12 mb-2" />
-                    </div>
                     <button class="col-6 offset-3 comic-button mt-2 btnRegisterToggle" id="btnRegisterToggle" type="button" data-type="first">
                         Next Page
                     </button>
@@ -106,6 +105,32 @@
         <div class="card-body">
             <form id="formRegister2">
                 <div class="form-group">
+                    <label for="txtStreetAddress1" class="form-label">
+                        Street Address 1
+                    </label>
+                    <input id="txtStreetAddress1" placeholder="Street Address Line 1"
+                        aria-label="Street Address Line One" class="form__group_oneform__field col-12 mb-2" />
+                </div>
+
+                <!-- This checkbox is used to auto fill / delete the txtStreetAddress2 box based on the contents of txtStreetAddress1 -->
+                <label for="btnFillStAdd"> Street Address 2 not necessary</label>
+                <input type="checkbox" id="btnFillStAdd" class="mt-2 mb-3" />
+
+                <div class="form-group">
+                    <label for="txtStreetAddress2" class="form-label mt-2">
+                        Street Address 2 (Optional)</label>
+                    <input id="txtStreetAddress2" placeholder="Street Address Line 2"
+                        aria-label="Street Address Line Two" class="form__group_oneform__field col-12 mb-2" />
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <label for="txtCity" class="form-label"> City </label>
+                    <input id="txtCity" placeholder="City" aria-label="City"
+                        class="form__group_oneform__field col-12 mb-2" />
+                </div>
+                
+                <div class="form-group">
                     <label for="txtState" class="form-label mt-2"> State </label>
                     <input id="txtState" placeholder="State" aria-label="State"
                         class="form__group_oneform__field col-12 mb-2" />
@@ -117,32 +142,6 @@
                         class="form__group_oneform__field col-12 mb-2" />
                 </div>
                 <hr />
-
-                <div class="form-group">
-                    <label for="txtEmail" class="form-label mt-2"> Email </label>
-                    <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
-                        class="form__group_oneform__field col-12 mb-2" type="email"
-                        pattern="/[^0-9a-zA-Z_\-@.\s]/" />
-                </div>
-
-                <div class="form-group">
-                    <label for="txtPassword" class="form-label mt-2">
-                        Password
-                    </label>
-                    <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
-                        class="form__group_oneform__field col-12 mb-2" type="password"
-                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
-                </div>
-
-                <div class="form-group">
-                    <label for="txtCoopRegisterID" class="form-label mt-2">
-                        Coop Registration ID
-                    </label>
-                    <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
-                        aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
-                </div>
-                <hr />
-
                 <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button">
                     Register
                 </button>
@@ -817,7 +816,7 @@
                 btnError +=
                     "<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>";
             }
-            if (btnCoopID != "QEJ73JMH") {
+            if (strCoopID != "QEJ73JMH") {
                 btnError += "<p>Invalid Coop ID (Must be 8 digits)</p>";
             }
 
@@ -832,7 +831,6 @@
                     url: "https://simplecoop.swollenhippo.com/users.php",
                     type: "PUT",
                     data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
                         FirstName: strFirstName,
                         LastName: strLastName,
                         Email: strEmail,
@@ -854,7 +852,14 @@
                     url: "https://simplecoop.swollenhippo.com/useraddress.php",
                     type: "PUT",
                     data: {
-
+                        /* Still can't figure out why this is throwing a 500 error.
+                        Email: strEmail,
+                        Street1: strStreetAddress1,
+                        Street2: strStreetAddress2,
+                        City: strCity,
+                        State: strState,
+                        ZIP: strZipCode,
+                    */
                     },
                     success: function (result) {
                         console.log(result);
