@@ -49,7 +49,7 @@
         <div id="divRegister" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
             style="background-color: #a0a9c2; display: none">
             <p class="login-header mt-4">Register</p>
-            <div class="card-body">
+            <div class="card-body scrollRegister">
                 <form id="formRegister">
                     <div class="form-group">
                         <label for="txtFirstName" class="form-label"> First Name </label>
@@ -105,13 +105,13 @@
                     </div>
                     <hr />
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="txtPhoneNumber" class="form-label">
                             Phone Number
                         </label>
                         <input id="txtPhoneNumber" placeholder="(555) 555-5555" aria-label="Phone Number"
                             class="form__group_oneform__field col-12 mb-2" type="tel" />
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="txtEmail" class="form-label mt-2"> Email </label>
@@ -278,20 +278,20 @@
 
                             <div class="form-group">
                                 <label for="txtCurrentTemp" class="form-label mt-3">
-                                    Current Temperature
+                                    Set Temperature
                                 </label>
                                 <input id="txtCurrentTemp" placeholder="Current Temperature"
                                     aria-label="Current Temperature" class="form__group_oneform__field col-12 mb-2" />
 
                                 <label for="txtCurrentLightStatus" class="form-label mt-3">
-                                    Current Light Status
+                                    Set Light Status
                                 </label>
                                 <input id="txtCurrentLightStatus" placeholder="(on / off)"
                                     aria-label="Current Light Status (on / off)"
                                     class="form__group_oneform__field col-12 mb-2" />
 
                                 <label for="txtCurrentDoorStatus" class="form-label mt-3">
-                                    Current Door Status
+                                    Set Door Status
                                 </label>
                                 <input id="txtCurrentDoorStatus" placeholder="(open / closed)"
                                     aria-label="Current Door Status (open / closed)"
@@ -362,14 +362,14 @@
                                 </div>
                                 <hr />
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="txtSettingsPhoneNumber" class="form-label">
                                         Phone Number
                                     </label>
                                     <input id="txtSettingsPhoneNumber" placeholder="Phone Number"
                                         aria-label="Phone Number" class="form__group_oneform__field col-12 mb-2"
                                         type="tel" />
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                     <label for="txtSettingsEmail" class="form-label mt-2"> Email </label>
@@ -463,7 +463,7 @@
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        var regexPhoneNumber = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
+        //var regexPhoneNumber = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
         var CoopID = "QEJ73JMH"
         // runs on app launch if they have an active session id then fetches the session details
 
@@ -735,11 +735,11 @@
                         type: 'GET',
                         success: function (user) {
                             user = $.parseJSON(user);
+                            $('#txtSettingsEmail').val(user.Email);
+                            $('#txtSettingsPassword').val(user.Password);
                             $('#txtSettingsFirstName').val(user.FirstName);
                             $('#txtSettingsLastName').val(user.LastName);
-                            $('#txtSettingsPassword').val(user.Password);
                             $('#txtSettingsCoopRegisterID').val(user.Coop);
-                            $('#txtSettingsEmail').val(user.Email);
                         },
                         error: function (result) {
                             console.log(result)
@@ -752,13 +752,28 @@
                         type: 'GET',
                         success: function (address) {
                             address = $.parseJSON(address);
+                            console.log(address)
                             $('#txtSettingsStreetAddress1').val(address.Street1);
                             $('#txtSettingsStreetAddress2').val(address.Street2);
                             $('#txtSettingsCity').val(address.City);
                             $('#txtSettingsState').val(address.State);
                             $('#txtSettingsZipCode').val(address.ZIP);
-                            $('#txtSettingsPhoneNumber').val(address.PhoneNumber);
                             $('#txtSettingsEmail').val(address.Email);
+                        },
+                        error: (result) => {
+                            console.log(result);
+                        },
+                    });
+                    $.ajax({
+                        url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                        sessionStorage.getItem("SessionID"),
+                        type: 'GET',
+                        success: function (address) {
+                            address = $.parseJSON(address);
+                            console.log(address)
+                            $("#txtCurrentTemp").val(address.CurrentTemp);
+                            $("#txtCurrentLightStatus").val(address.CurrentLightStatus);
+                            $("#txtCurrentDoorStatus").val(address.CurrentDoorStatus);
                         },
                         error: (result) => {
                             console.log(result);
@@ -772,43 +787,43 @@
 
         $("#btnUpdateProfileSettings").on("click", () => {
             let btnError = "";
-            let btnFirstName = $('#txtSettingsFirstName').val();
-            let btnLastName = $('#txtSettingsLastName').val();
-            let btnStreetAddress1 = $('#txtSettingsStreetAddress1').val();
-            let btnStreetAddress2 = $('#txtSettingsStreetAddress2').val();
-            let btnCity = $('#txtSettingsCity').val();
-            let btnState = $('#txtSettingsState').val();
-            let btnZipCode = $('#txtSettingsZipCode').val();
-            let btnPhoneNumber = $('#txtSettingsPhoneNumber').val();
-            let btnEmail = $('#txtSettingsEmail').val();
-            let btnPassword = $('#txtSettingsPassword').val();
-            let btnCoopID = $('#txtSettingsCoopRegisterID').val();
-            if (btnFirstName.length < 1) { //all validation
+            let strFirstName = $('#txtSettingsFirstName').val();
+            let strLastName = $('#txtSettingsLastName').val();
+            let strStreetAddress1 = $('#txtSettingsStreetAddress1').val();
+            let strStreetAddress2 = $('#txtSettingsStreetAddress2').val();
+            let strCity = $('#txtSettingsCity').val();
+            let strState = $('#txtSettingsState').val();
+            let strZipCode = $('#txtSettingsZipCode').val();
+            //let strPhoneNumber = $('#txtSettingsPhoneNumber').val();
+            let strEmail = $('#txtSettingsEmail').val();
+            let strPassword = $('#txtSettingsPassword').val();
+            let strCoopID = $('#txtSettingsCoopRegisterID').val();
+            if (strFirstName.length < 1) { //all validation
                 btnError += "<p>Invalid First Name (cannot be blank)</p>";
             }
-            if (btnLastName.length < 1) {
+            if (strLastName.length < 1) {
                 btnError += "<p>Invalid Last Name (cannot be blank)</p>";
             }
-            if (btnStreetAddress1.length < 2) {
+            if (strStreetAddress1.length < 2) {
                 btnError += "<p>Invalid Address (must be at least 2 characters)</p>";
             }
-            if (btnCity.length < 2) {
+            if (strCity.length < 2) {
                 btnError += "<p>Invalid City (must be at least 2 characters)</p>";
             }
-            if (btnState.length < 2) {
+            if (strState.length < 2) {
                 btnError += "<p>Invalid State (must be at least 2 characters)</p>";
             }
-            if (btnZipCode.length != 5) {
+            if (strZipCode.length != 5) {
                 btnError += "<p>Invalid Zip Code (must be 5 characters)</p>";
             }
-            if (!regexPhoneNumber.test(btnPhoneNumber)) {
-                btnError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
-            }
-            if (!regexEmail.test(btnEmail)) {
+            // if (!regexPhoneNumber.test(strPhoneNumber)) {
+            //     btnError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
+            // }
+            if (!regexEmail.test(strEmail)) {
                 btnError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
             }
-            if (!regexPassword.test(btnPassword)) {
+            if (!regexPassword.test(strPassword)) {
                 btnError +=
                     "<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>";
             }
@@ -828,11 +843,11 @@
                     type: "PUT",
                     data: {
                         SessionID: sessionStorage.getItem("SessionID"),
-                        FirstName: btnFirstName,
-                        LastName: btnLastName,
-                        Email: btnEmail,
-                        Password: btnPassword,
-                        Coop: btnCoopID,
+                        FirstName: strFirstName,
+                        LastName: strLastName,
+                        Email: strEmail,
+                        Password: strPassword,
+                        Coop: strCoopID,
                     },
                     success: function (result) {
                         console.log(result);
@@ -865,12 +880,77 @@
             }
         });
 
+        $("#btnUpdateCoopSettings").on("click", () => {
+            let btnError = "";
+            let strCurrentTemp = $('#txtCurrentTemp').val();
+            let strCurrentLightStatus = $('#txtCurrentLightStatus').val();
+            let strCurrentDoorStatus = $('#txtCurrentDoorStatus').val();
+            
+            if (strCurrentTemp.length < 1) {
+                btnError += "<p>Invalid Temperature (cannot be blank)</p>";
+            }
+            if (strCurrentLightStatus.length < 1) {
+                btnError += "<p>Invalid Light Status (cannot be blank)</p>";
+            }
+            if (strCurrentDoorStatus.length < 1) {
+                btnError += "<p>Invalid Door Status (cannot be blank)</p>";
+            }
+
+            if (btnError) {
+                Swal.fire({
+                    title: "Oops!",
+                    html: btnError,
+                    icon: "error",
+                });
+            } else {
+                $.ajax({
+                    // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    //     sessionStorage.getItem("SessionID"),
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        CurrentTemp: strCurrentTemp,
+                        CurrentLightStatus: strCurrentLightStatus,
+                        CurrentDoorStatus: strCurrentDoorStatus,
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        Swal.fire({
+                            icon: "success",
+                            title: "Settings Updated!",
+                        });
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    },
+                });
+                // $.ajax({
+                //     url: "https://simplecoop.swollenhippo.com/useraddress.php",
+                //     type: "PUT",
+                //     data: {
+
+
+                //     },
+                //     success: function (result) {
+                //         console.log(result);
+                //         Swal.fire({
+                //             icon: "success",
+                //             title: "Address Updated!",
+                //         });
+                //     },
+                //     error: function (result) {
+                //         console.log(result);
+                //     },
+                // });
+            }
+        });
+
         $("#btnReturnToDashboard").on("click", () => {
             $("#divSettings").slideToggle(() => {
                 $("#divDashboard").slideToggle()
             })
         })
-
 
         $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the dashboard card.
             $.ajax({
@@ -976,7 +1056,7 @@
                 $("#txtCity").val("");
                 $("#txtState").val("");
                 $("#txtZipCode").val("");
-                $("#txtPhoneNumber").val("");
+                //$("#txtPhoneNumber").val("");
                 $("#txtEmail").val("");
                 $("#txtPassword").val("");
                 $("#txtCoopRegisterID").val("");
@@ -1066,7 +1146,7 @@
             let strCity = $("#txtCity").val();
             let strState = $("#txtState").val();
             let strZip = $("#txtZipCode").val();
-            let strPhoneNumber = $("#txtPhoneNumber").val();
+            //let strPhoneNumber = $("#txtPhoneNumber").val();
             let strEmail = $("#txtEmail").val();
             let strPassword = $("#txtPassword").val();
             let strCoopID = $("#txtCoopRegisterID").val();
@@ -1089,9 +1169,9 @@
             if (strZip.length != 5) {
                 strError += "<p>Invalid Zip Code (must be 5 characters)</p>";
             }
-            if (!regexPhoneNumber.test(strPhoneNumber)) {
-                strError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
-            }
+            // if (!regexPhoneNumber.test(strPhoneNumber)) {
+            //     strError += "<p> Invalid Phone Number (Format: (xxx) xxx-xxxx)</p>";
+            // }
             if (!regexEmail.test(strEmail)) {
                 strError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
@@ -1159,7 +1239,7 @@
                             $("#txtCity").val("");
                             $("#txtState").val("");
                             $("#txtZipCode").val("");
-                            $("#txtPhoneNumber").val("");
+                            //$("#txtPhoneNumber").val("");
                             $("#txtEmail").val("");
                             $("#txtPassword").val("");
                             $("#txtCoopRegisterID").val("");
