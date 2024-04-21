@@ -282,11 +282,12 @@
                             <h2>Coop Settings</h2>
 
                             <div class="form-group">
-                                <label for="txtCurrentTemp" class="form-label mt-3">
-                                    Set Temperature
+                                <label id="txtCurrentTemp" for="rangeCurrentTemp" class="form-label mt-3">
+                                    Current Temperature:
                                 </label>
-                                <input id="txtCurrentTemp" placeholder="Current Temperature"
-                                    aria-label="Current Temperature" class="form__group_oneform__field col-12 mb-2" />
+                                <input id="rangeCurrentTemp" type="range" min="60" max="80" step="1"
+                                    placeholder="Current Temperature" aria-label="Current Temperature"
+                                    class="col-12 mb-2" />
 
                                 <div class="form-group row">
                                     <label class="form-label mt-3">
@@ -420,6 +421,12 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const value = document.querySelector("#txtCurrentTemp");
+        const input = document.querySelector("#rangeCurrentTemp");
+        value.textContent = "Current Temperature: " + input.value;
+        input.addEventListener("input", (event) => {
+            value.textContent = "Current Temperature: " +event.target.value;
+        });
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
