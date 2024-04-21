@@ -425,7 +425,7 @@
         const input = document.querySelector("#rangeCurrentTemp");
         value.textContent = "Current Temperature: " + input.value;
         input.addEventListener("input", (event) => {
-            value.textContent = "Current Temperature: " +event.target.value;
+            value.textContent = "Current Temperature: " + event.target.value;
         });
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
@@ -479,25 +479,18 @@
                 success: (result) => {
                     if (result) {
                         result = JSON.parse(result)
-                        // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
                         let temps = []
                         let hums = []
                         // populate the above object with the last 7 days only
                         let i = 0
                         result.forEach(data => {
                             // Check if the current date is in the fixed dates array and if it's not already in the uniqueDates object
-                            if (data.ObservationDateTime == lastWeeksDays[i] + ' 00:00:00') {
-                                temps.push(data.Temperature);
-                                hums.push(data.Humidity);
+                            if ((data.ObservationDateTime == lastWeeksDays[i] + ' 00:00:00') && i < 7) {
+                                temps.push(data.Temperature)
+                                hums.push(data.Humidity)
                                 i++; // this i++ lets just only keep track of the FIRST instance of that day's data (at least I hope).
                             }
                         });
-
-                        // Ensure there are only 7 data points
-                        if (temps.length > 7) temps = temps.slice(0, 7);
-                        if (hums.length > 7) hums = hums.slice(0, 7);
-                        const maxTemp = Math.ceil(Math.max(...temps) / 10) * 10
-                        const maxHumidity = Math.ceil(Math.max(...hums) / 10) * 10
                         ///////////////////////////
                         envChart = new Chart(ctx, {
                             type: 'line',
@@ -527,14 +520,14 @@
                                         display: true,
                                         position: 'left',
                                         min: 0,
-                                        max: maxTemp,
+                                        max: 100,
                                     },
                                     h: {
                                         type: 'linear',
                                         display: true,
                                         position: 'right',
                                         min: 0,
-                                        max: maxHumidity,
+                                        max: 100,
                                         grid: {
                                             drawOnChartArea: false, // only want the grid lines for one axis to show up
                                         },
@@ -1037,10 +1030,7 @@
 
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $("#btnFillStAdd").on("click", function () {
-            if (
-                $("#txtStreetAddress1").val() &&
-                $("#txtStreetAddress2").val() == ""
-            ) {
+            if ($("#txtStreetAddress1").val() && $("#txtStreetAddress2").val() == "") {
                 $("#txtStreetAddress2").val($("#txtStreetAddress1").val());
             } else {
                 $("#txtStreetAddress2").val("");
@@ -1053,7 +1043,6 @@
 
             if (page == "login") {
                 $("#divLogin").slideToggle(function () {
-                    $("#divMain").removeClass("vh-100");
                     $("#divRegister1").slideToggle("slow");
                 });
             } else {
@@ -1070,7 +1059,6 @@
                 $("#txtCoopRegisterID").val("");
 
                 $("#divRegister1").slideToggle(function () {
-                    $("#divMain").addClass("vh-100");
                     $("#divLogin").slideToggle("slow");
                 });
             }
