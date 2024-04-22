@@ -67,6 +67,44 @@
                     <hr />
 
                     <div class="form-group">
+                        <label for="txtEmail" class="form-label mt-2"> Email </label>
+                        <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
+                            class="form__group_oneform__field col-12 mb-2" type="email"
+                            pattern="/[^0-9a-zA-Z_\-@.\s]/" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtPassword" class="form-label mt-2">
+                            Password
+                        </label>
+                        <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
+                            class="form__group_oneform__field col-12 mb-2" type="password"
+                            pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtCoopRegisterID" class="form-label mt-2">
+                            Coop Registration ID
+                        </label>
+                        <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
+                            aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
+                    </div>
+                    <hr />
+                    <button class="col-6 offset-3 comic-button mt-2 btnRegisterToggle" type="button" data-type="first">
+                        Next Page
+                    </button>
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
+                        Return to Login
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="divRegister2" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
+            style="background-color: #a0a9c2; display: none">
+            <p class="login-header mt-4">Register</p>
+            <div class="card-body">
+                <form id="formRegister2">
+                    <div class="form-group">
                         <label for="txtStreetAddress1" class="form-label">
                             Street Address 1
                         </label>
@@ -91,67 +129,28 @@
                         <input id="txtCity" placeholder="City" aria-label="City"
                             class="form__group_oneform__field col-12 mb-2" />
                     </div>
-                    <button class="col-6 offset-3 comic-button mt-2 btnRegisterToggle" id="btnRegisterToggle" type="button" data-type="first">
-                        Next Page
+
+                    <div class="form-group">
+                        <label for="txtState" class="form-label mt-2"> State </label>
+                        <input id="txtState" placeholder="State" aria-label="State"
+                            class="form__group_oneform__field col-12 mb-2" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
+                        <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
+                            class="form__group_oneform__field col-12 mb-2" />
+                    </div>
+                    <hr />
+                    <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button">
+                        Register
                     </button>
-                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnToggle" id="btnReturnToLogin" type="button">
-                        Return to Login
+                    <button class="col-8 offset-2 comic-button mt-3 mb-4 btnRegisterToggle" type="button">
+                        Previous Page
                     </button>
                 </form>
             </div>
         </div>
-        <div id="divRegister2" class="card col-12 col-md-8 col-lg-5 mt-4 mb-4"
-        style="background-color: #a0a9c2; display: none">
-        <p class="login-header mt-4">Register</p>
-        <div class="card-body">
-            <form id="formRegister2">
-                <div class="form-group">
-                    <label for="txtState" class="form-label mt-2"> State </label>
-                    <input id="txtState" placeholder="State" aria-label="State"
-                        class="form__group_oneform__field col-12 mb-2" />
-                </div>
-
-                <div class="form-group">
-                    <label for="txtZipCode" class="form-label mt-2"> Zip Code </label>
-                    <input id="txtZipCode" placeholder="Zip Code" aria-label="Zip Code"
-                        class="form__group_oneform__field col-12 mb-2" />
-                </div>
-                <hr />
-
-                <div class="form-group">
-                    <label for="txtEmail" class="form-label mt-2"> Email </label>
-                    <input id="txtEmail" placeholder="johndoe08@gmail.com" aria-label="Email"
-                        class="form__group_oneform__field col-12 mb-2" type="email"
-                        pattern="/[^0-9a-zA-Z_\-@.\s]/" />
-                </div>
-
-                <div class="form-group">
-                    <label for="txtPassword" class="form-label mt-2">
-                        Password
-                    </label>
-                    <input id="txtPassword" placeholder="Password (8+ characters)" aria-label="Password"
-                        class="form__group_oneform__field col-12 mb-2" type="password"
-                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
-                </div>
-
-                <div class="form-group">
-                    <label for="txtCoopRegisterID" class="form-label mt-2">
-                        Coop Registration ID
-                    </label>
-                    <input id="txtCoopRegisterID" placeholder="Coop Registration ID"
-                        aria-label="Coop Registration ID" class="form__group_oneform__field col-12 mb-2" />
-                </div>
-                <hr />
-
-                <button class="col-6 offset-3 comic-button mt-2" id="btnRegister" type="button">
-                    Register
-                </button>
-                <button class="col-8 offset-2 comic-button mt-3 mb-4 btnRegisterToggle" id="btnRegisterToggle" type="button">
-                    Previous Page
-                </button>
-            </form>
-        </div>
-    </div>
         <!-- This is the Dashboard Card, -->
         <div id="divDashboard" class="card col-12 mt-3 mb-3" style="background-color: #a0a9c2; display: none;">
             <!-- add display:none; when finished. -->
@@ -271,7 +270,8 @@
                 <p class="login-header mt-4"> Settings</p>
                 <div class="d-flex justify-content-center">
                     <button class="comic-button mt-3 mb-1" id="btnReturnToDashboard" type="button">Dashboard</button>
-                    <button class="comic-button mt-3 mb-1 ms-3 btnLogout" id="btnSettingsLogout" type="button">Logout</button>
+                    <button class="comic-button mt-3 mb-1 ms-3 btnLogout" id="btnSettingsLogout"
+                        type="button">Logout</button>
                 </div>
                 <hr>
             </div>
@@ -282,26 +282,31 @@
                             <h2>Coop Settings</h2>
 
                             <div class="form-group">
-                                <label for="txtCurrentTemp" class="form-label mt-3">
-                                    Set Temperature
+                                <label id="txtCurrentTemp" for="rangeCurrentTemp" class="form-label mt-3">
+                                    Current Temperature:
                                 </label>
-                                <input id="txtCurrentTemp" placeholder="Current Temperature"
-                                    aria-label="Current Temperature" class="form__group_oneform__field col-12 mb-2" />
+                                <input id="rangeCurrentTemp" type="range" min="60" max="80" step="1"
+                                    placeholder="Current Temperature" aria-label="Current Temperature"
+                                    class="col-12 mb-2" />
 
                                 <div class="form-group row">
-                                    <label for="txtCurrentLightStatus" class="form-label mt-3">
-                                    Set Light Status
+                                    <label class="form-label mt-3">
+                                        Light Status
                                     </label>
-                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnLightStatusOn"type="button">Turn Light On</button>
-                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnLightStatusOff"type="button">Turn Light Off</button>
+                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnLightStatusOn"
+                                        type="button">Light On</button>
+                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnLightStatusOff"
+                                        type="button">Light Off</button>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="txtCurrentDoorStatus" class="form-label mt-3">
-                                    Set Light Status
+                                    <label class="form-label mt-3">
+                                        Door Status
                                     </label>
-                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnDoorStatusOpen"type="button">Open Door</button>
-                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnDoorStatusClosed"type="button">Close Door</button>
+                                    <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnDoorStatusOpen"
+                                        type="button">Open Door</button>
+                                    <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnDoorStatusClosed"
+                                        type="button">Close Door</button>
                                 </div>
 
                                 <hr />
@@ -416,6 +421,13 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var boolLights = false;
+        const value = document.querySelector("#txtCurrentTemp");
+        const input = document.querySelector("#rangeCurrentTemp");
+        value.textContent = "Current Temperature: " + input.value;
+        input.addEventListener("input", (event) => {
+            value.textContent = "Current Temperature: " + event.target.value;
+        });
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
@@ -444,8 +456,6 @@
         //     });
         // }
 
-
-
         var lastWeeksDays = getLastWeeksDays(new Date().getTime())
 
         function getLastWeeksDays(lastDay) {
@@ -457,7 +467,90 @@
             return arrWeek;
         }
 
+        var envChart = null;
 
+        function createChart() {
+            $.ajax({
+                url: 'https://simplecoop.swollenhippo.com/environment.php',
+                type: 'GET',
+                data: {
+                    SessionID: sessionStorage.getItem('SessionID'),
+                    days: lastWeeksDays.join(',')
+                },
+                success: (result) => {
+                    if (result) {
+                        result = JSON.parse(result)
+                        let temps = []
+                        let hums = []
+                        // populate the above object with the last 7 days only
+                        let i = 0
+                        result.forEach(data => {
+                            // Check if the current date is in the fixed dates array and if it's not already in the uniqueDates object
+                            if ((data.ObservationDateTime == lastWeeksDays[i] + ' 00:00:00') && i < 7) {
+                                temps.push(data.Temperature)
+                                hums.push(data.Humidity)
+                                i++; // this i++ lets just only keep track of the FIRST instance of that day's data (at least I hope).
+                            }
+                        });
+                        ///////////////////////////
+                        envChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: lastWeeksDays,
+                                datasets: [
+                                    {
+                                        label: 'Temperature',
+                                        data: temps,
+                                        borderWidth: 1,
+                                        yAxisID: 't',
+                                        tension: 0.25,
+                                    },
+                                    {
+                                        label: 'Humidity',
+                                        data: hums,
+                                        borderWidth: 1,
+                                        yAxisID: 'h',
+                                        tension: 0.25,
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    t: {
+                                        type: 'linear',
+                                        display: true,
+                                        position: 'left',
+                                        min: 0,
+                                        max: 100,
+                                    },
+                                    h: {
+                                        type: 'linear',
+                                        display: true,
+                                        position: 'right',
+                                        min: 0,
+                                        max: 100,
+                                        grid: {
+                                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                        },
+                                    }
+                                }
+                            }
+                        });
+                    }
+                },
+                error: (result) => {
+                    console.log(result)
+                }
+            })
+        }
+
+        // Function to delete the chart
+        function deleteChart() {
+            if (envChart) {
+                envChart.destroy(); // Call the destroy() method
+                envChart = null; // Reset the reference
+            }
+        }
 
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -504,6 +597,7 @@
                                     SessionID: sessionStorage.getItem("SessionID"),
                                 },
                                 success: (result) => {
+                                    createChart(); // calls big AJAX function up top.
                                     console.log(result);
                                 },
                                 error: (result) => {
@@ -517,95 +611,40 @@
                     },
                     error: (result) => {
                         console.log(result);
-                    },
+                    }
                 });
 
                 $.ajax({
-                    url: 'https://simplecoop.swollenhippo.com/environment.php',
-                    type: 'GET',
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
                     data: {
-                        SessionID: sessionStorage.getItem('SessionID'),
-                        days: lastWeeksDays.join(',')
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "CurrentTemp",
+                        value: 70,
                     },
-                    success: (result) => {
-                        if (result) {
-                            if (typeof result === 'string') {
-                                result = JSON.parse(result)
-                            }
-                            // making a smaller array consisting of only the temps for each day, making it parallel with humidities.
-                            let temps = []
-                            let hums = []
-                            // this section of code below populats the chart with ONLY relevant environment data.
-                            let i = 0
-                            // trims the front of the returned array
-                            while (result[i].ObservationDateTime != (lastWeeksDays[0] + ' 00:00:00')) {
-                                i++
-                            }
-                            result.splice(0, i) // gets rid of the first 'i' elements (holy crap, this actually worked!)
-                            // trims the back of the array
-                            if (result.length > 7) { // so even AFTER we trim the front, we might need to trim the back too
-                                while (result[result.length - 1].ObservationDateTime > (lastWeeksDays[6] + ' 00:00:00')) {
-                                    result.pop()
-                                }
-                            }
-                            // this filter keeps only one occurrence of a day's data.
-                            result = result.filter((obj, index, self) =>
-                                index === self.findIndex((t) => (
-                                    t.ObservationDateTime === obj.ObservationDateTime
-                                ))
-                            );
-                            // this loop only adds relevant environment data to the chart
-                            for (let j = 0; j < 7; j++, i++) {
-                                if (result[j].ObservationDateTime == (lastWeeksDays[j] + ' 00:00:00')) {
-                                    temps.push(result[j].Temperature)
-                                    hums.push(result[j].Humidity)
-                                }
-                            }
-                            ///////////////////////////
-                            var envChart = new Chart(ctx, {
-                                type: 'line',
-                                data: {
-                                    labels: lastWeeksDays,
-                                    datasets: [
-                                        {
-                                            label: 'Temperature',
-                                            data: temps,
-                                            borderWidth: 1,
-                                            yAxisID: 't',
-                                            tension: 0.25,
-                                        },
-                                        {
-                                            label: 'Humidity',
-                                            data: hums,
-                                            borderWidth: 1,
-                                            yAxisID: 'h',
-                                            tension: 0.25,
-                                        }
-                                    ]
-                                },
-                                options: {
-                                    scales: {
-                                        t: {
-                                            type: 'linear',
-                                            display: true,
-                                            position: 'left',
-                                        },
-                                        h: {
-                                            type: 'linear',
-                                            display: true,
-                                            position: 'right',
-                                            grid: {
-                                                drawOnChartArea: false, // only want the grid lines for one axis to show up
-                                            },
-                                        }
-                                    }
-                                }
-                            });
-                        }
+                })
+
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "LightStatus",
+                        value: false,
                     },
-                    error: (result) => {
-                        console.log(result)
-                    }
+                })
+
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "DoorStatus",
+                        value: false,
+                    },
                 })
             }
         });
@@ -723,57 +762,57 @@
                     success: (result) => {
                         result = $.parseJSON(result);
                         userEmail = result.Email
-                    $.ajax({
-                        url: "https://simplecoop.swollenhippo.com/users.php?Email=" +
-                        userEmail,
-                        type: 'GET',
-                        success: function (user) {
-                            user = $.parseJSON(user);
-                            $('#txtSettingsEmail').val(user.Email);
-                            $('#txtSettingsPassword').val(user.Password);
-                            $('#txtSettingsFirstName').val(user.FirstName);
-                            $('#txtSettingsLastName').val(user.LastName);
-                            $('#txtSettingsCoopRegisterID').val(user.Coop);
-                        },
-                        error: function (result) {
-                            console.log(result)
-                        }
-                    })
-                    
-                    $.ajax({
-                        url: "https://simplecoop.swollenhippo.com/useraddress.php?Email=" +
-                        userEmail,
-                        type: 'GET',
-                        success: function (address) {
-                            address = $.parseJSON(address);
-                            console.log(address)
-                            $('#txtSettingsStreetAddress1').val(address.Street1);
-                            $('#txtSettingsStreetAddress2').val(address.Street2);
-                            $('#txtSettingsCity').val(address.City);
-                            $('#txtSettingsState').val(address.State);
-                            $('#txtSettingsZipCode').val(address.ZIP);
-                            $('#txtSettingsEmail').val(address.Email);
-                        },
-                        error: (result) => {
-                            console.log(result);
-                        },
-                    });
-                    $.ajax({
-                        url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
-                        sessionStorage.getItem("SessionID"),
-                        type: 'GET',
-                        success: function (address) {
-                            address = $.parseJSON(address);
-                            console.log(address)
-                            $("#txtCurrentTemp").val(address.CurrentTemp);
-                            $("#txtCurrentLightStatus").val(address.CurrentLightStatus);
-                            $("#txtCurrentDoorStatus").val(address.CurrentDoorStatus);
-                        },
-                        error: (result) => {
-                            console.log(result);
-                        },
-                    });
-                
+                        $.ajax({
+                            url: "https://simplecoop.swollenhippo.com/users.php?Email=" +
+                                userEmail,
+                            type: 'GET',
+                            success: function (user) {
+                                user = $.parseJSON(user);
+                                $('#txtSettingsEmail').val(user.Email);
+                                $('#txtSettingsPassword').val(user.Password);
+                                $('#txtSettingsFirstName').val(user.FirstName);
+                                $('#txtSettingsLastName').val(user.LastName);
+                                $('#txtSettingsCoopRegisterID').val(user.Coop);
+                            },
+                            error: function (result) {
+                                console.log(result)
+                            }
+                        })
+
+                        $.ajax({
+                            url: "https://simplecoop.swollenhippo.com/useraddress.php?Email=" +
+                                userEmail,
+                            type: 'GET',
+                            success: function (address) {
+                                address = $.parseJSON(address);
+                                console.log(address)
+                                $('#txtSettingsStreetAddress1').val(address.Street1);
+                                $('#txtSettingsStreetAddress2').val(address.Street2);
+                                $('#txtSettingsCity').val(address.City);
+                                $('#txtSettingsState').val(address.State);
+                                $('#txtSettingsZipCode').val(address.ZIP);
+                                $('#txtSettingsEmail').val(address.Email);
+                            },
+                            error: (result) => {
+                                console.log(result);
+                            },
+                        });
+                        $.ajax({
+                            url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                                sessionStorage.getItem("SessionID"),
+                            type: 'GET',
+                            success: function (address) {
+                                address = $.parseJSON(address);
+                                console.log(address)
+                                $("#txtCurrentTemp").val(address.CurrentTemp);
+                                $("#txtCurrentLightStatus").val(address.CurrentLightStatus);
+                                $("#txtCurrentDoorStatus").val(address.CurrentDoorStatus);
+                            },
+                            error: (result) => {
+                                console.log(result);
+                            },
+                        });
+
                     },
                 });
             }
@@ -817,7 +856,7 @@
                 btnError +=
                     "<p>Invalid Password (Must have 8+ characters with 1 digit, 1 upper case and 1 lower case character)</p>";
             }
-            if (btnCoopID != "QEJ73JMH") {
+            if (strCoopID != "QEJ73JMH") {
                 btnError += "<p>Invalid Coop ID (Must be 8 digits)</p>";
             }
 
@@ -832,7 +871,6 @@
                     url: "https://simplecoop.swollenhippo.com/users.php",
                     type: "PUT",
                     data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
                         FirstName: strFirstName,
                         LastName: strLastName,
                         Email: strEmail,
@@ -845,7 +883,7 @@
                             icon: "success",
                             title: "Profile Updated!",
                         });
-                    },
+                    },                                                                                                                                                                                                       
                     error: function (result) {
                         console.log(result);
                     },
@@ -854,7 +892,14 @@
                     url: "https://simplecoop.swollenhippo.com/useraddress.php",
                     type: "PUT",
                     data: {
-
+                        /* Still can't figure out why this is throwing a 500 error.
+                        Email: strEmail,
+                        Street1: strStreetAddress1,
+                        Street2: strStreetAddress2,
+                        City: strCity,
+                        State: strState,
+                        ZIP: strZipCode,
+                    */
                     },
                     success: function (result) {
                         console.log(result);
@@ -870,71 +915,95 @@
             }
         });
 
+
+
+        $('#divSettings').on('ready', function () {
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "CurrentTemp",
+                success: function (result) {
+                    $('#rangeCurrentTemp').val(result);
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "LightStatus",
+                success: function (result) {
+                    if(result == "true"){
+                        $('#btnLightStatusOn').removeClass('btn-unselected');
+                        $('#btnLightStatusOff').addClass('btn-unselected');
+                    } else {
+                        $('#btnLightStatusOff').removeClass('btn-unselected');
+                        $('#btnLightStatusOn').addClass('btn-unselected');
+                    }
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "DoorStatus",
+                success: function (result) {
+                    if(result == "true"){
+                        $('#btnDoorStatusOpen').removeClass('btn-unselected');
+                        $('#btnDoorStatusClosed').addClass('btn-unselected');
+                    } else {
+                        $('#btnDoorStatusClosed').removeClass('btn-unselected');
+                        $('#btnDoorStatusOpen').addClass('btn-unselected');
+                    }
+                },
+            })
+        })
+
         $("#btnUpdateCoopSettings").on("click", () => {
-            let btnError = "";
-            let strCurrentTemp = $('#txtCurrentTemp').val();
-            let strCurrentLightStatus = $('#txtCurrentLightStatus').val();
-            let strCurrentDoorStatus = $('#txtCurrentDoorStatus').val();
-            
-            if (strCurrentTemp.length < 1) {
-                btnError += "<p>Invalid Temperature (cannot be blank)</p>";
-            }
-            if (strCurrentLightStatus.length < 1) {
-                btnError += "<p>Invalid Light Status (cannot be blank)</p>";
-            }
-            if (strCurrentDoorStatus.length < 1) {
-                btnError += "<p>Invalid Door Status (cannot be blank)</p>";
-            }
+            $.ajax({
+                // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                //     sessionStorage.getItem("SessionID"),
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "CurrentTemp",
+                    value: $("#rangeCurrentTemp").val(),
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "lights",
+                    value: boolLights,
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
 
-            if (btnError) {
-                Swal.fire({
-                    title: "Oops!",
-                    html: btnError,
-                    icon: "error",
-                });
-            } else {
-                $.ajax({
-                    // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
-                    //     sessionStorage.getItem("SessionID"),
-                    url: "https://simplecoop.swollenhippo.com/settings.php",
-                    type: "POST",
-                    data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
-                        CurrentTemp: strCurrentTemp,
-                        CurrentLightStatus: strCurrentLightStatus,
-                        CurrentDoorStatus: strCurrentDoorStatus,
-                    },
-                    success: function (result) {
-                        console.log(result);
-                        Swal.fire({
-                            icon: "success",
-                            title: "Settings Updated!",
-                        });
-                    },
-                    error: function (result) {
-                        console.log(result);
-                    },
-                });
-                // $.ajax({
-                //     url: "https://simplecoop.swollenhippo.com/useraddress.php",
-                //     type: "PUT",
-                //     data: {
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    CurrentDoorStatus: strCurrentDoorStatus,
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
 
-
-                //     },
-                //     success: function (result) {
-                //         console.log(result);
-                //         Swal.fire({
-                //             icon: "success",
-                //             title: "Address Updated!",
-                //         });
-                //     },
-                //     error: function (result) {
-                //         console.log(result);
-                //     },
-                // });
-            }
-        });
+            Swal.fire({
+                icon: "success",
+                title: "Settings Updated!",
+            });
+        }
+        );
 
         $("#btnReturnToDashboard").on("click", () => {
             $("#divSettings").slideToggle(() => {
@@ -950,6 +1019,7 @@
                 type: "DELETE",
                 success: function (result) {
                     sessionStorage.removeItem("SessionID");
+                    deleteChart(); //calls the delete chart function to remove the chart from the screen
                     $("#divDashboard").slideUp(function () {
                         $("#divLogin").slideDown();
                     });
@@ -960,6 +1030,37 @@
                 icon: "success",
                 text: "Logout successful!",
             });
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "CurrentTemp",
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "LightStatus",
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "DoorStatus",
+                },
+            })
+
         });
 
         $("#btnSettingsLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the settings card.
@@ -1018,10 +1119,7 @@
 
         // This is the function that adds / clears out txtStreetAddress2 based on the contents of txtStreetAddress1
         $("#btnFillStAdd").on("click", function () {
-            if (
-                $("#txtStreetAddress1").val() &&
-                $("#txtStreetAddress2").val() == ""
-            ) {
+            if ($("#txtStreetAddress1").val() && $("#txtStreetAddress2").val() == "") {
                 $("#txtStreetAddress2").val($("#txtStreetAddress1").val());
             } else {
                 $("#txtStreetAddress2").val("");
@@ -1034,7 +1132,6 @@
 
             if (page == "login") {
                 $("#divLogin").slideToggle(function () {
-                    $("#divMain").removeClass("vh-100");
                     $("#divRegister1").slideToggle("slow");
                 });
             } else {
@@ -1051,12 +1148,11 @@
                 $("#txtCoopRegisterID").val("");
 
                 $("#divRegister1").slideToggle(function () {
-                    $("#divMain").addClass("vh-100");
                     $("#divLogin").slideToggle("slow");
                 });
             }
         });
- //button for the registration page toggle
+        //button for the registration page toggle
         $(".btnRegisterToggle").on("click", function () {
             let page = $(this).attr("data-type");
 
@@ -1100,6 +1196,7 @@
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
+                        if(user){
                         if (user.Password == strPassword) {
                             $.post(
                                 "https://simplecoop.swollenhippo.com/sessions.php",
@@ -1114,8 +1211,9 @@
                                             title: "Success"
                                         })
                                         $('#txtUserAccount').text(strEmail)
-                                        $("#divLogin").slideToggle(function () {
-                                            $("#divDashboard").slideToggle();
+                                        createChart()
+                                        $("#divLogin").slideToggle(() => {
+                                            $("#divDashboard").slideToggle()
                                         })
                                     } else {
                                         Swal.fire({
@@ -1130,6 +1228,13 @@
                             Swal.fire({
                                 icon: "error",
                                 text: "Invalid password!",
+                                title: "Error",
+                            });
+                        }
+                       } else {
+                            Swal.fire({
+                                icon: "error",
+                                text: "User does not exist!",
                                 title: "Error",
                             });
                         }
@@ -1259,4 +1364,5 @@
         });
     </script>
 </body>
+
 </html>
