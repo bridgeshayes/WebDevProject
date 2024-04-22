@@ -387,8 +387,8 @@
                                         Password
                                     </label>
                                     <input id="txtSettingsPassword" placeholder="Password (8+ characters)"
-                                        aria-label="Password" class="form__group_oneform__field col-12 mb-2" type="text"
-                                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                                        aria-label="Password" class="form__group_oneform__field col-12 mb-2"
+                                        type="text" pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
                                 </div>
 
                                 <div class="form-group">
@@ -475,17 +475,15 @@
                 type: 'GET',
                 data: {
                     SessionID: sessionStorage.getItem('SessionID'),
-                    days: 7,
+                    days: lastWeeksDays.join(',')
                 },
                 success: (result) => {
                     if (result) {
                         result = JSON.parse(result)
-                        console.log(result)
                         let temps = []
                         let hums = []
                         // populate the above object with the last 7 days only
                         let i = 0
-                        deleteChart();
                         result.forEach(data => {
                             // Check if the current date is in the fixed dates array and if it's not already in the uniqueDates object
                             if ((data.ObservationDateTime == lastWeeksDays[i] + ' 00:00:00') && i < 7) {
@@ -885,7 +883,7 @@
                             icon: "success",
                             title: "Profile Updated!",
                         });
-                    },
+                    },                                                                                                                                                                                                       
                     error: function (result) {
                         console.log(result);
                     },
@@ -934,7 +932,7 @@
                     sessionStorage.getItem("SessionID"),
                 setting: "LightStatus",
                 success: function (result) {
-                    if (result == "true") {
+                    if(result == "true"){
                         $('#btnLightStatusOn').removeClass('btn-unselected');
                         $('#btnLightStatusOff').addClass('btn-unselected');
                     } else {
@@ -949,7 +947,7 @@
                     sessionStorage.getItem("SessionID"),
                 setting: "DoorStatus",
                 success: function (result) {
-                    if (result == "true") {
+                    if(result == "true"){
                         $('#btnDoorStatusOpen').removeClass('btn-unselected');
                         $('#btnDoorStatusClosed').addClass('btn-unselected');
                     } else {
@@ -1089,69 +1087,26 @@
             let strTemp = $('#txtTemperature').val();
             let strHumid = $('#txtHumidity').val();
             let strObvDate = $('#txtObservationDate').val();
-            let boolPut = false
 
             if (strTemp && strHumid && strObvDate) { // post sends the variables to record the weather 
                 $.ajax({
                     url: `https://simplecoop.swollenhippo.com/environment.php`,
-                    type: 'GET',
+                    type: 'POST',
                     data: {
                         SessionID: sessionStorage.getItem('SessionID'),
-                        days: 7,
+                        observationDateTime: strObvDate,
+                        temperature: strTemp,
+                        humidity: strHumid
                     },
                     success: (result) => {
-                        if (result) {
-                            result = JSON.parse(result)
-                            result.forEach((day) => {
-                                if (day.ObservationDateTime == strObvDate + " 00:00:00") {
-                                    boolPut = true
-                                }
-                            })
-                            if (boolPut) { // if the date is already in the database then we make a put to update the data
-                                $.ajax({
-                                    url: `https://simplecoop.swollenhippo.com/environment.php`,
-                                    type: 'PUT',
-                                    data: {
-                                        SessionID: sessionStorage.getItem('SessionID'),
-                                        observationDateTime: strObvDate,
-                                        temperature: strTemp,
-                                        humidity: strHumid
-                                    },
-                                    success: (result) => {
-                                        console.log('PUT ' + result)
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Refresh to update chart!'
-                                        })
-                                    },
-                                    error: (result) => {
-                                        console.log(result)
-                                    }
-                                })
-                            } else {
-                                $.ajax({
-                                    url: `https://simplecoop.swollenhippo.com/environment.php`,
-                                    type: 'POST',
-                                    data: {
-                                        SessionID: sessionStorage.getItem('SessionID'),
-                                        observationDateTime: strObvDate,
-                                        temperature: strTemp,
-                                        humidity: strHumid
-                                    },
-                                    success: (result) => {
-                                        console.log('POST ' + result)
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Refresh to update chart!'
-                                        })
-                                    },
-                                    error: (result) => {
-                                        console.log(result)
-                                    }
-                                })
-                            }
-                        }
-
+                        console.log(result)
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Refresh to update chart!'
+                        })
+                    },
+                    error: (result) => {
+                        console.log(result)
                     }
                 })
             } else {
@@ -1241,42 +1196,42 @@
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
-                        if (user) {
-                            if (user.Password == strPassword) {
-                                $.post(
-                                    "https://simplecoop.swollenhippo.com/sessions.php",
-                                    { Email: strEmail, Password: strPassword },
-                                    function (session) {
-                                        if (session) {
-                                            session = JSON.parse(session);
-                                            sessionStorage.setItem("SessionID", session.SessionID);
-                                            Swal.fire({
-                                                icon: "success",
-                                                text: "Created a session!",
-                                                title: "Success"
-                                            })
-                                            $('#txtUserAccount').text(strEmail)
-                                            createChart()
-                                            $("#divLogin").slideToggle(() => {
-                                                $("#divDashboard").slideToggle()
-                                            })
-                                        } else {
-                                            Swal.fire({
-                                                icon: "error",
-                                                text: "No session!",
-                                                title: "Error",
-                                            });
-                                        }
+                        if(user){
+                        if (user.Password == strPassword) {
+                            $.post(
+                                "https://simplecoop.swollenhippo.com/sessions.php",
+                                { Email: strEmail, Password: strPassword },
+                                function (session) {
+                                    if (session) {
+                                        session = JSON.parse(session);
+                                        sessionStorage.setItem("SessionID", session.SessionID);
+                                        Swal.fire({
+                                            icon: "success",
+                                            text: "Created a session!",
+                                            title: "Success"
+                                        })
+                                        $('#txtUserAccount').text(strEmail)
+                                        createChart()
+                                        $("#divLogin").slideToggle(() => {
+                                            $("#divDashboard").slideToggle()
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            icon: "error",
+                                            text: "No session!",
+                                            title: "Error",
+                                        });
                                     }
-                                );
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    text: "Invalid password!",
-                                    title: "Error",
-                                });
-                            }
+                                }
+                            );
                         } else {
+                            Swal.fire({
+                                icon: "error",
+                                text: "Invalid password!",
+                                title: "Error",
+                            });
+                        }
+                       } else {
                             Swal.fire({
                                 icon: "error",
                                 text: "User does not exist!",
