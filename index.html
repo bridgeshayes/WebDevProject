@@ -291,17 +291,17 @@
 
                                 <div class="form-group row">
                                     <label class="form-label mt-3">
-                                        Set Light Status
+                                        Light Status
                                     </label>
                                     <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnLightStatusOn"
-                                        type="button">Turn Light On</button>
+                                        type="button">Light On</button>
                                     <button class="col-5 offset-1 comic-button mt-3 mb-4" id="btnLightStatusOff"
-                                        type="button">Turn Light Off</button>
+                                        type="button">Light Off</button>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="form-label mt-3">
-                                        Set Light Status
+                                        Door Status
                                     </label>
                                     <button class="col-5 comic-button ms-3 mt-3 mb-4" id="btnDoorStatusOpen"
                                         type="button">Open Door</button>
@@ -421,6 +421,7 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        var boolLights = false;
         const value = document.querySelector("#txtCurrentTemp");
         const input = document.querySelector("#rangeCurrentTemp");
         value.textContent = "Current Temperature: " + input.value;
@@ -612,6 +613,39 @@
                         console.log(result);
                     }
                 });
+
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "CurrentTemp",
+                        value: 70,
+                    },
+                })
+
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "LightStatus",
+                        value: false,
+                    },
+                })
+
+                $.ajax({
+                    url: "https://simplecoop.swollenhippo.com/settings.php",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: {
+                        SessionID: sessionStorage.getItem("SessionID"),
+                        setting: "DoorStatus",
+                        value: false,
+                    },
+                })
             }
         });
         //button that triggers when the egg counter is clicked
@@ -881,71 +915,95 @@
             }
         });
 
+
+
+        $('#divSettings').on('ready', function () {
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "CurrentTemp",
+                success: function (result) {
+                    $('#rangeCurrentTemp').val(result);
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "LightStatus",
+                success: function (result) {
+                    if(result == "true"){
+                        $('#btnLightStatusOn').removeClass('btn-unselected');
+                        $('#btnLightStatusOff').addClass('btn-unselected');
+                    } else {
+                        $('#btnLightStatusOff').removeClass('btn-unselected');
+                        $('#btnLightStatusOn').addClass('btn-unselected');
+                    }
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                    sessionStorage.getItem("SessionID"),
+                setting: "DoorStatus",
+                success: function (result) {
+                    if(result == "true"){
+                        $('#btnDoorStatusOpen').removeClass('btn-unselected');
+                        $('#btnDoorStatusClosed').addClass('btn-unselected');
+                    } else {
+                        $('#btnDoorStatusClosed').removeClass('btn-unselected');
+                        $('#btnDoorStatusOpen').addClass('btn-unselected');
+                    }
+                },
+            })
+        })
+
         $("#btnUpdateCoopSettings").on("click", () => {
-            let btnError = "";
-            let strCurrentTemp = $('#txtCurrentTemp').val();
-            let strCurrentLightStatus = $('#txtCurrentLightStatus').val();
-            let strCurrentDoorStatus = $('#txtCurrentDoorStatus').val();
+            $.ajax({
+                // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
+                //     sessionStorage.getItem("SessionID"),
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "CurrentTemp",
+                    value: $("#rangeCurrentTemp").val(),
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "lights",
+                    value: boolLights,
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
 
-            if (strCurrentTemp.length < 1) {
-                btnError += "<p>Invalid Temperature (cannot be blank)</p>";
-            }
-            if (strCurrentLightStatus.length < 1) {
-                btnError += "<p>Invalid Light Status (cannot be blank)</p>";
-            }
-            if (strCurrentDoorStatus.length < 1) {
-                btnError += "<p>Invalid Door Status (cannot be blank)</p>";
-            }
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "PUT",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    CurrentDoorStatus: strCurrentDoorStatus,
+                },
+                error: function (result) {
+                    console.log(result);
+                },
+            });
 
-            if (btnError) {
-                Swal.fire({
-                    title: "Oops!",
-                    html: btnError,
-                    icon: "error",
-                });
-            } else {
-                $.ajax({
-                    // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
-                    //     sessionStorage.getItem("SessionID"),
-                    url: "https://simplecoop.swollenhippo.com/settings.php",
-                    type: "POST",
-                    data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
-                        CurrentTemp: strCurrentTemp,
-                        CurrentLightStatus: strCurrentLightStatus,
-                        CurrentDoorStatus: strCurrentDoorStatus,
-                    },
-                    success: function (result) {
-                        console.log(result);
-                        Swal.fire({
-                            icon: "success",
-                            title: "Settings Updated!",
-                        });
-                    },
-                    error: function (result) {
-                        console.log(result);
-                    },
-                });
-                // $.ajax({
-                //     url: "https://simplecoop.swollenhippo.com/useraddress.php",
-                //     type: "PUT",
-                //     data: {
-
-
-                //     },
-                //     success: function (result) {
-                //         console.log(result);
-                //         Swal.fire({
-                //             icon: "success",
-                //             title: "Address Updated!",
-                //         });
-                //     },
-                //     error: function (result) {
-                //         console.log(result);
-                //     },
-                // });
-            }
-        });
+            Swal.fire({
+                icon: "success",
+                title: "Settings Updated!",
+            });
+        }
+        );
 
         $("#btnReturnToDashboard").on("click", () => {
             $("#divSettings").slideToggle(() => {
@@ -972,6 +1030,37 @@
                 icon: "success",
                 text: "Logout successful!",
             });
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "CurrentTemp",
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "LightStatus",
+                },
+            })
+
+            $.ajax({
+                url: "https://simplecoop.swollenhippo.com/settings.php",
+                type: "DELETE",
+                contentType: "application/json",
+                data: {
+                    SessionID: sessionStorage.getItem("SessionID"),
+                    setting: "DoorStatus",
+                },
+            })
+
         });
 
         $("#btnSettingsLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the settings card.

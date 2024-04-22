@@ -197,3 +197,7 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: #205928;
 }
+
+.btn-unselected{
+  background-color: #9b9b9b;
+}
