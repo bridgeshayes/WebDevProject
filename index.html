@@ -883,7 +883,7 @@
                             icon: "success",
                             title: "Profile Updated!",
                         });
-                    },
+                    },                                                                                                                                                                                                       
                     error: function (result) {
                         console.log(result);
                     },
@@ -1196,6 +1196,7 @@
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
+                        if(user){
                         if (user.Password == strPassword) {
                             $.post(
                                 "https://simplecoop.swollenhippo.com/sessions.php",
@@ -1227,6 +1228,13 @@
                             Swal.fire({
                                 icon: "error",
                                 text: "Invalid password!",
+                                title: "Error",
+                            });
+                        }
+                       } else {
+                            Swal.fire({
+                                icon: "error",
+                                text: "User does not exist!",
                                 title: "Error",
                             });
                         }
