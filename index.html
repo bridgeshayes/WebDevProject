@@ -387,8 +387,8 @@
                                         Password
                                     </label>
                                     <input id="txtSettingsPassword" placeholder="Password (8+ characters)"
-                                        aria-label="Password" class="form__group_oneform__field col-12 mb-2"
-                                        type="text" pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
+                                        aria-label="Password" class="form__group_oneform__field col-12 mb-2" type="text"
+                                        pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/" />
                                 </div>
 
                                 <div class="form-group">
@@ -431,7 +431,6 @@
         const ctx = document.getElementById('myChart').getContext('2d');
         ctx.canvas.height = 250;
 
-
         // function getRandomTemperature() {
         //     // Generate a random temperature between 42 and 90
         //     return Math.random() * (90 - 42) + 42;
@@ -456,8 +455,10 @@
         //     });
         // }
 
+        // variable to store the last 7 days
         var lastWeeksDays = getLastWeeksDays(new Date().getTime())
 
+        // Function to get the last 7 days
         function getLastWeeksDays(lastDay) {
             let funMath = 24 * 60 * 60 * 1000;
             let arrWeek = [];
@@ -467,6 +468,7 @@
             return arrWeek;
         }
 
+        // pointer to the chart, initially null
         var envChart = null;
 
         function createChart() {
@@ -475,21 +477,29 @@
                 type: 'GET',
                 data: {
                     SessionID: sessionStorage.getItem('SessionID'),
-                    days: lastWeeksDays.join(',')
+                    days: 7,
                 },
                 success: (result) => {
                     if (result) {
                         result = JSON.parse(result)
+                        console.log(result)
                         let temps = []
                         let hums = []
                         // populate the above object with the last 7 days only
                         let i = 0
+                        deleteChart();
                         result.forEach(data => {
                             // Check if the current date is in the fixed dates array and if it's not already in the uniqueDates object
                             if ((data.ObservationDateTime == lastWeeksDays[i] + ' 00:00:00') && i < 7) {
                                 temps.push(data.Temperature)
                                 hums.push(data.Humidity)
-                                i++; // this i++ lets just only keep track of the FIRST instance of that day's data (at least I hope).
+                                i++;
+                            }
+                            // If the current date is not in the fixed dates array, then we need to add a null value to the temps and hums arrays
+                            else if (data.ObservationDateTime > lastWeeksDays[i] + ' 00:00:00' && i < 7) {
+                                temps.push(null)
+                                hums.push(null)
+                                i++;
                             }
                         });
                         ///////////////////////////
@@ -555,9 +565,9 @@
         // These regular expressions are used to validate the user's email and password.
         var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var regexPassword = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        var CoopID = "QEJ73JMH"
-        // runs on app launch if they have an active session id then fetches the session details
+        // var CoopID = "QEJ73JMH"
 
+        // runs on app launch if they have an active session id then fetches the session details
         $(document).ready(() => {
             if (sessionStorage.getItem("SessionID")) {
                 $.ajax({
@@ -567,8 +577,6 @@
                     type: "GET",
                     success: (result) => {
                         result = $.parseJSON(result);
-                        //saves all the varaibles that the session details provide.
-                        //console.log(result)
                         let dateString = result.LastUsedDateTime;
                         let emailTest = result.Email;
                         $("#txtUserAccount").text(emailTest);
@@ -576,19 +584,21 @@
                         let day = dateObj.getDate(); // returns the day to see if the user hasn't logged on in over a day.
                         let currDate = new Date();
                         let currDay = currDate.getDate();
-
-                        if ((currDay - day) > 0) { // aka the user's last sign-on was the day before.
+                        // aka the user's last sign-on was the day before.
+                        if ((currDay - day) > 0) {
                             Swal.fire({
                                 icon: "error",
                                 title: "Session expired",
                                 text: "Please log in again.",
                             });
+                            // if the user hasn't logged in in over a day then we remove the session id and show the login screen.
                             sessionStorage.removeItem("SessionID")
                             $('#divDashboard').slideToggle("slow", () => {
                                 $('#divLogin').slideToggle("slow")
                             })
                         }
-                        else { //sends a put to the sessions which lets us update the date of use
+                        else { 
+                            //sends a put to the sessions which lets us update the date of use
                             $.ajax({
                                 url: "https://simplecoop.swollenhippo.com/sessions.php",
                                 type: "PUT",
@@ -614,41 +624,54 @@
                     }
                 });
 
-                $.ajax({
-                    url: "https://simplecoop.swollenhippo.com/settings.php",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
-                        setting: "CurrentTemp",
-                        value: 70,
-                    },
-                })
+                // I don't see why these would be necessary considering that when the settings button is clicked,
+                // we call a GET to retrieve the most recent Coop settings. 
 
-                $.ajax({
-                    url: "https://simplecoop.swollenhippo.com/settings.php",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
-                        setting: "LightStatus",
-                        value: false,
-                    },
-                })
+                // $.ajax({
+                //     url: "https://simplecoop.swollenhippo.com/settings.php",
+                //     type: "PUT",
+                //     contentType: "application/json",
+                //     data: {
+                //         SessionID: sessionStorage.getItem("SessionID"),
+                //         setting: "CurrentTemp",
+                //         value: "70",
+                //     },
+                //     success: (result) => {
+                //         console.log(result)
+                //     }
+                // })
 
-                $.ajax({
-                    url: "https://simplecoop.swollenhippo.com/settings.php",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: {
-                        SessionID: sessionStorage.getItem("SessionID"),
-                        setting: "DoorStatus",
-                        value: false,
-                    },
-                })
+                // $.ajax({
+                //     url: "https://simplecoop.swollenhippo.com/settings.php",
+                //     type: "PUT",
+                //     contentType: "application/json",
+                //     data: {
+                //         SessionID: sessionStorage.getItem("SessionID"),
+                //         setting: "LightStatus",
+                //         value: "false",
+                //     },
+                //     success: (result) => {
+                //         console.log(result)
+                //     }
+                // })
+
+                // $.ajax({
+                //     url: "https://simplecoop.swollenhippo.com/settings.php",
+                //     type: "PUT",
+                //     contentType: "application/json",
+                //     data: {
+                //         SessionID: sessionStorage.getItem("SessionID"),
+                //         setting: "DoorStatus",
+                //         value: "false",
+                //     },
+                //     success: (result) => {
+                //         console.log(result)
+                //     }
+                // })
             }
-        });
-        //button that triggers when the egg counter is clicked
+        })
+
+        // button that triggers when the egg counter is clicked
         $("#btnEggCounter").on("click", () => {
             let strSessionID = sessionStorage.getItem("SessionID");
             let strDate = $("#txtEggCollectionDate").val();
@@ -656,7 +679,6 @@
             let objDate = new Date(strDate);
             let strTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             strDate.toLocaleString('en-US', { timeZone: strTimeZone })
-            //if we click the egg button then we  make sure that all the variables have data, then we make a post to update the counter 
             if (strEggs && strSessionID && strDate) {
                 $.ajax({
                     url: `https://simplecoop.swollenhippo.com/eggs.php`,
@@ -688,16 +710,19 @@
             }
         });
 
-        $("#btnReturnToAddEggs").on("click", () => { //btn to switch from viewing eggs to adding them
+        // btn to switch from viewing eggs to adding them
+        $("#btnReturnToAddEggs").on("click", () => { 
             $("#divViewEggs").slideToggle(() => {
                 $("#divAddEggs").slideToggle();
             });
         });
 
-        $("#btnShowEggs").on("click", () => { //btn to show the eggs
+        // btn to show the eggs
+        $("#btnShowEggs").on("click", () => { 
             $("#divAddEggs").slideToggle(() => {
                 $("#divViewEggs").slideToggle(() => {
-                    var calendarEl = document.getElementById("calendar");  //sets the calendar element to the result of the get (I think this is what is happening)
+                    //sets the calendar element to the result of the get (I think this is what is happening)
+                    var calendarEl = document.getElementById("calendar");
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: "dayGridMonth",
                         dateClick: (info) => {
@@ -726,24 +751,26 @@
                                     });
                                 },
                                 error: function (result) {
-                                    console.log("boo" + result);
+                                    console.log("boo" + result)
                                 },
-                            });
+                            })
                         },
-                    });
-                    calendar.render();
-                });
-            });
-        });
+                    })
+                    calendar.render()
+                })
+            })
+        })
 
-        $("#btnShowWeather").on("click", () => { //btn to go from the add weather to viewing it
+        // btn to go from the add weather to viewing it
+        $("#btnShowWeather").on("click", () => { 
             $("#divAddWeather").slideToggle(() => {
                 $("#divViewWeather").slideToggle()
             })
 
         })
 
-        $('#btnReturnToAddWeather').on("click", () => { //btn to go from viewing weather to adding
+        // btn to go from viewing weather to adding
+        $('#btnReturnToAddWeather').on("click", () => { 
             $("#divViewWeather").slideToggle(() => {
                 $("#divAddWeather").slideToggle();
             });
@@ -762,6 +789,7 @@
                     success: (result) => {
                         result = $.parseJSON(result);
                         userEmail = result.Email
+                        // Get the user's profile
                         $.ajax({
                             url: "https://simplecoop.swollenhippo.com/users.php?Email=" +
                                 userEmail,
@@ -779,13 +807,13 @@
                             }
                         })
 
+                        // Get the user's address
                         $.ajax({
                             url: "https://simplecoop.swollenhippo.com/useraddress.php?Email=" +
                                 userEmail,
                             type: 'GET',
                             success: function (address) {
                                 address = $.parseJSON(address);
-                                console.log(address)
                                 $('#txtSettingsStreetAddress1').val(address.Street1);
                                 $('#txtSettingsStreetAddress2').val(address.Street2);
                                 $('#txtSettingsCity').val(address.City);
@@ -796,17 +824,21 @@
                             error: (result) => {
                                 console.log(result);
                             },
-                        });
+                        })
+
+                        // Get the current temperature
                         $.ajax({
-                            url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
-                                sessionStorage.getItem("SessionID"),
+                            url: "https://simplecoop.swollenhippo.com/settings.php",
                             type: 'GET',
-                            success: function (address) {
-                                address = $.parseJSON(address);
-                                console.log(address)
-                                $("#txtCurrentTemp").val(address.CurrentTemp);
-                                $("#txtCurrentLightStatus").val(address.CurrentLightStatus);
-                                $("#txtCurrentDoorStatus").val(address.CurrentDoorStatus);
+                            data: {
+                                SessionID: sessionStorage.getItem("SessionID"),
+                                setting: "CurrentTemp"
+                            },
+                            success: function (setting) {
+                                // console.log(setting)
+                                // $("#txtCurrentTemp").val(address.CurrentTemp);
+                                // $("#txtCurrentLightStatus").val(address.CurrentLightStatus);
+                                // $("#txtCurrentDoorStatus").val(address.CurrentDoorStatus);
                             },
                             error: (result) => {
                                 console.log(result);
@@ -818,6 +850,7 @@
             }
         });
 
+        // Button to handle sending PUT requests to update the user's profile settings
         $("#btnUpdateProfileSettings").on("click", () => {
             let btnError = "";
             let strFirstName = $('#txtSettingsFirstName').val();
@@ -830,7 +863,9 @@
             let strEmail = $('#txtSettingsEmail').val();
             let strPassword = $('#txtSettingsPassword').val();
             let strCoopID = $('#txtSettingsCoopRegisterID').val();
-            if (strFirstName.length < 1) { //all validation
+
+            // all validation for the user's profile
+            if (strFirstName.length < 1) { 
                 btnError += "<p>Invalid First Name (cannot be blank)</p>";
             }
             if (strLastName.length < 1) {
@@ -867,6 +902,7 @@
                     icon: "error",
                 });
             } else {
+                // Update the user's profile
                 $.ajax({
                     url: "https://simplecoop.swollenhippo.com/users.php",
                     type: "PUT",
@@ -883,23 +919,23 @@
                             icon: "success",
                             title: "Profile Updated!",
                         });
-                    },                                                                                                                                                                                                       
+                    },
                     error: function (result) {
                         console.log(result);
                     },
-                });
+                })
+                
+                // Update the user's address
                 $.ajax({
                     url: "https://simplecoop.swollenhippo.com/useraddress.php",
                     type: "PUT",
                     data: {
-                        /* Still can't figure out why this is throwing a 500 error.
                         Email: strEmail,
                         Street1: strStreetAddress1,
                         Street2: strStreetAddress2,
                         City: strCity,
                         State: strState,
                         ZIP: strZipCode,
-                    */
                     },
                     success: function (result) {
                         console.log(result);
@@ -915,9 +951,9 @@
             }
         });
 
-
-
+        // Button to handle sending GET requests to update the coop settings
         $('#divSettings').on('ready', function () {
+            // Get the current temperature
             $.ajax({
                 url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
                     sessionStorage.getItem("SessionID"),
@@ -927,12 +963,13 @@
                 },
             })
 
+            // Get the light status
             $.ajax({
                 url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
                     sessionStorage.getItem("SessionID"),
                 setting: "LightStatus",
                 success: function (result) {
-                    if(result == "true"){
+                    if (result == "true") {
                         $('#btnLightStatusOn').removeClass('btn-unselected');
                         $('#btnLightStatusOff').addClass('btn-unselected');
                     } else {
@@ -942,12 +979,13 @@
                 },
             })
 
+            // Get the door status
             $.ajax({
                 url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
                     sessionStorage.getItem("SessionID"),
                 setting: "DoorStatus",
                 success: function (result) {
-                    if(result == "true"){
+                    if (result == "true") {
                         $('#btnDoorStatusOpen').removeClass('btn-unselected');
                         $('#btnDoorStatusClosed').addClass('btn-unselected');
                     } else {
@@ -958,10 +996,10 @@
             })
         })
 
+        // Button to handle sending PUT requests to update the coop settings
         $("#btnUpdateCoopSettings").on("click", () => {
+            // Update the current temperature
             $.ajax({
-                // url: "https://simplecoop.swollenhippo.com/settings.php?SessionID=" +
-                //     sessionStorage.getItem("SessionID"),
                 url: "https://simplecoop.swollenhippo.com/settings.php",
                 type: "PUT",
                 data: {
@@ -972,7 +1010,9 @@
                 error: function (result) {
                     console.log(result);
                 },
-            });
+            })
+
+            // Update the light status
             $.ajax({
                 url: "https://simplecoop.swollenhippo.com/settings.php",
                 type: "PUT",
@@ -986,17 +1026,18 @@
                 },
             });
 
-            $.ajax({
-                url: "https://simplecoop.swollenhippo.com/settings.php",
-                type: "PUT",
-                data: {
-                    SessionID: sessionStorage.getItem("SessionID"),
-                    CurrentDoorStatus: strCurrentDoorStatus,
-                },
-                error: function (result) {
-                    console.log(result);
-                },
-            });
+            // Update the door status
+            // $.ajax({
+            //     url: "https://simplecoop.swollenhippo.com/settings.php",
+            //     type: "PUT",
+            //     data: {
+            //         SessionID: sessionStorage.getItem("SessionID"),
+            //         CurrentDoorStatus: strCurrentDoorStatus,
+            //     },
+            //     error: function (result) {
+            //         console.log(result);
+            //     },
+            // });
 
             Swal.fire({
                 icon: "success",
@@ -1005,21 +1046,25 @@
         }
         );
 
+        // toggle settings card
         $("#btnReturnToDashboard").on("click", () => {
             $("#divSettings").slideToggle(() => {
                 $("#divDashboard").slideToggle()
             })
         })
 
-        $("#btnLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the dashboard card.
+        // logout button which sends a delete to end the session and returns to login from the dashboard card.
+        $("#btnLogout").on("click", function () { 
             $.ajax({
                 url:
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
                     sessionStorage.getItem("SessionID"),
                 type: "DELETE",
                 success: function (result) {
+                    // removes the SessionID from the session storage, and it should automatically clean up on the backend.
                     sessionStorage.removeItem("SessionID");
-                    deleteChart(); //calls the delete chart function to remove the chart from the screen
+                    // calls the delete chart function to remove the chart from the screen
+                    deleteChart();
                     $("#divDashboard").slideUp(function () {
                         $("#divLogin").slideDown();
                     });
@@ -1063,7 +1108,8 @@
 
         });
 
-        $("#btnSettingsLogout").on("click", function () { //logout button which sends a delete to end the session and returns to login from the settings card.
+        // logout button which sends a delete to end the session and returns to login from the settings card.
+        $("#btnSettingsLogout").on("click", function () {
             $.ajax({
                 url:
                     "https://simplecoop.swollenhippo.com/sessions.php?SessionID=" +
@@ -1083,30 +1129,110 @@
             });
         });
 
-        $('#btnRecordWeather').on('click', () => { //when the record weather button is hit we collect all the variables we took as input and make a post
+        // when the record weather button is hit we collect all the variables we took as input and make a headache of a post request.
+        $('#btnRecordWeather').on('click', () => {
             let strTemp = $('#txtTemperature').val();
             let strHumid = $('#txtHumidity').val();
             let strObvDate = $('#txtObservationDate').val();
+            let boolExists = false
 
-            if (strTemp && strHumid && strObvDate) { // post sends the variables to record the weather 
+            if (strTemp && strHumid && strObvDate) {
                 $.ajax({
                     url: `https://simplecoop.swollenhippo.com/environment.php`,
-                    type: 'POST',
+                    type: 'GET',
                     data: {
                         SessionID: sessionStorage.getItem('SessionID'),
-                        observationDateTime: strObvDate,
-                        temperature: strTemp,
-                        humidity: strHumid
+                        days: 7,
                     },
                     success: (result) => {
-                        console.log(result)
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Refresh to update chart!'
-                        })
-                    },
-                    error: (result) => {
-                        console.log(result)
+                        if (result) {
+                            result = JSON.parse(result)
+                            let dupDay = null
+                            result.forEach((day) => {
+                                // takes a dupDay variable and keeps track of the day that is duplicated
+                                if (day.ObservationDateTime == strObvDate + " 00:00:00") {
+                                    boolExists = true
+                                    dupDay = day
+                                }
+                            })
+                            // if the date is already in the database then we ask if they want to keep/replace the record.
+                            if (boolExists) {
+                                // create a Swal fire alert that will ask the user if they want to replace the record or keep the old one. 
+                                Swal.fire({
+                                    title: `Record for ${strObvDate} already exists!`,
+                                    text: 'Would you like to replace it?',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Yes',
+                                    cancelButtonText: 'No',
+                                }).then((result) => { // this "then" function is the result of the user clicking "yes" or "no
+                                    // if the user wants to replace the record, then we delete the old record and post the new one.
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url: `https://simplecoop.swollenhippo.com/environment.php`,
+                                            type: 'DELETE',
+                                            data: {
+                                                SessionID: sessionStorage.getItem('SessionID'),
+                                                logID: dupDay.LogID
+                                            },
+                                            success: (result) => {
+                                                console.log(result)
+                                                // posting new record
+                                                $.ajax({
+                                                    url: `https://simplecoop.swollenhippo.com/environment.php`,
+                                                    type: 'POST',
+                                                    data: {
+                                                        SessionID: sessionStorage.getItem('SessionID'),
+                                                        observationDateTime: strObvDate,
+                                                        temperature: strTemp,
+                                                        humidity: strHumid
+                                                    },
+                                                    success: (result) => {
+                                                        console.log(result)
+                                                        Swal.fire({
+                                                            icon: 'success',
+                                                            text: `Replaced the old record for ${strObvDate}!`,
+                                                            title: 'Refresh to update chart!'
+                                                        })
+                                                    }
+                                                })
+                                            },
+                                            error: (result) => {
+                                                console.log(result)
+                                            }
+                                        })
+
+                                    } else {
+                                        // void the user input fields for environment data
+                                        $('#txtTemperature').val('')
+                                        $('#txtHumidity').val('')
+                                        $('#txtObservationDate').val('')
+                                    }
+                                })
+                            } else {
+                                // if the date is not in the database then we post the new record
+                                $.ajax({
+                                    url: `https://simplecoop.swollenhippo.com/environment.php`,
+                                    type: 'POST',
+                                    data: {
+                                        SessionID: sessionStorage.getItem('SessionID'),
+                                        observationDateTime: strObvDate,
+                                        temperature: strTemp,
+                                        humidity: strHumid
+                                    },
+                                    success: (result) => {
+                                        console.log(result)
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Refresh to update chart!'
+                                        })
+                                    },
+                                    error: (result) => {
+                                        console.log(result)
+                                    }
+                                })
+                            }
+                        }
                     }
                 })
             } else {
@@ -1173,7 +1299,7 @@
             let strEmail = $("#txtLoginEmail").val();
             let strPassword = $("#txtLoginPassword").val();
             let strError = "";
-            //tests if the email and password is valid according to our regex
+            // tests if the email and password are valid according to our regex
             if (!regexEmail.test(strEmail)) {
                 strError +=
                     '<p>Invalid Email (must have a "@", ".", and be a valid length)</p>';
@@ -1192,46 +1318,49 @@
                 });
             }
             else {
-                $.getJSON( //we get the password for the user listed and if the password is the same as the string, then we make a post to generate a session
+                // we GET the password for the user listed and if the password is the same as the string,
+                // then we make a post to generate a session.
+                $.getJSON(
                     "https://simplecoop.swollenhippo.com/users.php",
                     { Email: strEmail },
                     function (user) {
-                        if(user){
-                        if (user.Password == strPassword) {
-                            $.post(
-                                "https://simplecoop.swollenhippo.com/sessions.php",
-                                { Email: strEmail, Password: strPassword },
-                                function (session) {
-                                    if (session) {
-                                        session = JSON.parse(session);
-                                        sessionStorage.setItem("SessionID", session.SessionID);
-                                        Swal.fire({
-                                            icon: "success",
-                                            text: "Created a session!",
-                                            title: "Success"
-                                        })
-                                        $('#txtUserAccount').text(strEmail)
-                                        createChart()
-                                        $("#divLogin").slideToggle(() => {
-                                            $("#divDashboard").slideToggle()
-                                        })
-                                    } else {
-                                        Swal.fire({
-                                            icon: "error",
-                                            text: "No session!",
-                                            title: "Error",
-                                        });
+                        if (user) {
+                            if (user.Password == strPassword) {
+                                $.post(
+                                    "https://simplecoop.swollenhippo.com/sessions.php",
+                                    { Email: strEmail, Password: strPassword },
+                                    function (session) {
+                                        if (session) {
+                                            session = JSON.parse(session);
+                                            sessionStorage.setItem("SessionID", session.SessionID);
+                                            Swal.fire({
+                                                icon: "success",
+                                                text: "Created a session!",
+                                                title: "Success"
+                                            })
+                                            // sets the user account text to the email and then creates the chart
+                                            $('#txtUserAccount').text(strEmail)
+                                            createChart()
+                                            $("#divLogin").slideToggle(() => {
+                                                $("#divDashboard").slideToggle()
+                                            })
+                                        } else {
+                                            Swal.fire({
+                                                icon: "error",
+                                                text: "No session!",
+                                                title: "Error",
+                                            });
+                                        }
                                     }
-                                }
-                            );
+                                );
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    text: "Invalid password!",
+                                    title: "Error",
+                                });
+                            }
                         } else {
-                            Swal.fire({
-                                icon: "error",
-                                text: "Invalid password!",
-                                title: "Error",
-                            });
-                        }
-                       } else {
                             Swal.fire({
                                 icon: "error",
                                 text: "User does not exist!",
@@ -1259,7 +1388,8 @@
             let strPassword = $("#txtPassword").val();
             let strCoopID = $("#txtCoopRegisterID").val();
 
-            if (strFirstName.length < 1) { //all validation
+            // all the validation for the registration form
+            if (strFirstName.length < 1) {
                 strError += "<p>Invalid First Name (cannot be blank)</p>";
             }
             if (strLastName.length < 1) {
@@ -1308,6 +1438,7 @@
                             });
                             userExist = true;
                         } else {
+                            // if the user doesn't exist then we make a post to add the user address
                             $.post(
                                 "https://simplecoop.swollenhippo.com/useraddress.php",
                                 {
@@ -1321,7 +1452,8 @@
                                 function (result) {
                                     console.log(result);
                                 }
-                            );
+                            )
+                            // then we make a post to create the user
                             $.post(
                                 "https://simplecoop.swollenhippo.com/users.php",
                                 {
@@ -1359,9 +1491,9 @@
                             });
                         }
                     }
-                );
+                )
             }
-        });
+        })
     </script>
 </body>
 
